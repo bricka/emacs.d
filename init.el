@@ -3,7 +3,13 @@
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
 (package-initialize)
 
+; Disable Menus
+(menu-bar-mode -1)
+(tool-bar-mode -1)
+(scroll-bar-mode -1)
+
 ; Evil
+(setq evil-want-C-u-scroll t)
 (use-package evil
   :ensure t
   :config
@@ -12,7 +18,11 @@
   (evil-add-hjkl-bindings package-menu-mode-map 'emacs)
   (use-package evil-magit
     :ensure t)
-  )
+  (use-package evil-leader
+    :ensure t
+    :config
+    (global-evil-leader-mode)
+    (evil-leader/set-leader "<SPC>")))
 
 ; Theme
 (load-theme 'monokai t)
@@ -28,6 +38,44 @@
 (require 'helm-config)
 (helm-mode 1)
 (global-set-key (kbd "M-x") 'helm-M-x)
+
+; Web Mode
+(use-package web-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode)))
+
+; JSON
+(use-package json-mode
+  :ensure t)
+
+; Which Key
+(use-package which-key
+  :ensure t
+  :config
+  (which-key-mode))
+
+; company code completion
+(use-package company
+  :ensure t
+  :config
+  (add-hook 'after-init-hook 'global-company-mode))
+
+;; Git
+(which-key-add-key-based-replacements
+  (concat evil-leader/leader " g") "Git")
+(evil-leader/set-key
+  "gs" 'magit-status)
+
+;; Help Keys
+(which-key-add-key-based-replacements
+  (concat evil-leader/leader " h") "Help")
+
+(evil-leader/set-key
+  "ha" 'apropos
+  "hm" 'describe-mode
+  "hv" 'describe-variable
+  )
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -58,7 +106,7 @@
     ("#CC9393" "#DFAF8F" "#F0DFAF" "#7F9F7F" "#BFEBBF" "#93E0E3" "#94BFF3" "#DC8CC3")))
  '(package-selected-packages
    (quote
-    (spaceline-config evil-magit use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil)))
+    (web-mode json-mode jsdon-mode spaceline-config evil-magit use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil)))
  '(pdf-view-midnight-colors (quote ("#DCDCCC" . "#383838")))
  '(pos-tip-background-color "#A6E22E")
  '(pos-tip-foreground-color "#272822")

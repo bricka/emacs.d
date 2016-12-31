@@ -28,9 +28,6 @@
     (global-evil-leader-mode)
     (evil-leader/set-leader "<SPC>")))
 
-;; Theme
-(load-theme 'monokai t)
-
 ;; Magit Configuration
 (setq vc-handled-backends (delq 'Git vc-handled-backends)) ; Disable VC for Git
 
@@ -114,6 +111,14 @@
 (evil-leader/set-key
   "pf" 'helm-projectile-find-file
   "pl" 'helm-projectile-switch-project)
+
+;; Search Keys
+(which-key-add-key-based-replacements
+  (concat evil-leader/leader " s") "Search")
+
+(evil-leader/set-key
+  "sp" 'helm-projectile-grep
+  )
 
 ;; Window Keys
 (which-key-add-key-based-replacements

@@ -29,7 +29,10 @@
     (evil-leader/set-leader "<SPC>")))
 
 ;; Magit Configuration
-(setq vc-handled-backends (delq 'Git vc-handled-backends)) ; Disable VC for Git
+(use-package magit
+  :ensure t
+  :config
+  (setq vc-handled-backends (delq 'Git vc-handled-backends))) ; Disable VC for Git
 
 ;; Powerline
 (require 'spaceline-config)

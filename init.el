@@ -9,6 +9,9 @@
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
+;; Straightforward config
+(setq scroll-step 1)
+
 ;; Line Number
 (global-linum-mode 1)
 

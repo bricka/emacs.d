@@ -1,14 +1,18 @@
-; Enable MELPA
+;; Enable MELPA
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
+(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
 (package-initialize)
 
-; Disable Menus
+;; Disable Menus
 (menu-bar-mode -1)
 (tool-bar-mode -1)
 (scroll-bar-mode -1)
 
-; Evil
+;; Line Number
+(global-linum-mode 1)
+
+;; Evil
 (setq evil-want-C-u-scroll t)
 (use-package evil
   :ensure t
@@ -24,44 +28,70 @@
     (global-evil-leader-mode)
     (evil-leader/set-leader "<SPC>")))
 
-; Theme
+;; Theme
 (load-theme 'monokai t)
 
-; Magit Configuration
+;; Magit Configuration
 (setq vc-handled-backends (delq 'Git vc-handled-backends)) ; Disable VC for Git
 
-; Powerline
+;; Powerline
 (require 'spaceline-config)
 (spaceline-spacemacs-theme)
 
-; Helm
+;; Projectile
+(use-package projectile
+  :ensure t
+  :config
+  (projectile-mode)
+  (use-package helm-projectile
+    :ensure t))
+
+;; Helm
 (require 'helm-config)
 (helm-mode 1)
 (global-set-key (kbd "M-x") 'helm-M-x)
 
-; Web Mode
+;; Web Mode
 (use-package web-mode
   :ensure t
   :config
   (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode)))
 
-; JSON
+;; JSON
 (use-package json-mode
   :ensure t)
 
-; Which Key
+;; Which Key
 (use-package which-key
   :ensure t
   :config
   (which-key-mode))
 
-; company code completion
+;; Company Code Completion
 (use-package company
   :ensure t
   :config
   (add-hook 'after-init-hook 'global-company-mode))
 
-;; Git
+;; ENSIME
+(use-package ensime
+  :ensure t
+  :pin melpa-stable)
+
+;; Top-Level Keys
+(evil-leader/set-key
+  "'" 'ansi-term
+  "b" 'helm-mini)
+
+;; File Keys
+(which-key-add-key-based-replacements
+  (concat evil-leader/leader " f") "Files")
+(evil-leader/set-key
+  "fc" 'dired-do-copy
+  "fm" 'dired-do-rename
+  )
+
+;; Git Keys
 (which-key-add-key-based-replacements
   (concat evil-leader/leader " g") "Git")
 (evil-leader/set-key
@@ -75,8 +105,23 @@
 (evil-leader/set-key
   "ha" 'apropos
   "hm" 'describe-mode
-  "hv" 'describe-variable
-  )
+  "hv" 'describe-variable)
+
+;; Project Keys
+(which-key-add-key-based-replacements
+  (concat evil-leader/leader " p") "Project")
+
+(evil-leader/set-key
+  "pf" 'helm-projectile-find-file
+  "pl" 'helm-projectile-switch-project)
+
+;; Window Keys
+(which-key-add-key-based-replacements
+  (concat evil-leader/leader " w") "Window")
+
+(evil-leader/set-key
+  "w-" 'split-window-below
+  "w/" 'split-window-right)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

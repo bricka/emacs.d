@@ -17,6 +17,8 @@
 (setq delete-old-versions t)
 (setq version-control t)
 (setq inhibit-startup-screen t)
+(setq-default require-final-newline t)
+(set-face-attribute 'default nil :font "DejaVu Sans Mono 14")
 
 ;; Parens
 (show-paren-mode 1)

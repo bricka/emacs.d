@@ -1,9 +1,3 @@
-;;; config --- Config
-
-;;; Commentary:
-
-;;; Code:
-
 ;; Enable MELPA
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -17,6 +11,26 @@
 
 ;; Straightforward config
 (setq scroll-step 1)
+(setq-default standard-indent 2)
+(setq-default tab-width 2)
+(setq-default indent-tabs-mode nil)
+(setq delete-old-versions t)
+(setq version-control t)
+(setq inhibit-startup-screen t)
+
+;; Parens
+(show-paren-mode 1)
+(electric-pair-mode 1)
+
+(define-globalized-minor-mode global-highlight-parentheses-mode
+  highlight-parentheses-mode
+  (lambda ()
+    (highlight-parentheses-mode t)))
+
+(use-package highlight-parentheses
+  :ensure t
+  :config
+  (global-highlight-parentheses-mode t))
 
 ;; Line Number
 (global-linum-mode 1)
@@ -26,11 +40,20 @@
 (use-package evil
   :ensure t
   :config
+
   (evil-mode 1)
   (evil-ex-define-cmd "ls" 'helm-mini)
   (evil-add-hjkl-bindings package-menu-mode-map 'emacs)
+  (evil-add-hjkl-bindings messages-buffer-mode-map 'emacs)
+
   (use-package evil-magit
     :ensure t)
+
+  (use-package evil-commentary
+    :ensure t
+    :config
+    (evil-commentary-mode))
+
   (use-package evil-leader
     :ensure t
     :config
@@ -67,7 +90,8 @@
 (use-package web-mode
   :ensure t
   :config
-  (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode)))
+  (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
+  (setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'"))))
 
 ;; JSON
 (use-package json-mode
@@ -92,6 +116,7 @@
 
 ;; Flycheck
 (defun my/use-eslint-from-node-modules ()
+  "Use the eslint under node_modules instead of global."
   (let* ((root (locate-dominating-file
                 (or (buffer-file-name) default-directory)
                 "node_modules"))
@@ -123,63 +148,84 @@
     (other-window 1)
     (ansi-term (getenv "SHELL"))))
 
+;; Dired
+
+(setq-default dired-omit-mode t)
+(setq dired-omit-files (concat dired-omit-files "\\|^\\...+$"))
+
+(defun dired-open-current-directory ()
+  "Open dired in the directory of this file."
+  (interactive)
+  (dired (file-name-directory (buffer-file-name))))
+
+;; Startup Screen
+
+;; (if (< (length command-line-args) 2)
+;;   (setq initial-buffer-choice (car (helm-recentf)))
+;; )
+
+;; Keys
+(defun set-group-string (prefix title)
+  "Set the which-key string for LEADER PREFIX to TITLE."
+  (which-key-add-key-based-replacements
+    (concat evil-leader/leader " " prefix) title))
+
 ;; Top-Level Keys
 (evil-leader/set-key
   "'" 'visit-term-buffer
-  "b" 'helm-mini)
+  "b" 'helm-mini
+  "d" 'dired-open-current-directory)
 
 ;; Errors
-(which-key-add-key-based-replacements
-  (concat evil-leader/leader " e") "Errors")
+(set-group-string "e" "Errors")
 (evil-leader/set-key
   "el" 'flycheck-list-errors
+  "en" 'flycheck-next-error
+  "ep" 'flycheck-previous-error
   "ev" 'flycheck-verify-setup
   )
 
 ;; File Keys
-(which-key-add-key-based-replacements
-  (concat evil-leader/leader " f") "Files")
+(defun visit-emacs-init ()
+  "Visit ~/.emacs.d/init.el."
+  (interactive)
+  (find-file "~/.emacs.d/init.el"))
+
+(set-group-string "f" "Files")
 (evil-leader/set-key
   "fc" 'dired-do-copy
+  "fe" 'visit-emacs-init
   "fm" 'dired-do-rename
   )
 
 ;; Git Keys
-(which-key-add-key-based-replacements
-  (concat evil-leader/leader " g") "Git")
+(set-group-string "g" "Git")
 (evil-leader/set-key
   "gc" 'magit-commit
   "gs" 'magit-status)
 
 ;; Help Keys
-(which-key-add-key-based-replacements
-  (concat evil-leader/leader " h") "Help")
-
+(set-group-string "h" "Help")
 (evil-leader/set-key
-  "ha" 'apropos
+  "ha" 'helm-apropos
+  "hf" 'describe-function
   "hm" 'describe-mode
   "hv" 'describe-variable)
 
 ;; Project Keys
-(which-key-add-key-based-replacements
-  (concat evil-leader/leader " p") "Project")
-
+(set-group-string "p" "Project")
 (evil-leader/set-key
   "pf" 'helm-projectile-find-file
   "pl" 'helm-projectile-switch-project)
 
 ;; Search Keys
-(which-key-add-key-based-replacements
-  (concat evil-leader/leader " s") "Search")
-
+(set-group-string "s" "Search")
 (evil-leader/set-key
   "sp" 'helm-projectile-grep
   )
 
 ;; Window Keys
-(which-key-add-key-based-replacements
-  (concat evil-leader/leader " w") "Window")
-
+(set-group-string "w" "Window")
 (evil-leader/set-key
   "w-" 'split-window-below
   "w/" 'split-window-right)

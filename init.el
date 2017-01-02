@@ -160,6 +160,19 @@
   (interactive)
   (dired (file-name-directory (buffer-file-name))))
 
+;; Latex
+
+(setq TeX-auto-save t)
+(setq TeX-parse-self t)
+(setq TeX-PDF-mode t)
+
+(add-hook 'latex-mode-hook 'TeX-source-correlate-mode)
+
+;; (use-package latex-preview-pane
+;;   :ensure t
+;;   :config
+;;   (latex-preview-pane-enable))
+
 ;; Startup Screen
 
 ;; (if (< (length command-line-args) 2)
@@ -172,11 +185,27 @@
   (which-key-add-key-based-replacements
     (concat evil-leader/leader " " prefix) title))
 
+(defun set-group-string-for-mode (mode prefix title)
+  "Set the which-key string in major mode MODE for LEADER PREFIX to TITLE."
+  (which-key-add-major-mode-key-based-replacements mode
+    (concat evil-leader/leader " " prefix) title))
+
 ;; Top-Level Keys
 (evil-leader/set-key
   "'" 'visit-term-buffer
-  "b" 'helm-mini
   "d" 'dired-open-current-directory)
+
+;; Buffers
+(defun kill-other-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
+
+(set-group-string "b" "Buffers")
+(evil-leader/set-key
+  "bb" 'helm-mini
+  "bd" 'kill-this-buffer
+  "bD" 'kill-other-buffers)
 
 ;; Errors
 (set-group-string "e" "Errors")
@@ -231,6 +260,13 @@
 (evil-leader/set-key
   "w-" 'split-window-below
   "w/" 'split-window-right)
+
+;;; MAJOR MODE KEYS
+
+(set-group-string-for-mode 'latex-mode "m" "LaTeX")
+(evil-leader/set-key-for-mode 'latex-mode
+  "mm" 'TeX-command-run-all
+  )
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

@@ -185,11 +185,6 @@
   (which-key-add-key-based-replacements
     (concat evil-leader/leader " " prefix) title))
 
-(defun set-group-string-for-mode (mode prefix title)
-  "Set the which-key string in major mode MODE for LEADER PREFIX to TITLE."
-  (which-key-add-major-mode-key-based-replacements mode
-    (concat evil-leader/leader " " prefix) title))
-
 ;; Top-Level Keys
 (evil-leader/set-key
   "'" 'visit-term-buffer
@@ -262,11 +257,7 @@
   "w/" 'split-window-right)
 
 ;;; MAJOR MODE KEYS
-
-(set-group-string-for-mode 'latex-mode "m" "LaTeX")
-(evil-leader/set-key-for-mode 'latex-mode
-  "mm" 'TeX-command-run-all
-  )
+(load-file "~/.emacs.d/major-mode.el")
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

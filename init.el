@@ -18,7 +18,9 @@
 (setq version-control t)
 (setq inhibit-startup-screen t)
 (setq-default require-final-newline t)
-(set-face-attribute 'default nil :font "DejaVu Sans Mono 14")
+
+(cond ((eq system-type 'darwin) (set-face-attribute 'default nil :font "Menlo 15"))
+      (t (set-face-attribute 'default nil :font "DejaVu Sans Mono 14")))
 
 ;; Parens
 (show-paren-mode 1)
@@ -80,6 +82,8 @@
   :ensure t
   :config
   (projectile-mode)
+  (setq projectile-use-git-grep t)
+
   (use-package helm-projectile
     :ensure t))
 
@@ -228,6 +232,7 @@
 (set-group-string "g" "Git")
 (evil-leader/set-key
   "gc" 'magit-commit
+  "gd" 'magit-diff-popup
   "gs" 'magit-status)
 
 ;; Help Keys
@@ -235,6 +240,7 @@
 (evil-leader/set-key
   "ha" 'helm-apropos
   "hf" 'describe-function
+  "hk" 'describe-key
   "hm" 'describe-mode
   "hv" 'describe-variable)
 

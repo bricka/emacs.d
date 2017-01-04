@@ -151,11 +151,10 @@
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   )
 
-
 ;; Shell
 
-;; This was taken from:
-;; http://emacsredux.com/blog/2013/03/29/terminal-at-your-fingertips/
+; This was taken from:
+; http://emacsredux.com/blog/2013/03/29/terminal-at-your-fingertips/
 (defun visit-term-buffer ()
   "Create or visit a terminal buffer."
   (interactive)

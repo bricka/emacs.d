@@ -39,6 +39,14 @@
 ;; Line Number
 (global-linum-mode 1)
 
+;; PATH from Shell
+
+(when (memq window-system '(mac ns))
+  (use-package exec-path-from-shell
+    :ensure t
+    :config
+    (exec-path-from-shell-initialize)))
+
 ;; Evil
 (setq evil-want-C-u-scroll t)
 (use-package evil
@@ -122,15 +130,17 @@
 
 ;; Flycheck
 (defun my/use-eslint-from-node-modules ()
-  "Use the eslint under node_modules instead of global."
+  "Configure Flycheck to use eslint from node_modules if present."
   (let* ((root (locate-dominating-file
                 (or (buffer-file-name) default-directory)
                 "node_modules"))
-         (eslint (and root
-                      (expand-file-name "node_modules/eslint/bin/eslint.js"
-                                        root))))
-    (when (and eslint (file-executable-p eslint))
-      (setq-local flycheck-javascript-eslint-executable eslint))))
+         (global-eslint (executable-find "eslint"))
+         (local-eslint (expand-file-name "node_modules/.bin/eslint"
+                                         root))
+         (eslint (if (file-executable-p local-eslint)
+                     local-eslint
+                   global-eslint)))
+    (setq-local flycheck-javascript-eslint-executable eslint)))
 
 (use-package flycheck
   :ensure t

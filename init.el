@@ -100,13 +100,19 @@
 (global-set-key (kbd "M-x") 'helm-M-x)
 
 ;; Web Mode
+(defun enable-term-mode-for-js ()
+  "Enable term-mode if this web-mode content type is a form of JS."
+  (if (memq web-mode-content-type '(js jsx))
+      (tern-mode)))
+
 (use-package web-mode
   :ensure t
   :config
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-  (setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'"))))
+  (setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
+  (add-hook 'web-mode-hook 'enable-term-mode-for-js))
 
 ;; JSON
 (use-package json-mode
@@ -121,6 +127,12 @@
          ("\\.markdown\\'" . markdown-mode))
   :init (setq markdown-command "multimarkdown"))
 
+;; YAML
+(use-package yaml-mode
+  :ensure t
+  :config
+  (add-to-list 'auto-mode-alist '("\\.ya?ml\\'" . yaml-mode)))
+
 ;; Which Key
 (use-package which-key
   :ensure t
@@ -130,8 +142,15 @@
 ;; Company Code Completion
 (use-package company
   :ensure t
+
   :config
-  (add-hook 'after-init-hook 'global-company-mode))
+  (add-hook 'after-init-hook 'global-company-mode)
+  (setq company-dabbrev-downcase nil)
+
+  (use-package company-tern
+    :ensure t
+    :config
+    (add-to-list 'company-backends 'company-tern)))
 
 ;; ENSIME
 (use-package ensime
@@ -162,16 +181,7 @@
   )
 
 ;; Shell
-
-; This was taken from:
-; http://emacsredux.com/blog/2013/03/29/terminal-at-your-fingertips/
-(defun visit-term-buffer ()
-  "Create or visit a terminal buffer."
-  (interactive)
-  (progn
-    (split-window-sensibly (selected-window))
-    (other-window 1)
-    (ansi-term (getenv "SHELL"))))
+(load-file "~/.emacs.d/shell-configuration.el")
 
 ;; Dired
 
@@ -190,17 +200,6 @@
 (setq TeX-PDF-mode t)
 
 (add-hook 'latex-mode-hook 'TeX-source-correlate-mode)
-
-;; (use-package latex-preview-pane
-;;   :ensure t
-;;   :config
-;;   (latex-preview-pane-enable))
-
-;; Startup Screen
-
-;; (if (< (length command-line-args) 2)
-;;   (setq initial-buffer-choice (car (helm-recentf)))
-;; )
 
 ;; Keys
 (defun set-group-string (prefix title)
@@ -287,6 +286,7 @@
 (evil-leader/set-key
   "gc" 'magit-commit
   "gd" 'magit-diff-popup
+  "gp" 'magit-push-popup
   "gs" 'magit-status)
 
 ;; Help Keys
@@ -301,6 +301,7 @@
 ;; Project Keys
 (set-group-string "p" "Project")
 (evil-leader/set-key
+  "p'" 'visit-term-projectile-root
   "pf" 'helm-projectile-find-file
   "pl" 'helm-projectile-switch-project)
 
@@ -314,7 +315,8 @@
 (set-group-string "w" "Window")
 (evil-leader/set-key
   "w-" 'split-window-below
-  "w/" 'split-window-right)
+  "w/" 'split-window-right
+  "w=" 'balance-windows)
 
 ;;; MAJOR MODE KEYS
 (load-file "~/.emacs.d/major-mode.el")

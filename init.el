@@ -100,8 +100,8 @@
 (global-set-key (kbd "M-x") 'helm-M-x)
 
 ;; Web Mode
-(defun enable-term-mode-for-js ()
-  "Enable term-mode if this web-mode content type is a form of JS."
+(defun enable-tern-mode-for-js ()
+  "Enable tern-mode if this web-mode content type is a form of JS."
   (if (memq web-mode-content-type '(js jsx))
       (tern-mode)))
 
@@ -112,7 +112,7 @@
   (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
   (setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
-  (add-hook 'web-mode-hook 'enable-term-mode-for-js))
+  (add-hook 'web-mode-hook 'enable-tern-mode-for-js))
 
 ;; JSON
 (use-package json-mode

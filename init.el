@@ -284,7 +284,7 @@
 ;; Git Keys
 (set-group-string "g" "Git")
 (evil-leader/set-key
-  "gc" 'magit-commit
+  "gc" 'magit-commit-popup
   "gd" 'magit-diff-popup
   "gp" 'magit-push-popup
   "gs" 'magit-status)

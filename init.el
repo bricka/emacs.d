@@ -11,8 +11,6 @@
 
 ;; Straightforward config
 (setq scroll-step 1)
-(setq-default standard-indent 2)
-(setq-default tab-width 2)
 (setq-default indent-tabs-mode nil)
 (setq delete-old-versions t)
 (setq inhibit-startup-screen t)
@@ -20,6 +18,14 @@
 
 (cond ((eq system-type 'darwin) (set-face-attribute 'default nil :font "Menlo 15"))
       (t (set-face-attribute 'default nil :font "DejaVu Sans Mono 14")))
+
+;; Indentation
+(defun my/set-indentation (indentation)
+  "Set the indentation level to INDENTATION."
+  (setq-default standard-indent indentation
+                tab-width indentation))
+
+(my/set-indentation 4)
 
 ;; Parens
 (show-paren-mode 1)
@@ -100,14 +106,28 @@
 (global-set-key (kbd "M-x") 'helm-M-x)
 
 ;; Web Mode
+(defun my/web-mode-is-js ()
+  "Determine if the current buffer is using a JS web-mode content type."
+  (member web-mode-content-type '("js" "jsx")))
+
 (defun enable-tern-mode-for-js ()
   "Enable tern-mode if this web-mode content type is a form of JS."
-  (if (memq web-mode-content-type '(js jsx))
-      (tern-mode)))
+  (if (my/web-mode-is-js) (tern-mode)))
+
+(defun my/create-web-mode-js-syntax-table ()
+  "Create a syntax table for web mode in JS."
+  (let ((st (make-syntax-table web-mode-syntax-table))
+        (use-hook (lambda () (if (my/web-mode-is-js) (set-syntax-table web-mode-js-syntax-table)))))
+    (progn
+      (modify-syntax-entry ?` "\"" st)
+      (defvar web-mode-js-syntax-table st "Syntax table for web-mode when parsing JS")
+      (add-hook 'web-mode-hook use-hook))))
 
 (use-package web-mode
   :ensure t
+
   :config
+  (my/create-web-mode-js-syntax-table)
   (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
   (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))

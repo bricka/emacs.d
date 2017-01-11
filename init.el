@@ -41,9 +41,6 @@
   :config
   (global-highlight-parentheses-mode t))
 
-;; Line Number
-(global-linum-mode 1)
-
 ;; PATH from Shell
 
 (when (memq window-system '(mac ns))
@@ -77,11 +74,16 @@
     (global-evil-leader-mode)
     (evil-leader/set-leader "<SPC>")))
 
-;; Magit Configuration
+;; Git Configuration
 (use-package magit
   :ensure t
   :config
   (setq vc-handled-backends (delq 'Git vc-handled-backends))) ; Disable VC for Git
+
+(use-package git-gutter
+  :ensure t
+  :config
+  (global-git-gutter-mode t))
 
 ;; Powerline
 (require 'spaceline-config)
@@ -172,6 +174,14 @@
     :config
     (add-to-list 'company-backends 'company-tern)))
 
+;; Rainbow Mode
+(use-package rainbow-mode
+  :ensure t
+
+  :config
+  (add-to-list 'rainbow-html-colors-major-mode-list 'less-css-mode)
+  (add-hook 'css-mode-hook 'rainbow-mode))
+
 ;; ENSIME
 (use-package ensime
   :ensure t
@@ -220,6 +230,11 @@
 (setq TeX-PDF-mode t)
 
 (add-hook 'latex-mode-hook 'TeX-source-correlate-mode)
+
+;; LESS
+
+(use-package less-css-mode
+  :ensure t)
 
 ;; Keys
 (defun set-group-string (prefix title)
@@ -294,8 +309,20 @@
     (set-buffer-modified-p nil)
     t))))
 
+(defun delete-file-and-buffer ()
+  "Kill the current buffer and deletes the file it is visiting."
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (when filename
+      (cond ((vc-backend filename) (vc-delete-file filename))
+            (t (progn
+                 (delete-file filename)
+                 (message "Deleted file %s" filename)
+                 (kill-buffer)))))))
+
 (set-group-string "f" "Files")
 (evil-leader/set-key
+  "fd" 'delete-file-and-buffer
   "fe" 'visit-emacs-init
   "fm" 'move-buffer-file
   "fr" 'rename-buffer-and-buffer
@@ -308,6 +335,11 @@
   "gd" 'magit-diff-popup
   "gp" 'magit-push-popup
   "gs" 'magit-status)
+
+(set-group-string "gh" "Hunks")
+(evil-leader/set-key
+  "ghn" 'git-gutter:next-hunk
+  "ghp" 'git-gutter:previous-hunk)
 
 ;; Help Keys
 (set-group-string "h" "Help")
@@ -322,6 +354,7 @@
 (set-group-string "p" "Project")
 (evil-leader/set-key
   "p'" 'visit-term-projectile-root
+  "pi" 'projectile-invalidate-cache
   "pf" 'helm-projectile-find-file
   "pl" 'helm-projectile-switch-project)
 
@@ -351,7 +384,7 @@
     ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(package-selected-packages
    (quote
-    (web-mode json-mode jsdon-mode spaceline-config evil-magit use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil))))
+    (git-gutter-fringe diff-hl rainbow-mode less-css-mode web-mode json-mode jsdon-mode spaceline-config evil-magit use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

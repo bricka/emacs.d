@@ -123,6 +123,7 @@
         (use-hook (lambda () (if (my/web-mode-is-js) (set-syntax-table web-mode-js-syntax-table)))))
     (progn
       (modify-syntax-entry ?` "\"" st)
+      (modify-syntax-entry ?' "\"" st)
       (defvar web-mode-js-syntax-table st "Syntax table for web-mode when parsing JS")
       (add-hook 'web-mode-hook use-hook))))
 

@@ -15,6 +15,7 @@
 (setq delete-old-versions t)
 (setq inhibit-startup-screen t)
 (setq-default require-final-newline t)
+(setq-default make-backup-files nil)
 
 (cond ((eq system-type 'darwin) (set-face-attribute 'default nil :font "Menlo 15"))
       (t (set-face-attribute 'default nil :font "DejaVu Sans Mono 14")))
@@ -331,6 +332,7 @@
 ;; Git Keys
 (set-group-string "g" "Git")
 (evil-leader/set-key
+  "gb" 'magit-branch-popup
   "gc" 'magit-commit-popup
   "gd" 'magit-diff-popup
   "gp" 'magit-push-popup

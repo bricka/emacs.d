@@ -32,15 +32,10 @@
 (show-paren-mode 1)
 (electric-pair-mode 1)
 
-(define-globalized-minor-mode global-highlight-parentheses-mode
-  highlight-parentheses-mode
-  (lambda ()
-    (highlight-parentheses-mode t)))
-
-(use-package highlight-parentheses
+(use-package rainbow-delimiters
   :ensure t
   :config
-  (global-highlight-parentheses-mode t))
+  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
 ;; PATH from Shell
 
@@ -382,6 +377,18 @@
 ;;; MAJOR MODE KEYS
 (load-file "~/.emacs.d/major-mode.el")
 
+;; Mode Line
+;; We put this last so that all modes are already loaded.
+(use-package delight
+  :ensure t
+  :config
+  (delight '((rainbow-mode nil t)
+             (helm-mode nil t)
+             (git-gutter-mode nil t)
+             (which-key-mode nil t)
+             (evil-commentary-mode nil t)
+             (company-mode nil t))))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -392,7 +399,7 @@
     ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(package-selected-packages
    (quote
-    (git-gutter-fringe diff-hl rainbow-mode less-css-mode web-mode json-mode jsdon-mode spaceline-config evil-magit use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil))))
+    (delight rainbow-delimiters evil-surround git-gutter-fringe diff-hl rainbow-mode less-css-mode web-mode json-mode jsdon-mode spaceline-config evil-magit use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

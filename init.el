@@ -372,7 +372,8 @@
 (evil-leader/set-key
   "w-" 'split-window-below
   "w/" 'split-window-right
-  "w=" 'balance-windows)
+  "w=" 'balance-windows
+  "wn" 'make-frame)
 
 ;;; MAJOR MODE KEYS
 (load-file "~/.emacs.d/major-mode.el")

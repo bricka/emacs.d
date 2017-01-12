@@ -73,7 +73,12 @@
     :ensure t
     :config
     (global-evil-leader-mode)
-    (evil-leader/set-leader "<SPC>")))
+    (evil-leader/set-leader "<SPC>"))
+
+  (use-package evil-surround
+    :ensure t
+    :config
+    (global-evil-surround-mode 1)))
 
 ;; Git Configuration
 (use-package magit

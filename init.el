@@ -388,6 +388,7 @@
              (git-gutter-mode nil t)
              (helm-mode nil t)
              (rainbow-mode nil t)
+             (undo-tree-mode nil t)
              (which-key-mode nil t))))
 
 (custom-set-variables

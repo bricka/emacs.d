@@ -382,12 +382,13 @@
 (use-package delight
   :ensure t
   :config
-  (delight '((rainbow-mode nil t)
-             (helm-mode nil t)
-             (git-gutter-mode nil t)
-             (which-key-mode nil t)
+  (delight '((auto-revert-mode nil t)
+             (company-mode nil t)
              (evil-commentary-mode nil t)
-             (company-mode nil t))))
+             (git-gutter-mode nil t)
+             (helm-mode nil t)
+             (rainbow-mode nil t)
+             (which-key-mode nil t))))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

@@ -255,11 +255,17 @@
   (interactive)
   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
+(defun revert-buffer-no-confirm ()
+    "Revert buffer without confirmation."
+    (interactive)
+    (revert-buffer t t))
+
 (set-group-string "b" "Buffers")
 (evil-leader/set-key
   "bb" 'helm-mini
   "bd" 'kill-this-buffer
-  "bD" 'kill-other-buffers)
+  "bD" 'kill-other-buffers
+  "br" 'revert-buffer-no-confirmation)
 
 ;; Errors
 (set-group-string "e" "Errors")
@@ -377,6 +383,9 @@
 
 ;;; MAJOR MODE KEYS
 (load-file "~/.emacs.d/major-mode.el")
+
+;; Other Keys
+(global-set-key (kbd "s-u") 'revert-buffer-no-confirm)
 
 ;; Mode Line
 ;; We put this last so that all modes are already loaded.

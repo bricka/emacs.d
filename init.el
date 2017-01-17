@@ -55,6 +55,8 @@
   (evil-ex-define-cmd "ls" 'helm-mini)
   (evil-add-hjkl-bindings package-menu-mode-map 'emacs)
   (evil-add-hjkl-bindings messages-buffer-mode-map 'emacs)
+  (add-to-list 'evil-emacs-state-modes 'ensime-inspector-mode)
+  (add-to-list 'evil-emacs-state-modes 'flycheck-error-list-mode)
 
   (use-package evil-magit
     :ensure t)
@@ -187,7 +189,10 @@
 ;; ENSIME
 (use-package ensime
   :ensure t
-  :pin melpa-stable)
+  :pin melpa-stable
+
+  :config
+  (setq ensime-use-helm t))
 
 ;; Flycheck
 (defun my/use-eslint-from-node-modules ()

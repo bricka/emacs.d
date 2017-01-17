@@ -28,6 +28,8 @@
 (evil-leader/set-key-for-mode 'scala-mode
   "el" 'ensime-show-all-errors-and-warnings ; Overriding flycheck for Scala
   "mm" 'ensime-gen
+  "mi" 'ensime-inspect-type-at-point
+  "ms" 'ensime-search
   )
 
 (set-group-string-for-mode 'scala-mode "mg" "Goto")

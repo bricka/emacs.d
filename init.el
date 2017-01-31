@@ -144,7 +144,11 @@
 
 ;; JSON
 (use-package json-mode
-  :ensure t)
+  :ensure t
+
+  :config
+  (add-to-list 'auto-mode-alist '("\\.babelrc\\'" . json-mode))
+  (add-to-list 'auto-mode-alist '("\\.eslintrc\\'" . json-mode)))
 
 ;; Markdown
 (use-package markdown-mode
@@ -160,6 +164,10 @@
   :ensure t
   :config
   (add-to-list 'auto-mode-alist '("\\.ya?ml\\'" . yaml-mode)))
+
+;; Dockerfile
+(use-package dockerfile-mode
+  :ensure t)
 
 ;; Which Key
 (use-package which-key
@@ -423,7 +431,7 @@
     ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(package-selected-packages
    (quote
-    (nagios-mode delight rainbow-delimiters evil-surround git-gutter-fringe diff-hl rainbow-mode less-css-mode web-mode json-mode jsdon-mode spaceline-config evil-magit use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil))))
+    (dockerfile-mode nagios-mode delight rainbow-delimiters evil-surround git-gutter-fringe diff-hl rainbow-mode less-css-mode web-mode json-mode jsdon-mode spaceline-config evil-magit use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

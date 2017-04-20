@@ -37,3 +37,9 @@
   "mgi" 'ensime-goto-impl
   "mgt" 'ensime-goto-test
   )
+
+;; org-mode
+(set-group-string-for-mode 'org-mode "m" "Org")
+(evil-leader/set-key-for-mode 'org-mode
+  "mt" 'org-todo
+  )

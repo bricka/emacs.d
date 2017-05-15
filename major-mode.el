@@ -41,5 +41,8 @@
 ;; org-mode
 (set-group-string-for-mode 'org-mode "m" "Org")
 (evil-leader/set-key-for-mode 'org-mode
+  "mc" 'org-cycle
+  "mC" 'org-global-cycle
+  "mE" 'outline-show-all
   "mt" 'org-todo
   )

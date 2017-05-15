@@ -170,6 +170,11 @@
 (use-package dockerfile-mode
   :ensure t)
 
+;; Mediawiki
+(use-package mediawiki
+  :ensure t
+  )
+
 ;; Which Key
 (use-package which-key
   :ensure t
@@ -425,6 +430,28 @@
              (rainbow-mode nil t)
              (undo-tree-mode nil t)
              (which-key-mode nil t))))
+
+(defun evil-ex-define-cmd-local
+    (cmd function)
+  "Locally binds the function FUNCTION to the command CMD."
+  (unless (local-variable-p 'evil-ex-commands)
+    (setq-local evil-ex-commands (copy-alist evil-ex-commands)))
+  (evil-ex-define-cmd cmd function))
+
+(defun my/enable-evil-mode-for-edit-with-emacs ()
+  "Make Evil mode work with edit-server-edit-mode."
+  (progn
+    (evil-ex-define-cmd-local "wq" 'edit-server-save)
+    (evil-ex-define-cmd-local "w[rite]" 'edit-server-save)))
+
+(use-package edit-server
+  :ensure t
+  :config
+  (edit-server-start)
+  (add-hook 'edit-server-edit-mode-hook 'my/enable-evil-mode-for-edit-with-emacs)
+
+  (add-to-list 'edit-server-url-major-mode-alist '("wikifiniens" . mediawiki-mode))
+  )
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

@@ -101,6 +101,7 @@
   :config
   (projectile-mode)
   (setq projectile-use-git-grep t)
+  (add-to-list 'projectile-globally-ignored-directories "node_modules")
 
   (use-package helm-projectile
     :ensure t
@@ -363,7 +364,7 @@
   "fd" 'delete-file-and-buffer
   "fe" 'visit-emacs-init
   "fm" 'move-buffer-file
-  "fr" 'rename-buffer-and-buffer
+  "fr" 'rename-file-and-buffer
   )
 
 ;; Git Keys

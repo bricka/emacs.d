@@ -46,3 +46,43 @@
   "mE" 'outline-show-all
   "mt" 'org-todo
   )
+
+;; (defun my/add-below-org-mode-same-level ()
+;;   (interactive)
+;;   (progn
+;;     (org-insert-heading-after-current)
+;;     (evil-append-line 1)))
+
+;; (defun my/add-above-org-mode-same-level ()
+;;   (interactive)
+;;   (progn
+;;     (org-insert-heading)
+;;     (evil-append-line 1)))
+
+;; (evil-define-key 'normal org-mode-map
+;;   ">>" 'org-do-demote
+;;   "<<" 'org-do-promote
+;;   (kbd "C-o") 'my/add-below-org-mode-same-level
+;;   (kbd "C-O" )'my/add-above-org-mode-same-level
+;;   )
+
+;; dired-mode
+
+(set-group-string-for-mode 'dired-mode "m" "Dired")
+(evil-leader/set-key-for-mode 'dired-mode
+  "mo" 'dired-omit-mode)
+
+;; json-mode
+
+(set-group-string-for-mode 'json-mode "m" "JSON")
+(evil-leader/set-key-for-mode 'json-mode
+  "mB" 'json-pretty-print-buffer
+  "mb" 'json-pretty-print
+  )
+
+;; Kubernetes configs
+
+(set-group-string-for-mode 'kubernetes-mode "m" "Kubernetes")
+(evil-leader/set-key-for-mode 'kubernetes-mode
+  "mr" 'kubernetes-refresh
+  )

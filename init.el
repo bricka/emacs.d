@@ -24,9 +24,18 @@
 (defun my/set-indentation (indentation)
   "Set the indentation level to INDENTATION."
   (setq-default standard-indent indentation
-                tab-width indentation))
+                tab-width indentation
+                web-mode-code-indent-offset indentation
+                typescript-indent-level indentation
+                js-indent-level indentation
+))
 
-(my/set-indentation 4)
+(my/set-indentation 2)
+
+(use-package editorconfig
+  :ensure t
+  :config
+  (editorconfig-mode 1))
 
 ;; Parens
 (show-paren-mode 1)
@@ -58,6 +67,8 @@
   (add-to-list 'evil-emacs-state-modes 'ensime-inspector-mode)
   (add-to-list 'evil-emacs-state-modes 'flycheck-error-list-mode)
 
+  (define-key evil-insert-state-map (kbd "C-v") 'yank)
+
   (use-package evil-magit
     :ensure t)
 
@@ -75,7 +86,12 @@
   (use-package evil-surround
     :ensure t
     :config
-    (global-evil-surround-mode 1)))
+    (global-evil-surround-mode 1))
+
+  (use-package evil-org
+    :ensure t
+    :after org)
+  )
 
 ;; Git Configuration
 (use-package magit
@@ -101,7 +117,7 @@
   :config
   (projectile-mode)
   (setq projectile-use-git-grep t)
-  (add-to-list 'projectile-globally-ignored-directories "node_modules")
+  (setq projectile-indexing-method "alien")
 
   (use-package helm-projectile
     :ensure t
@@ -151,6 +167,57 @@
   :config
   (add-to-list 'auto-mode-alist '("\\.babelrc\\'" . json-mode))
   (add-to-list 'auto-mode-alist '("\\.eslintrc\\'" . json-mode)))
+
+;; Typescript
+
+;; (defun my/get-compiler-args-from-tsconfig (tsconfig-location)
+;;   "Read TSCONFIG-LOCATION and extract CLI arguments for the compiler args."
+;;   (let* ((json-object-type 'hash-table)
+;;          (as-hash-table (json-read-file tsconfig-location))
+;;          (compiler-args (gethash "compilerOptions" as-hash-table))
+;;          (args (list)))
+;;     (maphash (lambda (k v) (progn
+;;                              (push (concat "--" k) args)
+;;                              (push (cond ((equal v nil) "false")
+;;                                          ((equal v t) "true")
+;;                                          (t v))
+;;                                    args)))
+;;              compiler-args)
+;;     (nreverse args)))
+
+;; (defun my/set-tsc-args ()
+;;   "Set tsc args by parsing project's tsconfig.json file."
+;;   (if (projectile-project-p)
+;;       (setq-local flycheck-tsc-args (my/get-compiler-args-from-tsconfig (concat (projectile-project-root) "/tsconfig.json")))))
+
+;; (add-hook 'typescript-mode-hook 'my/set-tsc-args)
+(defun my/use-tslint-from-node-modules ()
+  "Configure flycheck to use tslint from node_modules."
+  (let* ((root (locate-dominating-file
+                (or (buffer-file-name) default-directory)
+                "node_modules"))
+         (tslint (and root
+                      (expand-file-name "node_modules/.bin/tslint"
+                                        root))))
+    (when tslint
+      (setq-local flycheck-typescript-tslint-executable tslint))))
+
+(defun setup-tide-mode ()
+  (interactive)
+  (tide-setup)
+  (tide-hl-identifier-mode +1)
+  )
+
+(use-package tide
+  :ensure t
+  :config
+  (add-hook 'typescript-mode-hook 'setup-tide-mode)
+  (add-hook 'typescript-mode-hook 'my/use-tslint-from-node-modules)
+  (setq tide-format-options '(:indentSize 2
+                              :tabSize 2
+                              :convertTabsToSpaces t
+                              ))
+  )
 
 ;; Markdown
 (use-package markdown-mode
@@ -218,7 +285,7 @@
                 (or (buffer-file-name) default-directory)
                 "node_modules"))
          (global-eslint (executable-find "eslint"))
-         (local-eslint (expand-file-name "node_modules/.bin/eslint"
+         (local-eslint (expand-file-name "node_modules/.bin/eslint.cmd"
                                          root))
          (eslint (if (file-executable-p local-eslint)
                      local-eslint
@@ -232,6 +299,21 @@
 
   (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
   (flycheck-add-mode 'javascript-eslint 'web-mode)
+
+  ;; (flycheck-define-checker typescript-tsc-checker
+  ;;                          "A syntax checker for Typescript that uses tsc."
+  ;;                          :command ("tsc" "--noEmit"
+  ;;                                    (eval flycheck-tsc-args)
+  ;;                                    source-inplace)
+  ;;                          :error-patterns
+  ;;                          ((error line-start (file-name) "(" line "," column "): error"
+  ;;                                  (message (one-or-more not-newline)
+  ;;                                           (zero-or-more "\n\t" (one-or-more not-newline)))
+  ;;                                  line-end))
+  ;;                          :modes typescript-mode
+  ;;                          :next-checkers (( t . typescript-tslint)))
+
+  ;; (add-to-list 'flycheck-checkers 'typescript-tsc-checker)
   )
 
 ;; Shell
@@ -268,6 +350,22 @@
 ;; nginx
 (use-package nginx-mode
   :ensure t)
+
+;; Org mode
+(defun my/enable-org-mode-wordwrap ()
+  (visual-line-mode)
+  (org-indent-mode))
+
+(add-hook 'org-mode-hook 'my/enable-org-mode-wordwrap)
+
+;; kubernetes
+(use-package kubernetes
+  :ensure t
+  :commands (kubernetes-overview))
+
+(use-package kubernetes-evil
+  :ensure t
+  :after kubernetes)
 
 ;; Keys
 (defun set-group-string (prefix title)
@@ -368,11 +466,21 @@
   )
 
 ;; Git Keys
+(defun my/delete-merged-branches ()
+  "Delete all branches that have been merged into master."
+  (interactive)
+  (let ((branches (magit-git-lines "branch --merged master")))
+    (dolist (branch branches)
+      (if (not (equal branch "master"))
+          (magit-call-git (concat "branch -d " branch)))))
+  )
+
 (set-group-string "g" "Git")
 (evil-leader/set-key
   "gb" 'magit-branch-popup
   "gc" 'magit-commit-popup
   "gd" 'magit-diff-popup
+  "gD" 'my/delete-merged-branches
   "gp" 'magit-push-popup
   "gs" 'magit-status)
 
@@ -425,7 +533,9 @@
   :config
   (delight '((auto-revert-mode nil t)
              (company-mode nil t)
+             (editorconfig-mode nil t)
              (evil-commentary-mode nil t)
+             (evil-org-mode nil t)
              (git-gutter-mode nil t)
              (helm-mode nil t)
              (rainbow-mode nil t)
@@ -434,7 +544,7 @@
 
 (defun evil-ex-define-cmd-local
     (cmd function)
-  "Locally binds the function FUNCTION to the command CMD."
+  "Locally binds command CMD to the function FUNCTION."
   (unless (local-variable-p 'evil-ex-commands)
     (setq-local evil-ex-commands (copy-alist evil-ex-commands)))
   (evil-ex-define-cmd cmd function))
@@ -454,6 +564,49 @@
   (add-to-list 'edit-server-url-major-mode-alist '("wikifiniens" . mediawiki-mode))
   )
 
+;; Windows Support
+
+;; Sets your shell to use cygwin's bash, if Emacs finds it's running
+;; under Windows and c:\cygwin exists. Assumes that C:\cygwin\bin is
+;; not already in your Windows Path (it generally should not be).
+;;
+(let* ((cygwin-root "c:/cygwin64")
+       (cygwin-bin (concat cygwin-root "/bin")))
+  (when (and (eq 'windows-nt system-type)
+             (file-readable-p cygwin-root))
+    
+    (setq exec-path (cons cygwin-bin exec-path))
+    (setenv "PATH" (concat cygwin-bin ";" (getenv "PATH")))
+    
+    ;; By default use the Windows HOME.
+    ;; Otherwise, uncomment below to set a HOME
+    ;;      (setenv "HOME" (concat cygwin-root "/home/eric"))
+    
+    ;; NT-emacs assumes a Windows shell. Change to bash.
+    (setq shell-file-name "bash")
+    (setenv "SHELL" shell-file-name)
+    (setq explicit-shell-file-name shell-file-name)
+    
+    ;; This removes unsightly ^M characters that would otherwise
+    ;; appear in the output of java applications.
+    (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)))
+
+(define-derived-mode swagger-yaml-mode yaml-mode
+  "Swagger YAML"
+  "Major mode for Swagger YAML files"
+  )
+(add-to-list 'auto-mode-alist '("swagger.*\\.ya?ml\\'" . swagger-yaml-mode))
+
+(flycheck-define-checker swagger
+  "A syntax checker for Swagger using swagger-cli."
+  :command ("C:/Users/abrick/AppData/Roaming/npm/swagger" "validate" source)
+  :error-patterns
+  ((error line-start (message) "at line " line ", column " column ":" line-end))
+  :modes (swagger-yaml-mode)
+  )
+
+(add-to-list 'flycheck-checkers 'swagger)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -464,7 +617,13 @@
     ("bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(package-selected-packages
    (quote
-    (nginx-mode dockerfile-mode nagios-mode delight rainbow-delimiters evil-surround git-gutter-fringe diff-hl rainbow-mode less-css-mode web-mode json-mode jsdon-mode spaceline-config evil-magit use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil))))
+    (editorconfig js2-mode tide mediawiki edit-server nginx-mode dockerfile-mode nagios-mode delight rainbow-delimiters evil-surround git-gutter-fringe diff-hl rainbow-mode less-css-mode web-mode json-mode jsdon-mode spaceline-config evil-magit use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil)))
+ '(safe-local-variable-values
+   (quote
+    ((eval my/set-indentation 2)
+     (typescript-indent-level . 2)
+     (typesecript-indent-level . 2)
+     (standard-indent . 2)))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

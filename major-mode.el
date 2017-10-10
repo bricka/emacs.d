@@ -80,6 +80,16 @@
   "mb" 'json-pretty-print
   )
 
+;; typescript mode
+(set-group-string-for-mode 'typescript-mode "m" "Typescript")
+(set-group-string-for-mode 'typescript-mode "mg" "Goto")
+(evil-leader/set-key-for-mode 'typescript-mode
+  "mr" 'tide-references
+  "mgd" 'tide-jump-to-definition
+  "mgt" (lambda () (tide-jump-to-definition 1))
+  "mr" 'tide-restart-server
+  )
+
 ;; Kubernetes configs
 
 (set-group-string-for-mode 'kubernetes-mode "m" "Kubernetes")

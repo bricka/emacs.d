@@ -64,8 +64,10 @@
   (evil-ex-define-cmd "ls" 'helm-mini)
   (evil-add-hjkl-bindings package-menu-mode-map 'emacs)
   (evil-add-hjkl-bindings messages-buffer-mode-map 'emacs)
+  ;; (evil-add-hjkl-bindings docker-images-mode 'emacs)
   (add-to-list 'evil-emacs-state-modes 'ensime-inspector-mode)
   (add-to-list 'evil-emacs-state-modes 'flycheck-error-list-mode)
+  ;; (add-to-list 'evil-emacs-state-modes 'docker-images-mode)
 
   (define-key evil-insert-state-map (kbd "C-v") 'yank)
 
@@ -206,10 +208,26 @@
   (interactive)
   (tide-setup)
   (tide-hl-identifier-mode +1)
+  ;; If there is a directory with "package.json" in it, we take that
+  ;; as the location from which to search for a tsserver and set
+  ;; tide-tsserver-executable to it, if it exists.
+  (let* ((package-root (locate-dominating-file default-directory
+                                               "package.json"))
+         (path
+          (and package-root
+               (expand-file-name "node_modules/typescript/bin/tsserver"
+                                 (expand-file-name package-root)))))
+    (when (and path
+               (file-exists-p path))
+      (make-local-variable 'tide-tsserver-executable)
+      (setq tide-tsserver-executable path)
+      ))
   )
 
 (use-package tide
   :ensure t
+  :pin melpa-stable
+
   :config
   (add-hook 'typescript-mode-hook 'setup-tide-mode)
   (add-hook 'typescript-mode-hook 'my/use-tslint-from-node-modules)
@@ -234,7 +252,10 @@
   :config
   (add-to-list 'auto-mode-alist '("\\.ya?ml\\'" . yaml-mode)))
 
-;; Dockerfile
+;; Docker
+(use-package docker
+  :ensure t)
+
 (use-package dockerfile-mode
   :ensure t)
 
@@ -343,7 +364,7 @@
   :ensure t)
 
 ;; Nagios
-(add-to-list 'load-path "~/.emacs.d/modes")
+(add-to-list 'load-path "c:/Users/abrick/.emacs.d/modes")
 (autoload 'nagios-mode "nagios-mode" nil t)
 (add-to-list 'auto-mode-alist '("nagios.*\\.cfg\\'" . nagios-mode))
 
@@ -384,17 +405,20 @@
   (interactive)
   (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
 
-(defun revert-buffer-no-confirm ()
-    "Revert buffer without confirmation."
-    (interactive)
-    (revert-buffer t t))
+(defun my/revert-buffer ()
+  "Revert buffer correctly."
+  (interactive)
+  (if (equal system-type 'windows-nt)
+      (revert-buffer-with-coding-system 'utf-8-dos)
+      (revert-buffer)
+  ))
 
 (set-group-string "b" "Buffers")
 (evil-leader/set-key
   "bb" 'helm-mini
   "bd" 'kill-this-buffer
   "bD" 'kill-other-buffers
-  "br" 'revert-buffer-no-confirmation)
+  "br" 'my/revert-buffer)
 
 ;; Errors
 (set-group-string "e" "Errors")
@@ -482,6 +506,7 @@
   "gd" 'magit-diff-popup
   "gD" 'my/delete-merged-branches
   "gp" 'magit-push-popup
+  "gr" 'magit-rebase-popup
   "gs" 'magit-status)
 
 (set-group-string "gh" "Hunks")
@@ -555,14 +580,15 @@
     (evil-ex-define-cmd-local "wq" 'edit-server-save)
     (evil-ex-define-cmd-local "w[rite]" 'edit-server-save)))
 
-(use-package edit-server
-  :ensure t
-  :config
-  (edit-server-start)
-  (add-hook 'edit-server-edit-mode-hook 'my/enable-evil-mode-for-edit-with-emacs)
+;; (use-package edit-server
+;;   :ensure t
+;;   ;; :pin melpa-stable
+;;   :config
+;;   (edit-server-start)
+;;   (add-hook 'edit-server-edit-mode-hook 'my/enable-evil-mode-for-edit-with-emacs)
 
-  (add-to-list 'edit-server-url-major-mode-alist '("wikifiniens" . mediawiki-mode))
-  )
+;;   (add-to-list 'edit-server-url-major-mode-alist '("wikifiniens" . mediawiki-mode))
+;;   )
 
 ;; Windows Support
 
@@ -590,6 +616,14 @@
     ;; This removes unsightly ^M characters that would otherwise
     ;; appear in the output of java applications.
     (add-hook 'comint-output-filter-functions 'comint-strip-ctrl-m)))
+
+(defun dos2unix ()
+  "Convert the line endings in this file from Windows to UNIX."
+  (interactive)
+  (while (search-forward "
+" nil t)
+    (replace-match nil nil t))
+  )
 
 (define-derived-mode swagger-yaml-mode yaml-mode
   "Swagger YAML"

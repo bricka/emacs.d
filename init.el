@@ -342,7 +342,8 @@
 
 ;; Dired
 
-(setq-default dired-omit-mode t)
+(require 'dired-x)
+(setq-default dired-omit-files-p t)
 (setq dired-omit-files (concat dired-omit-files "\\|^\\...+$"))
 
 (defun dired-open-current-directory ()
@@ -580,15 +581,13 @@
     (evil-ex-define-cmd-local "wq" 'edit-server-save)
     (evil-ex-define-cmd-local "w[rite]" 'edit-server-save)))
 
-;; (use-package edit-server
-;;   :ensure t
-;;   ;; :pin melpa-stable
-;;   :config
-;;   (edit-server-start)
-;;   (add-hook 'edit-server-edit-mode-hook 'my/enable-evil-mode-for-edit-with-emacs)
+(use-package edit-server
+  :config
+  (edit-server-start)
+  (add-hook 'edit-server-edit-mode-hook 'my/enable-evil-mode-for-edit-with-emacs)
 
-;;   (add-to-list 'edit-server-url-major-mode-alist '("wikifiniens" . mediawiki-mode))
-;;   )
+  (add-to-list 'edit-server-url-major-mode-alist '("wikifiniens" . mediawiki-mode))
+  )
 
 ;; Windows Support
 

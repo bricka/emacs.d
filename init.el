@@ -117,7 +117,11 @@
 
 ;; Theme
 ;; (load-theme 'spacemacs-dark 1)
-(load-theme 'sanityinc-tomorrow-night 1)
+(use-package sanityinc-tomorrow
+  :ensure t
+  :config
+  (load-theme 'sanityinc-tomorrow-night 1)
+  )
 
 ;; Projectile
 (use-package projectile

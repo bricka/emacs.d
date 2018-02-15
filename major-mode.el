@@ -96,3 +96,20 @@
 (evil-leader/set-key-for-mode 'kubernetes-mode
   "mr" 'kubernetes-refresh
   )
+
+;; PlantUML
+
+(defun my/plantuml-preview-new-window ()
+  (interactive)
+  (plantuml-preview 4))
+
+(set-group-string-for-mode 'plantuml-mode "m" "PlantUML")
+(evil-leader/set-key-for-mode 'plantuml-mode
+  "mp" 'my/plantuml-preview-new-window
+  )
+
+;; Graphviz
+(set-group-string-for-mode 'graphviz-dot-mode "m" "Graphviz")
+(evil-leader/set-key-for-mode 'graphviz-dot-mode
+  "mp" 'graphviz-dot-preview
+  )

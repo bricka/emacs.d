@@ -101,11 +101,22 @@
     :ensure t
     :config
     (global-evil-surround-mode 1))
+  )
 
-  (use-package evil-org
-    :ensure t
-    :delight
-    :after org)
+(use-package evil-org
+  :ensure t
+  :delight
+  :after evil org
+
+  :config
+  (add-hook 'org-mode-hook 'evil-org-mode)
+  (add-hook 'evil-org-mode-hook
+            (lambda ()
+              (evil-org-set-key-theme)))
+
+  (evil-define-key 'normal evil-org-mode-map
+    (kbd "^") 'evil-org-beginning-of-line
+    )
   )
 
 ;; Git Configuration
@@ -121,13 +132,25 @@
   (global-git-gutter-mode t))
 
 ;; Powerline
-(require 'spaceline-config)
-(spaceline-spacemacs-theme)
-(setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+(use-package spaceline
+  :ensure t
+  :init (require 'spaceline-config)
+  :config
+  (spaceline-spacemacs-theme)
+  (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+  )
+;; (require 'spaceline-config)
+;; (spaceline-spacemacs-theme)
+;; (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
 
 ;; Theme
 ;; (load-theme 'spacemacs-dark 1)
-(load-theme 'sanityinc-tomorrow-night 1)
+(use-package color-theme-sanityinc-tomorrow
+  :ensure t
+  :config
+  (load-theme 'sanityinc-tomorrow-night 1)
+  )
+;; (load-theme 'sanityinc-tomorrow-night 1)
 ;; (load-theme 'doom-tomorrow-night 1)
 
 ;; Projectile
@@ -144,9 +167,16 @@
     (setq helm-projectile-set-input-automatically nil)))
 
 ;; Helm
-(require 'helm-config)
-(helm-mode 1)
-(global-set-key (kbd "M-x") 'helm-M-x)
+(use-package helm
+  :pin melpa-stable
+  :ensure t
+  :config
+  (helm-mode 1)
+  (global-set-key (kbd "M-x") 'helm-M-x)
+  )
+;; (require 'helm-config)
+;; (helm-mode 1)
+;; (global-set-key (kbd "M-x") 'helm-M-x)
 
 ;; Web Mode
 (defun my/web-mode-is-js ()
@@ -400,6 +430,8 @@
   (org-indent-mode))
 
 (add-hook 'org-mode-hook 'my/enable-org-mode-wordwrap)
+(setq org-startup-folded "showall")
+(setq org-special-ctrl-a/e t)
 
 ;; kubernetes
 (use-package kubernetes
@@ -435,6 +467,10 @@
   :after anaconda-mode company
   :config
   (add-to-list 'company-backends 'company-anaconda)
+  )
+
+(use-package string-inflection
+  :ensure t
   )
 
 ;; Keys
@@ -586,6 +622,12 @@
   "sp" 'helm-projectile-grep
   )
 
+;; Text Keys
+(set-group-string "t" "Text")
+(evil-leader/set-key
+  "t_" 'string-inflection-underscore
+  "tC" 'string-inflection-camelcase)
+
 ;; Window Keys
 (set-group-string "w" "Window")
 (evil-leader/set-key
@@ -684,7 +726,7 @@
     ("4b207752aa69c0b182c6c3b8e810bbf3afa429ff06f274c8ca52f8df7623eb60" "ed317c0a3387be628a48c4bbdb316b4fa645a414838149069210b66dd521733f" "938d8c186c4cb9ec4a8d8bc159285e0d0f07bad46edf20aa469a89d0d2a586ea" "8ed752276957903a270c797c4ab52931199806ccd9f0c3bb77f6f4b9e71b9272" "4a7abcca7cfa2ccdf4d7804f1162dd0353ce766b1277e8ee2ac7ee27bfbb408f" "10e3d04d524c42b71496e6c2e770c8e18b153fcfcc838947094dad8e5aa02cef" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "2a739405edf418b8581dcd176aaf695d319f99e3488224a3c495cb0f9fd814e3" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(package-selected-packages
    (quote
-    (graphviz-dot-mode elpy ample-theme doom-themes solarized-theme editorconfig js2-mode tide mediawiki edit-server nginx-mode dockerfile-mode nagios-mode delight rainbow-delimiters evil-surround git-gutter-fringe diff-hl rainbow-mode less-css-mode web-mode json-mode jsdon-mode spaceline-config evil-magit use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil)))
+    (string-inflection graphviz-dot-mode elpy ample-theme doom-themes solarized-theme editorconfig js2-mode tide mediawiki edit-server nginx-mode dockerfile-mode nagios-mode delight rainbow-delimiters evil-surround git-gutter-fringe diff-hl rainbow-mode less-css-mode web-mode json-mode jsdon-mode spaceline-config evil-magit use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil)))
  '(safe-local-variable-values
    (quote
     ((eval my/set-indentation 2)

@@ -191,33 +191,45 @@
 ;; (global-set-key (kbd "M-x") 'helm-M-x)
 
 ;; Web Mode
-(defun my/web-mode-is-js ()
-  "Determine if the current buffer is using a JS web-mode content type."
-  (member web-mode-content-type '("js" "jsx")))
-
-(defun enable-tern-mode-for-js ()
-  "Enable tern-mode if this web-mode content type is a form of JS."
-  (if (my/web-mode-is-js) (tern-mode)))
-
-(defun my/create-web-mode-js-syntax-table ()
-  "Create a syntax table for web mode in JS."
-  (let ((st (make-syntax-table web-mode-syntax-table))
-        (use-hook (lambda () (if (my/web-mode-is-js) (set-syntax-table web-mode-js-syntax-table)))))
-    (progn
-      (modify-syntax-entry ?` "\"" st)
-      (modify-syntax-entry ?' "\"" st)
-      (defvar web-mode-js-syntax-table st "Syntax table for web-mode when parsing JS")
-      (add-hook 'web-mode-hook use-hook))))
-
 (use-package web-mode
   :ensure t
 
   :mode ("\\.html\\'" "\\.jsx?\\'" "\\.mustache\\'" "\\.php\\'")
 
   :config
+
+  (defvar web-mode-js-syntax-table)
+
+  (defun my/web-mode-is-js ()
+    "Determine if the current buffer is using a JS web-mode content type."
+    (member web-mode-content-type '("js" "jsx")))
+
+  (defun enable-tern-mode-for-js ()
+    "Enable tern-mode if this web-mode content type is a form of JS."
+    (if (my/web-mode-is-js) (tern-mode)))
+
+  (defun my/create-web-mode-js-syntax-table ()
+    "Create a syntax table for web mode in JS."
+    (let ((st (make-syntax-table web-mode-syntax-table))
+          (use-hook (lambda () (if (my/web-mode-is-js) (set-syntax-table web-mode-js-syntax-table)))))
+      (progn
+        (modify-syntax-entry ?` "\"" st)
+        (modify-syntax-entry ?' "\"" st)
+        (setq web-mode-js-syntax-table st)
+        (add-hook 'web-mode-hook
+                  (lambda () (if (my/web-mode-is-js) (set-syntax-table web-mode-js-syntax-table))))
+        )))
+
   (my/create-web-mode-js-syntax-table)
   (setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
   (add-hook 'web-mode-hook 'enable-tern-mode-for-js)
+  )
+
+(use-package company-tern
+  :ensure t
+  :after company
+  :config
+  (add-to-list 'company-backends 'company-tern)
   )
 
 ;; JSON
@@ -230,63 +242,44 @@
 
 ;; Typescript
 
-;; (defun my/get-compiler-args-from-tsconfig (tsconfig-location)
-;;   "Read TSCONFIG-LOCATION and extract CLI arguments for the compiler args."
-;;   (let* ((json-object-type 'hash-table)
-;;          (as-hash-table (json-read-file tsconfig-location))
-;;          (compiler-args (gethash "compilerOptions" as-hash-table))
-;;          (args (list)))
-;;     (maphash (lambda (k v) (progn
-;;                              (push (concat "--" k) args)
-;;                              (push (cond ((equal v nil) "false")
-;;                                          ((equal v t) "true")
-;;                                          (t v))
-;;                                    args)))
-;;              compiler-args)
-;;     (nreverse args)))
-
-;; (defun my/set-tsc-args ()
-;;   "Set tsc args by parsing project's tsconfig.json file."
-;;   (if (projectile-project-p)
-;;       (setq-local flycheck-tsc-args (my/get-compiler-args-from-tsconfig (concat (projectile-project-root) "/tsconfig.json")))))
-
-;; (add-hook 'typescript-mode-hook 'my/set-tsc-args)
-(defun my/use-tslint-from-node-modules ()
-  "Configure flycheck to use tslint from node_modules."
-  (let* ((root (locate-dominating-file
-                (or (buffer-file-name) default-directory)
-                "node_modules"))
-         (tslint (and root
-                      (expand-file-name "node_modules/.bin/tslint"
-                                        root))))
-    (when tslint
-      (setq-local flycheck-typescript-tslint-executable tslint))))
-
-(defun setup-tide-mode ()
-  (interactive)
-  (tide-setup)
-  (tide-hl-identifier-mode +1)
-  ;; If there is a directory with "package.json" in it, we take that
-  ;; as the location from which to search for a tsserver and set
-  ;; tide-tsserver-executable to it, if it exists.
-  (let* ((package-root (locate-dominating-file default-directory
-                                               "package.json"))
-         (path
-          (and package-root
-               (expand-file-name "node_modules/typescript/bin/tsserver"
-                                 (expand-file-name package-root)))))
-    (when (and path
-               (file-exists-p path))
-      (make-local-variable 'tide-tsserver-executable)
-      (setq tide-tsserver-executable path)
-      ))
-  )
-
 (use-package tide
   :ensure t
   :pin melpa-stable
 
   :config
+
+  (defun my/use-tslint-from-node-modules ()
+    "Configure flycheck to use tslint from node_modules."
+    (let* ((root (locate-dominating-file
+                  (or (buffer-file-name) default-directory)
+                  "node_modules"))
+           (tslint (and root
+                        (expand-file-name "node_modules/.bin/tslint"
+                                          root))))
+      (when tslint
+        (setq-local flycheck-typescript-tslint-executable tslint))))
+
+  (defun setup-tide-mode ()
+    "Initialize Tide mode."
+    (interactive)
+    (tide-setup)
+    (tide-hl-identifier-mode +1)
+    ;; If there is a directory with "package.json" in it, we take that
+    ;; as the location from which to search for a tsserver and set
+    ;; tide-tsserver-executable to it, if it exists.
+    (let* ((package-root (locate-dominating-file default-directory
+                                                 "package.json"))
+           (path
+            (and package-root
+                 (expand-file-name "node_modules/typescript/bin/tsserver"
+                                   (expand-file-name package-root)))))
+      (when (and path
+                 (file-exists-p path))
+        (make-local-variable 'tide-tsserver-executable)
+        (setq tide-tsserver-executable path)
+        ))
+    )
+
   (add-hook 'typescript-mode-hook 'setup-tide-mode)
   (add-hook 'typescript-mode-hook 'my/use-tslint-from-node-modules)
   (setq tide-format-options '(:indentSize 2
@@ -337,11 +330,15 @@
   :config
   (add-hook 'after-init-hook 'global-company-mode)
   (setq company-dabbrev-downcase nil)
+  )
 
-  (use-package company-tern
-    :ensure t
-    :config
-    (add-to-list 'company-backends 'company-tern)))
+(use-package company-quickhelp
+  :ensure t
+  :delight
+  :after company
+  :config
+  (company-quickhelp-mode)
+  )
 
 ;; Rainbow Mode
 (use-package rainbow-mode
@@ -437,6 +434,7 @@
 
 ;; Org mode
 (defun my/enable-org-mode-wordwrap ()
+  "Enables word-wrapping for org mode."
   (visual-line-mode)
   (org-indent-mode))
 
@@ -737,7 +735,7 @@
     ("4b207752aa69c0b182c6c3b8e810bbf3afa429ff06f274c8ca52f8df7623eb60" "ed317c0a3387be628a48c4bbdb316b4fa645a414838149069210b66dd521733f" "938d8c186c4cb9ec4a8d8bc159285e0d0f07bad46edf20aa469a89d0d2a586ea" "8ed752276957903a270c797c4ab52931199806ccd9f0c3bb77f6f4b9e71b9272" "4a7abcca7cfa2ccdf4d7804f1162dd0353ce766b1277e8ee2ac7ee27bfbb408f" "10e3d04d524c42b71496e6c2e770c8e18b153fcfcc838947094dad8e5aa02cef" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "2a739405edf418b8581dcd176aaf695d319f99e3488224a3c495cb0f9fd814e3" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(package-selected-packages
    (quote
-    (string-inflection graphviz-dot-mode elpy ample-theme doom-themes solarized-theme editorconfig js2-mode tide mediawiki edit-server nginx-mode dockerfile-mode nagios-mode delight rainbow-delimiters evil-surround git-gutter-fringe diff-hl rainbow-mode less-css-mode web-mode json-mode jsdon-mode spaceline-config evil-magit use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil)))
+    (company-quickhelp string-inflection graphviz-dot-mode elpy ample-theme doom-themes solarized-theme editorconfig js2-mode tide mediawiki edit-server nginx-mode dockerfile-mode nagios-mode delight rainbow-delimiters evil-surround git-gutter-fringe diff-hl rainbow-mode less-css-mode web-mode json-mode jsdon-mode spaceline-config evil-magit use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil)))
  '(safe-local-variable-values
    (quote
     ((eval my/set-indentation 2)

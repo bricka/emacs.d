@@ -1,3 +1,11 @@
+;;; init.el --- Alex Brick's Emacs configuration
+
+;;; Commentary:
+;;;
+;;; My Emacs configuration
+
+;;; Code:
+
 ;; Enable MELPA
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
@@ -66,9 +74,13 @@
     (exec-path-from-shell-initialize)))
 
 ;; Evil
-(setq evil-want-C-u-scroll t)
 (use-package evil
   :ensure t
+
+  :init
+
+  (setq evil-want-C-u-scroll t)
+
   :config
 
   (evil-mode 1)
@@ -200,14 +212,13 @@
 (use-package web-mode
   :ensure t
 
+  :mode ("\\.html\\'" "\\.jsx?\\'" "\\.mustache\\'" "\\.php\\'")
+
   :config
   (my/create-web-mode-js-syntax-table)
-  (add-to-list 'auto-mode-alist '("\\.html\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.jsx?\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.mustache\\'" . web-mode))
-  (add-to-list 'auto-mode-alist '("\\.php\\'" . web-mode))
   (setq web-mode-content-types-alist '(("jsx" . "\\.js[x]?\\'")))
-  (add-hook 'web-mode-hook 'enable-tern-mode-for-js))
+  (add-hook 'web-mode-hook 'enable-tern-mode-for-js)
+  )
 
 ;; JSON
 (use-package json-mode

@@ -327,6 +327,8 @@
   :ensure t
   :delight
 
+  :defines company-dabbrev-downcase
+
   :config
   (add-hook 'after-init-hook 'global-company-mode)
   (setq company-dabbrev-downcase nil)
@@ -358,18 +360,6 @@
   (setq ensime-use-helm t))
 
 ;; Flycheck
-(defun my/use-eslint-from-node-modules ()
-  "Configure Flycheck to use eslint from node_modules if present."
-  (let* ((root (locate-dominating-file
-                (or (buffer-file-name) default-directory)
-                "node_modules"))
-         (global-eslint (executable-find "eslint"))
-         (local-eslint (expand-file-name "node_modules/.bin/eslint.cmd"
-                                         root))
-         (eslint (if (file-executable-p local-eslint)
-                     local-eslint
-                   global-eslint)))
-    (setq-local flycheck-javascript-eslint-executable eslint)))
 
 (use-package flycheck
   :ensure t
@@ -377,23 +367,21 @@
   :config
   (global-flycheck-mode)
 
+  (defun my/use-eslint-from-node-modules ()
+    "Configure Flycheck to use eslint from node_modules if present."
+    (let* ((root (locate-dominating-file
+                  (or (buffer-file-name) default-directory)
+                  "node_modules"))
+           (global-eslint (executable-find "eslint"))
+           (local-eslint (expand-file-name "node_modules/.bin/eslint.cmd"
+                                           root))
+           (eslint (if (file-executable-p local-eslint)
+                       local-eslint
+                     global-eslint)))
+      (setq-local flycheck-javascript-eslint-executable eslint)))
+
   (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
   (flycheck-add-mode 'javascript-eslint 'web-mode)
-
-  ;; (flycheck-define-checker typescript-tsc-checker
-  ;;                          "A syntax checker for Typescript that uses tsc."
-  ;;                          :command ("tsc" "--noEmit"
-  ;;                                    (eval flycheck-tsc-args)
-  ;;                                    source-inplace)
-  ;;                          :error-patterns
-  ;;                          ((error line-start (file-name) "(" line "," column "): error"
-  ;;                                  (message (one-or-more not-newline)
-  ;;                                           (zero-or-more "\n\t" (one-or-more not-newline)))
-  ;;                                  line-end))
-  ;;                          :modes typescript-mode
-  ;;                          :next-checkers (( t . typescript-tslint)))
-
-  ;; (add-to-list 'flycheck-checkers 'typescript-tsc-checker)
   )
 
 ;; Shell
@@ -412,11 +400,11 @@
 
 ;; Latex
 
-(setq TeX-auto-save t)
-(setq TeX-parse-self t)
-(setq TeX-PDF-mode t)
+;; (setq TeX-auto-save t)
+;; (setq TeX-parse-self t)
+;; (setq TeX-PDF-mode t)
 
-(add-hook 'latex-mode-hook 'TeX-source-correlate-mode)
+;; (add-hook 'latex-mode-hook 'TeX-source-correlate-mode)
 
 ;; LESS
 

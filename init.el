@@ -93,26 +93,34 @@
   ;; (add-to-list 'evil-emacs-state-modes 'docker-images-mode)
 
   (define-key evil-insert-state-map (kbd "C-v") 'yank)
+  )
 
-  (use-package evil-magit
-    :ensure t)
+(use-package evil-magit
+  :ensure t
+  :after evil magit
+  )
 
-  (use-package evil-commentary
-    :ensure t
-    :delight
-    :config
-    (evil-commentary-mode))
+(use-package evil-commentary
+  :ensure t
+  :after evil
+  :delight
+  :config
+  (evil-commentary-mode)
+  )
 
-  (use-package evil-leader
-    :ensure t
-    :config
-    (global-evil-leader-mode)
-    (evil-leader/set-leader "<SPC>"))
+(use-package evil-leader
+  :ensure t
+  :after evil
+  :config
+  (global-evil-leader-mode)
+  (evil-leader/set-leader "<SPC>")
+  )
 
-  (use-package evil-surround
-    :ensure t
-    :config
-    (global-evil-surround-mode 1))
+(use-package evil-surround
+  :ensure t
+  :after evil
+  :config
+  (global-evil-surround-mode 1)
   )
 
 (use-package evil-org

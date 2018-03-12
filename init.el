@@ -54,11 +54,10 @@
 (use-package delight
   :ensure t
   :config
-  (delight '((auto-revert-mode nil t)
-             (helm-mode nil t)
+  (delight '((auto-revert-mode nil autorevert)
              (undo-tree-mode nil t)
-)))
-
+             ))
+  )
 
 (use-package rainbow-delimiters
   :ensure t
@@ -189,6 +188,7 @@
 ;; Helm
 (use-package helm
   :pin melpa-stable
+  :delight helm-mode
   :ensure t
   :config
   (helm-mode 1)
@@ -498,6 +498,10 @@
                 (ggtags-mode 1))))
   )
 
+(use-package cmake-mode
+  :ensure t
+  )
+
 ;; Keys
 (defun set-group-string (prefix title)
   "Set the which-key string for LEADER PREFIX to TITLE."
@@ -725,21 +729,42 @@
 
 (add-to-list 'load-path "c:/cygwin64/bin")
 
+;; Swagger
+
 (define-derived-mode swagger-yaml-mode yaml-mode
   "Swagger YAML"
   "Major mode for Swagger YAML files"
   )
-(add-to-list 'auto-mode-alist '("swagger.*\\.ya?ml\\'" . swagger-yaml-mode))
+(add-to-list 'auto-mode-alist '("swagger.\\.ya?ml\\'" . swagger-yaml-mode))
 
 (flycheck-define-checker swagger
   "A syntax checker for Swagger using swagger-cli."
+
   :command ("C:/Users/abrick/AppData/Roaming/npm/swagger" "validate" source)
-  :error-patterns
-  ((error line-start (message) "at line " line ", column " column ":" line-end))
+
+  :error-patterns (
+   (error line-start (message) "at line " line ", column " column ":" line-end)
+   (error line-start "SyntaxError: " (message) line-end)
+   )
+
+  :error-filter
+  (lambda (errors)
+    (let ((errors (flycheck-sanitize-errors errors)))
+      (dolist (err errors)
+        (unless (flycheck-error-line err)
+          (setf (flycheck-error-line err) 1)))
+      errors))
+
   :modes (swagger-yaml-mode)
   )
 
 (add-to-list 'flycheck-checkers 'swagger)
+
+
+;; (use-package openapi-yaml-mode
+;;   :ensure t
+;;   :mode "swagger\\.yaml\\'"
+;;   )
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -751,7 +776,7 @@
     ("4b207752aa69c0b182c6c3b8e810bbf3afa429ff06f274c8ca52f8df7623eb60" "ed317c0a3387be628a48c4bbdb316b4fa645a414838149069210b66dd521733f" "938d8c186c4cb9ec4a8d8bc159285e0d0f07bad46edf20aa469a89d0d2a586ea" "8ed752276957903a270c797c4ab52931199806ccd9f0c3bb77f6f4b9e71b9272" "4a7abcca7cfa2ccdf4d7804f1162dd0353ce766b1277e8ee2ac7ee27bfbb408f" "10e3d04d524c42b71496e6c2e770c8e18b153fcfcc838947094dad8e5aa02cef" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "2a739405edf418b8581dcd176aaf695d319f99e3488224a3c495cb0f9fd814e3" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(package-selected-packages
    (quote
-    (ggtags modern-cpp-font-lock rtags company-quickhelp string-inflection graphviz-dot-mode elpy ample-theme doom-themes solarized-theme editorconfig js2-mode tide mediawiki edit-server nginx-mode dockerfile-mode nagios-mode delight rainbow-delimiters evil-surround git-gutter-fringe diff-hl rainbow-mode less-css-mode web-mode json-mode jsdon-mode spaceline-config evil-magit use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil)))
+    (openapi-yaml-mode cmake-mode ggtags modern-cpp-font-lock rtags company-quickhelp string-inflection graphviz-dot-mode elpy ample-theme doom-themes solarized-theme editorconfig js2-mode tide mediawiki edit-server nginx-mode dockerfile-mode nagios-mode delight rainbow-delimiters evil-surround git-gutter-fringe diff-hl rainbow-mode less-css-mode web-mode json-mode jsdon-mode spaceline-config evil-magit use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil)))
  '(safe-local-variable-values
    (quote
     ((eval my/set-indentation 2)

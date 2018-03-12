@@ -114,6 +114,13 @@
   "mp" 'graphviz-dot-preview
   )
 
+;; C
+(set-group-string-for-mode 'c-mode "m" "C")
+(evil-leader/set-key-for-mode 'c-mode
+  "mgd" 'ggtags-find-definition
+  "mr" 'ggtags-find-reference
+  )
+
 ;; C++
 (set-group-string-for-mode 'c++-mode "m" "C++")
 (evil-leader/set-key-for-mode 'c++-mode

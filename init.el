@@ -56,6 +56,7 @@
   :config
   (delight '((auto-revert-mode nil autorevert)
              (undo-tree-mode nil t)
+             (org-indent-mode nil t)
              ))
   )
 
@@ -128,6 +129,7 @@
   :after evil org
 
   :config
+  (setq evil-org-key-theme '(return))
   (add-hook 'org-mode-hook 'evil-org-mode)
   (add-hook 'evil-org-mode-hook
             (lambda ()

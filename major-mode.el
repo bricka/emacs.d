@@ -127,3 +127,17 @@
   "mgd" 'ggtags-find-definition
   "mr" 'ggtags-find-reference
   )
+
+;; Python
+(set-group-string-for-mode 'python-mode "m" "Python")
+(evil-leader/set-key-for-mode 'python-mode
+  "mgd" 'anaconda-mode-find-definitions
+  )
+
+;; Java
+(set-group-string-for-mode 'java-mode "m" "Java")
+(evil-leader/set-key-for-mode 'java-mode
+  "mgd" 'meghanada-jump-declaration
+  "mi" 'meghanada-typeinfo
+  "mr" 'meghanada-reference
+  )

@@ -139,5 +139,6 @@
 (evil-leader/set-key-for-mode 'java-mode
   "mgd" 'meghanada-jump-declaration
   "mi" 'meghanada-typeinfo
+  "mI" 'meghanada-import-at-point
   "mr" 'meghanada-reference
   )

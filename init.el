@@ -523,6 +523,18 @@
     (setq meghanada-maven-path "mvn")))
   )
 
+(defun my/java-indent-setup ()
+  "Define preferred indentation style."
+  (progn
+    (c-set-offset 'arglist-intro '+)
+    (c-set-offset 'arglist-close 0)
+  ))
+(add-hook 'java-mode-hook 'my/java-indent-setup)
+
+;; XML
+
+(setq nxml-slash-auto-complete-flag t)
+
 ;; Keys
 (defun set-group-string (prefix title)
   "Set the which-key string for LEADER PREFIX to TITLE."

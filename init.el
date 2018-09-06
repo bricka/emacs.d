@@ -138,6 +138,8 @@
   (evil-define-key 'normal evil-org-mode-map
     (kbd "^") 'evil-org-beginning-of-line
     )
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys)
   )
 
 ;; Git Configuration
@@ -171,6 +173,10 @@
   :config
   (load-theme 'sanityinc-tomorrow-night 1)
   )
+;; (use-package zenburn-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'zenburn t))
 ;; (load-theme 'sanityinc-tomorrow-night 1)
 ;; (load-theme 'doom-tomorrow-night 1)
 
@@ -440,6 +446,46 @@
 (add-hook 'org-mode-hook 'my/enable-org-mode-wordwrap)
 (setq org-startup-folded "showall")
 (setq org-special-ctrl-a/e t)
+(setq org-agenda-files '(
+                         "~/Sprints/retros/"
+                         "~/org/"
+                         ))
+(setq org-agenda-start-on-weekday nil)
+(setq org-agenda-time-grid '((daily today require-timed)
+                             (1000 1200 1400 1600)
+                             "......"
+                             "----------------"))
+
+(add-hook 'after-init-hook 'org-agenda-list)
+
+(evil-define-key 'motion org-agenda-mode-map
+  (kbd "c") 'org-agenda-columns
+  (kbd "d") 'org-agenda-day-view
+  (kbd "w") 'org-agenda-week-view
+  )
+
+(setq appt-display-duration 20)
+
+;; Get Outlook calendar and add appointments
+(defun my/got-calendar-sentinel (process state)
+  "A sentinel that handles STATE for PROCESS and makes appointments."
+  (if (string= state "finished\n")
+      (progn
+        (org-agenda-to-appt)
+        (let ((buffer (find-buffer-visiting "~/org/outlook-calendar.org")))
+          (if buffer
+              (kill-buffer buffer)))
+        )
+    )
+  )
+(defun my/get-outlook-calendar ()
+  "Get the outlook calendar in Org mode format."
+  (let ((process (start-process "ews-fetch-calendar"
+                   "ews-fetch-calendar"
+                   "c:/Users/abrick/bin/exchange-to-org-mode.bat")))
+    (set-process-sentinel process 'my/got-calendar-sentinel)))
+
+(run-with-timer 0 1800 'my/get-outlook-calendar)
 
 ;; kubernetes
 (use-package kubernetes
@@ -535,6 +581,14 @@
 
 (setq nxml-slash-auto-complete-flag t)
 
+;; Scrum Management
+
+(defun retro ()
+  "Construct notes for a retrospective."
+  (interactive)
+  (let ((sprint-name (read-string "Sprint name: ")))
+    (find-file (concat "~/Sprints/retros/" sprint-name ".org"))))
+
 ;; Keys
 (defun set-group-string (prefix title)
   "Set the which-key string for LEADER PREFIX to TITLE."
@@ -544,6 +598,7 @@
 ;; Top-Level Keys
 (evil-leader/set-key
   "'" 'visit-term-buffer
+  "a" 'org-agenda-list
   "d" 'dired-open-current-directory)
 
 ;; Buffers

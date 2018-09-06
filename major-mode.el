@@ -44,6 +44,8 @@
   "mc" 'org-cycle
   "mC" 'org-global-cycle
   "mE" 'outline-show-all
+  "mp" 'org-priority
+  "ms" 'org-schedule
   "mt" 'org-todo
   )
 

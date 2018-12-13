@@ -138,6 +138,8 @@
   (evil-define-key 'normal evil-org-mode-map
     (kbd "^") 'evil-org-beginning-of-line
     )
+  (require 'evil-org-agenda)
+  (evil-org-agenda-set-keys)
   )
 
 ;; Git Configuration
@@ -171,6 +173,10 @@
   :config
   (load-theme 'sanityinc-tomorrow-night 1)
   )
+;; (use-package zenburn-theme
+;;   :ensure t
+;;   :config
+;;   (load-theme 'zenburn t))
 ;; (load-theme 'sanityinc-tomorrow-night 1)
 ;; (load-theme 'doom-tomorrow-night 1)
 
@@ -180,7 +186,6 @@
   :config
   (projectile-mode)
   (setq projectile-use-git-grep t)
-
   (setq projectile-indexing-method 'alien)
 
   (use-package helm-projectile
@@ -298,6 +303,12 @@
                               :tabSize 2
                               :convertTabsToSpaces t
                               ))
+  )
+
+;; Cucumber
+
+(use-package feature-mode
+  :ensure t
   )
 
 ;; Markdown
@@ -441,6 +452,101 @@
 (add-hook 'org-mode-hook 'my/enable-org-mode-wordwrap)
 (setq org-startup-folded "showall")
 (setq org-special-ctrl-a/e t)
+(setq org-deadline-warning-days 3)
+(evil-define-key 'normal org-mode-map
+  (kbd "^") 'evil-digit-argument-or-evil-org-beginning-of-line
+  )
+
+(use-package ox-jira
+  :ensure t
+  )
+
+(use-package ox-mediawiki
+  :ensure t
+  )
+
+(use-package gnuplot
+  :ensure t
+  )
+
+(setq org-agenda-files '(
+                         "~/Sprints/retros/"
+                         "~/Sprints/planning/"
+                         "~/org/"
+                         ))
+(setq org-agenda-start-on-weekday nil)
+(setq org-agenda-time-grid '((daily today require-timed)
+                             (1000 1200 1400 1600)
+                             "......"
+                             "----------------"))
+(setq appt-message-warning-time 15)
+(setq appt-display-interval 5)
+
+(add-hook 'after-init-hook 'org-agenda-list)
+
+(evil-define-key 'motion org-agenda-mode-map
+  (kbd "c") 'org-agenda-columns
+  (kbd "d") 'org-agenda-day-view
+  (kbd "w") 'org-agenda-week-view
+  )
+
+(setq appt-display-duration 20)
+
+;; Get Outlook calendar and add appointments
+(defun my/got-calendar-sentinel (process state)
+  "A sentinel that makes events for PROCESS when STATE indicates it is finished."
+  (if (string= state "finished\n")
+      (progn
+        (org-agenda-to-appt)
+        (let ((buffer (find-buffer-visiting "~/org/outlook-calendar.org")))
+          (if buffer
+              (kill-buffer buffer)))
+        )
+    )
+  )
+(defun my/get-outlook-calendar ()
+  "Get the outlook calendar in Org mode format."
+  (let ((process (start-process "ews-fetch-calendar"
+                   "ews-fetch-calendar"
+                   "c:/Users/abrick/bin/exchange-to-org-mode.bat")))
+    (set-process-sentinel process 'my/got-calendar-sentinel)))
+
+(run-with-timer 0 1800 'my/get-outlook-calendar)
+
+;; Calendar
+(require 'calendar)
+(calendar-set-date-style 'iso)
+(setq calendar-week-start-day 1
+      calendar-day-name-array ["Sonntag" "Montag" "Dienstag" "Mittwoch"
+                               "Donnerstag" "Freitag" "Samstag"]
+      calendar-month-name-array ["Januar" "Februar" "März" "April" "Mai"
+                                 "Juni" "Juli" "August" "September"
+                                 "Oktober" "November" "Dezember"])
+(setq holiday-islamic-holidays nil
+      holiday-bahai-holidays nil
+      holiday-oriental-holidays nil
+      holiday-hebrew-holidays nil)
+
+(setq holiday-general-holidays
+      '((holiday-fixed 1 1 "Neujahr")
+        (holiday-fixed 5 1 "1. Mai")
+        (holiday-fixed 10 3 "Tag der Deutschen Einheit")))
+
+;; Feiertage für Bayern
+(setq holiday-christian-holidays
+      '((holiday-fixed 12 25 "1. Weihnachtstag")
+        (holiday-fixed 12 26 "2. Weihnachtstag")
+        (holiday-fixed 1 6 "Heilige Drei Könige")
+        (holiday-easter-etc -48 "Rosenmontag")
+        (holiday-easter-etc  -2 "Karfreitag")
+        (holiday-easter-etc   0 "Ostersonntag")
+        (holiday-easter-etc  +1 "Ostermontag")
+        (holiday-easter-etc +39 "Christi Himmelfahrt")
+        (holiday-easter-etc +49 "Pfingstsonntag")
+        (holiday-easter-etc +50 "Pfingstmontag")
+        (holiday-easter-etc +60 "Fronleichnam")
+        (holiday-fixed 8 15 "Mariae Himmelfahrt")
+        (holiday-fixed 11 1 "Allerheiligen")))
 
 ;; kubernetes
 (use-package kubernetes
@@ -536,6 +642,22 @@
 
 (setq nxml-slash-auto-complete-flag t)
 
+;; Scrum Management
+
+(defun retro ()
+  "Construct notes for a retrospective."
+  (interactive)
+  (let ((sprint-name (read-string "Sprint name: ")))
+    (find-file (concat "~/Sprints/retros/" sprint-name ".org"))))
+
+;; Jira
+
+(use-package org-jira
+  :ensure t
+  :config
+  (setq jiralib-url "http://jira.definiens.local:8080")
+  )
+
 ;; Keys
 (defun set-group-string (prefix title)
   "Set the which-key string for LEADER PREFIX to TITLE."
@@ -545,6 +667,7 @@
 ;; Top-Level Keys
 (evil-leader/set-key
   "'" 'visit-term-buffer
+  "a" 'org-agenda-list
   "d" 'dired-open-current-directory)
 
 ;; Buffers
@@ -810,7 +933,7 @@
     ("4b207752aa69c0b182c6c3b8e810bbf3afa429ff06f274c8ca52f8df7623eb60" "ed317c0a3387be628a48c4bbdb316b4fa645a414838149069210b66dd521733f" "938d8c186c4cb9ec4a8d8bc159285e0d0f07bad46edf20aa469a89d0d2a586ea" "8ed752276957903a270c797c4ab52931199806ccd9f0c3bb77f6f4b9e71b9272" "4a7abcca7cfa2ccdf4d7804f1162dd0353ce766b1277e8ee2ac7ee27bfbb408f" "10e3d04d524c42b71496e6c2e770c8e18b153fcfcc838947094dad8e5aa02cef" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "2a739405edf418b8581dcd176aaf695d319f99e3488224a3c495cb0f9fd814e3" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(package-selected-packages
    (quote
-    (meghanada openapi-yaml-mode cmake-mode ggtags modern-cpp-font-lock rtags company-quickhelp string-inflection graphviz-dot-mode elpy ample-theme doom-themes solarized-theme editorconfig js2-mode tide mediawiki edit-server nginx-mode dockerfile-mode nagios-mode delight rainbow-delimiters evil-surround git-gutter-fringe diff-hl rainbow-mode less-css-mode web-mode json-mode jsdon-mode spaceline-config evil-magit use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil)))
+    (ox-mediawiki gnuplot feature-mode org-jira ox-jira meghanada openapi-yaml-mode cmake-mode ggtags modern-cpp-font-lock rtags company-quickhelp string-inflection graphviz-dot-mode elpy ample-theme doom-themes solarized-theme editorconfig js2-mode tide mediawiki edit-server nginx-mode dockerfile-mode nagios-mode delight rainbow-delimiters evil-surround git-gutter-fringe diff-hl rainbow-mode less-css-mode web-mode json-mode jsdon-mode spaceline-config evil-magit use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil)))
  '(safe-local-variable-values
    (quote
     ((eval my/set-indentation 2)

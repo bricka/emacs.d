@@ -41,10 +41,30 @@
 ;; org-mode
 (set-group-string-for-mode 'org-mode "m" "Org")
 (evil-leader/set-key-for-mode 'org-mode
+  "m*" 'org-toggle-heading
+  "m-" 'org-toggle-item
+  "ma" 'org-archive-subtree
   "mc" 'org-cycle
   "mC" 'org-global-cycle
+  "md" 'org-deadline
+  "me" 'org-export-dispatch
   "mE" 'outline-show-all
+  "mp" 'org-priority
+  "ms" 'org-schedule
   "mt" 'org-todo
+  "mx" 'org-toggle-checkbox
+  )
+
+(set-group-string-for-mode 'org-mode "mT" "Tables")
+(evil-leader/set-key-for-mode 'org-mode
+  "mT*" 'org-table-recalculate
+  "mTt" 'org-table-iterate
+  "mTI" 'org-table-iterate-buffer-tables
+  )
+
+(set-group-string-for-mode 'org-mode "mTd" "Delete")
+(evil-leader/set-key-for-mode 'org-mode
+  "mTdr" 'org-table-kill-row
   )
 
 ;; (defun my/add-below-org-mode-same-level ()
@@ -100,6 +120,7 @@
 ;; PlantUML
 
 (defun my/plantuml-preview-new-window ()
+  "Preview the PlantUML in a new window."
   (interactive)
   (plantuml-preview 4))
 
@@ -137,8 +158,13 @@
 ;; Java
 (set-group-string-for-mode 'java-mode "m" "Java")
 (evil-leader/set-key-for-mode 'java-mode
-  "mgd" 'meghanada-jump-declaration
   "mi" 'meghanada-typeinfo
   "mI" 'meghanada-import-at-point
-  "mr" 'meghanada-reference
+  "mr" 'meghanada-restart
+  )
+
+(set-group-string-for-mode 'java-mode "mg" "Goto")
+(evil-leader/set-key-for-mode 'java-mode
+  "mgd" 'meghanada-jump-declaration
+  "mgr" 'meghanada-reference
   )

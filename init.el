@@ -180,7 +180,8 @@
   :config
   (projectile-mode)
   (setq projectile-use-git-grep t)
-  (setq projectile-indexing-method "alien")
+
+  (setq projectile-indexing-method 'alien)
 
   (use-package helm-projectile
     :ensure t

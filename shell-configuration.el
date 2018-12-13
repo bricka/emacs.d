@@ -19,7 +19,7 @@
       (progn
         (split-window-sensibly (selected-window))
         (other-window 1)
-        (ansi-term (getenv "SHELL")))
+        (ansi-term "/bin/zsh"))
     (switch-to-buffer-other-window "*ansi-term*")))
 
 (defun visit-term-projectile-root ()

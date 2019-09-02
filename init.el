@@ -768,12 +768,11 @@
 
 (set-group-string "g" "Git")
 (evil-leader/set-key
-  "gb" 'magit-branch-popup
-  "gc" 'magit-commit-popup
-  "gd" 'magit-diff-popup
-  "gD" 'my/delete-merged-branches
-  "gp" 'magit-push-popup
-  "gr" 'magit-rebase-popup
+  "gb" 'magit-branch
+  "gc" 'magit-commit
+  "gd" 'magit-diff
+  "gp" 'magit-push
+  "gr" 'magit-rebase
   "gs" 'magit-status)
 
 (set-group-string "gh" "Hunks")

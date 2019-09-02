@@ -63,8 +63,8 @@
   )
 
 (use-package rainbow-delimiters
-  :config
-  (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
+  :hook (prog-mode . rainbow-delimiters-mode)
+  )
 
 ;; PATH from Shell
 
@@ -75,7 +75,6 @@
 
 ;; Evil
 (use-package evil
-
   :init
 
   (setq evil-want-C-u-scroll t)
@@ -119,10 +118,10 @@
 (use-package evil-org
   :delight
   :after evil org
+  :hook (org-mode . evil-org-mode)
 
   :config
   (setq evil-org-key-theme '(return))
-  (add-hook 'org-mode-hook 'evil-org-mode)
   (add-hook 'evil-org-mode-hook
             (lambda ()
               (evil-org-set-key-theme)))
@@ -303,9 +302,6 @@
   :mode "\\`Dockerfile\\'"
   )
 
-;; Mediawiki
-(use-package mediawiki)
-
 ;; Which Key
 (use-package which-key
   :delight
@@ -315,11 +311,10 @@
 ;; Company Code Completion
 (use-package company
   :delight
-
   :defines company-dabbrev-downcase
+  :hook (after-init . global-company-mode)
 
   :config
-  (add-hook 'after-init-hook 'global-company-mode)
   (setq company-dabbrev-downcase nil)
   )
 
@@ -333,17 +328,20 @@
 ;; Rainbow Mode
 (use-package rainbow-mode
   :delight
+  :hook css-mode
 
   :config
   (add-to-list 'rainbow-html-colors-major-mode-list 'less-css-mode)
-  (add-hook 'css-mode-hook 'rainbow-mode))
+  )
 
 ;; ENSIME
 (use-package ensime
   :pin melpa-stable
+  :mode "\\.java\\'"
 
   :config
-  (setq ensime-use-helm t))
+  (setq ensime-use-helm t)
+  )
 
 ;; Flycheck
 
@@ -523,8 +521,8 @@
 ;; Python
 
 (use-package anaconda-mode
+  :hook python-mode
   :config
-  (add-hook 'python-mode-hook 'anaconda-mode)
   (add-hook 'python-mode-hook 'eldoc-mode)
   (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
   )
@@ -541,13 +539,12 @@
 
 (use-package modern-cpp-font-lock
   :delight
-  :config
-  (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode)
+  :hook (c++-mode-hook . modern-c++-font-lock-mode)
   )
 
 (use-package ggtags
+  :mode ("\\.c\\'" "\\.cpp\\'")
   :config
-
   (add-hook 'c-mode-common-hook
             (lambda ()
               (when (derived-mode-p 'c-mode 'c++-mode)
@@ -593,13 +590,6 @@
   (interactive)
   (let ((sprint-name (read-string "Sprint name: ")))
     (find-file (concat "~/Sprints/retros/" sprint-name ".org"))))
-
-;; Jira
-
-(use-package org-jira
-  :config
-  (setq jiralib-url "https://jira.definiens.local")
-  )
 
 ;; Keys
 (defun set-group-string (prefix title)
@@ -858,11 +848,6 @@
   )
 
 (add-to-list 'flycheck-checkers 'swagger)
-
-
-;; (use-package openapi-yaml-mode
-;;   :mode "swagger\\.yaml\\'"
-;;   )
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

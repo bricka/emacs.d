@@ -250,10 +250,8 @@
 ;; JSON
 (use-package json-mode
   :ensure t
-
-  :config
-  (add-to-list 'auto-mode-alist '("\\.babelrc\\'" . json-mode))
-  (add-to-list 'auto-mode-alist '("\\.eslintrc\\'" . json-mode)))
+  :mode ("\\.json" "\\.babelrc\\'" "\\.eslintrc\\'")
+  )
 
 ;; Typescript
 
@@ -261,6 +259,7 @@
   :ensure t
   :delight
   :pin melpa-stable
+  :mode "\\.ts"
 
   :config
 
@@ -322,11 +321,13 @@
 ;; YAML
 (use-package yaml-mode
   :ensure t
-  :config
-  (add-to-list 'auto-mode-alist '("\\.ya?ml\\'" . yaml-mode)))
+  :mode "\\.ya?ml\\'"
+  )
 
 (use-package dockerfile-mode
-  :ensure t)
+  :mode "\\`Dockerfile\\'"
+  :ensure t
+  )
 
 ;; Mediawiki
 (use-package mediawiki
@@ -427,7 +428,9 @@
 ;; LESS
 
 (use-package less-css-mode
-  :ensure t)
+  :ensure t
+  :mode "\\.less\\'"
+  )
 
 ;; Nagios
 (add-to-list 'load-path "c:/Users/abrick/.emacs.d/modes")
@@ -436,7 +439,9 @@
 
 ;; nginx
 (use-package nginx-mode
-  :ensure t)
+  :ensure t
+  :mode "\\`nginx.conf\\'"
+  )
 
 ;; Org mode
 (defun my/enable-org-mode-wordwrap ()
@@ -550,11 +555,13 @@
 ;; Plant UML
 (use-package plantuml-mode
   :ensure t
+  :mode "\\.plantuml\\'"
   )
 
 ;; Graphviz
 (use-package graphviz-dot-mode
   :ensure t
+  :mode "\\.dot\\'"
   )
 
 ;; Python
@@ -606,6 +613,7 @@
 
 (use-package meghanada
   :ensure t
+  :mode "\\.scala\\'"
   :config
   (add-hook 'java-mode-hook
             (lambda ()

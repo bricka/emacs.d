@@ -47,12 +47,6 @@
 
 (my/set-indentation 2)
 
-(use-package editorconfig
-  :ensure t
-  :delight
-  :config
-  (editorconfig-mode 1))
-
 ;; Parens
 (show-paren-mode 1)
 (electric-pair-mode 1)

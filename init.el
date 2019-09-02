@@ -197,9 +197,9 @@
   :pin melpa-stable
   :delight helm-mode
   :ensure t
+  :bind (("M-x" . helm-M-x))
   :config
   (helm-mode 1)
-  (global-set-key (kbd "M-x") 'helm-M-x)
   )
 ;; (require 'helm-config)
 ;; (helm-mode 1)

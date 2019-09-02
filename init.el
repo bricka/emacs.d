@@ -87,10 +87,8 @@
   (evil-ex-define-cmd "ls" 'helm-mini)
   (evil-add-hjkl-bindings package-menu-mode-map 'emacs)
   (evil-add-hjkl-bindings messages-buffer-mode-map 'emacs)
-  ;; (evil-add-hjkl-bindings docker-images-mode 'emacs)
   (add-to-list 'evil-emacs-state-modes 'ensime-inspector-mode)
   (add-to-list 'evil-emacs-state-modes 'flycheck-error-list-mode)
-  ;; (add-to-list 'evil-emacs-state-modes 'docker-images-mode)
 
   (define-key evil-insert-state-map (kbd "C-v") 'yank)
   )
@@ -326,10 +324,6 @@
   :config
   (add-to-list 'auto-mode-alist '("\\.ya?ml\\'" . yaml-mode)))
 
-;; Docker
-(use-package docker
-  :ensure t)
-
 (use-package dockerfile-mode
   :ensure t)
 
@@ -547,15 +541,6 @@
         (holiday-easter-etc +60 "Fronleichnam")
         (holiday-fixed 8 15 "Mariae Himmelfahrt")
         (holiday-fixed 11 1 "Allerheiligen")))
-
-;; kubernetes
-(use-package kubernetes
-  :ensure t
-  :commands (kubernetes-overview))
-
-(use-package kubernetes-evil
-  :ensure t
-  :after kubernetes)
 
 ;; Plant UML
 (use-package plantuml-mode

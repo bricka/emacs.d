@@ -236,49 +236,13 @@
 ;; Typescript
 
 (use-package tide
-  :delight
   :pin melpa-stable
+  :after (typescript-mode company flycheck)
+  :hook ((typescript-mode . tide-setup)
+         (typescript-mode . tide-hl-identifier-mode))
 
   :config
-
-  (defun my/use-tslint-from-node-modules ()
-    "Configure flycheck to use tslint from node_modules."
-    (let* ((root (locate-dominating-file
-                  (or (buffer-file-name) default-directory)
-                  "node_modules"))
-           (tslint (and root
-                        (expand-file-name "node_modules/.bin/tslint"
-                                          root))))
-      (when tslint
-        (setq-local flycheck-typescript-tslint-executable tslint))))
-
-  (defun setup-tide-mode ()
-    "Initialize Tide mode."
-    (interactive)
-    (tide-setup)
-    (tide-hl-identifier-mode +1)
-    ;; If there is a directory with "package.json" in it, we take that
-    ;; as the location from which to search for a tsserver and set
-    ;; tide-tsserver-executable to it, if it exists.
-    (let* ((package-root (locate-dominating-file default-directory
-                                                 "package.json"))
-           (path
-            (and package-root
-                 (expand-file-name "node_modules/typescript/bin/tsserver"
-                                   (expand-file-name package-root)))))
-      (when (and path
-                 (file-exists-p path))
-        (make-local-variable 'tide-tsserver-executable)
-        (setq tide-tsserver-executable path)
-        ))
-    )
-
-  (add-hook 'typescript-mode-hook 'setup-tide-mode)
-  (add-hook 'typescript-mode-hook 'my/use-tslint-from-node-modules)
-  (setq tide-format-options '(:indentSize 2
-                              :tabSize 2
-                              :convertTabsToSpaces t
-                              ))
+  (setq tide-tsserver-executable "node_modules/typescript/bin/tsserver")
   )
 
 ;; Cucumber

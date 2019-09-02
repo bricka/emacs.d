@@ -19,6 +19,8 @@
 (eval-when-compile
   (require 'use-package))
 
+(setq use-package-always-ensure t)
+
 ;; Disable Menus
 (menu-bar-mode -1)
 (tool-bar-mode -1)
@@ -53,7 +55,6 @@
 
 ;; Mode Line
 (use-package delight
-  :ensure t
   :config
   (delight '((auto-revert-mode nil autorevert)
              (undo-tree-mode nil t)
@@ -62,7 +63,6 @@
   )
 
 (use-package rainbow-delimiters
-  :ensure t
   :config
   (add-hook 'prog-mode-hook 'rainbow-delimiters-mode))
 
@@ -70,13 +70,11 @@
 
 (when (memq window-system '(mac ns))
   (use-package exec-path-from-shell
-    :ensure t
     :config
     (exec-path-from-shell-initialize)))
 
 ;; Evil
 (use-package evil
-  :ensure t
 
   :init
 
@@ -95,12 +93,10 @@
   )
 
 (use-package evil-magit
-  :ensure t
   :after evil magit
   )
 
 (use-package evil-commentary
-  :ensure t
   :after evil
   :delight
   :config
@@ -108,7 +104,6 @@
   )
 
 (use-package evil-leader
-  :ensure t
   :after evil
   :config
   (global-evil-leader-mode)
@@ -116,14 +111,12 @@
   )
 
 (use-package evil-surround
-  :ensure t
   :after evil
   :config
   (global-evil-surround-mode 1)
   )
 
 (use-package evil-org
-  :ensure t
   :delight
   :after evil org
 
@@ -143,19 +136,16 @@
 
 ;; Git Configuration
 (use-package magit
-  :ensure t
   :config
   (setq vc-handled-backends (delq 'Git vc-handled-backends))) ; Disable VC for Git
 
 (use-package git-gutter
-  :ensure t
   :delight
   :config
   (global-git-gutter-mode t))
 
 ;; Powerline
 (use-package spaceline
-  :ensure t
   :init (require 'spaceline-config)
   :config
   (spaceline-spacemacs-theme)
@@ -168,12 +158,10 @@
 ;; Theme
 ;; (load-theme 'spacemacs-dark 1)
 (use-package color-theme-sanityinc-tomorrow
-  :ensure t
   :config
   (load-theme 'sanityinc-tomorrow-night 1)
   )
 ;; (use-package zenburn-theme
-;;   :ensure t
 ;;   :config
 ;;   (load-theme 'zenburn t))
 ;; (load-theme 'sanityinc-tomorrow-night 1)
@@ -181,14 +169,12 @@
 
 ;; Projectile
 (use-package projectile
-  :ensure t
   :config
   (projectile-mode)
   (setq projectile-use-git-grep t)
   (setq projectile-indexing-method 'alien)
 
   (use-package helm-projectile
-    :ensure t
     :config
     (setq helm-projectile-set-input-automatically nil)))
 
@@ -196,7 +182,6 @@
 (use-package helm
   :pin melpa-stable
   :delight helm-mode
-  :ensure t
   :bind (("M-x" . helm-M-x))
   :config
   (helm-mode 1)
@@ -207,8 +192,6 @@
 
 ;; Web Mode
 (use-package web-mode
-  :ensure t
-
   :mode ("\\.html\\'" "\\.jsx?\\'" "\\.mustache\\'" "\\.php\\'")
 
   :config
@@ -241,7 +224,6 @@
   )
 
 (use-package company-tern
-  :ensure t
   :after company
   :config
   (add-to-list 'company-backends 'company-tern)
@@ -249,17 +231,14 @@
 
 ;; JSON
 (use-package json-mode
-  :ensure t
   :mode ("\\.json" "\\.babelrc\\'" "\\.eslintrc\\'")
   )
 
 ;; Typescript
 
 (use-package tide
-  :ensure t
   :delight
   :pin melpa-stable
-  :mode "\\.ts"
 
   :config
 
@@ -305,13 +284,10 @@
 
 ;; Cucumber
 
-(use-package feature-mode
-  :ensure t
-  )
+(use-package feature-mode)
 
 ;; Markdown
 (use-package markdown-mode
-  :ensure t
   :commands (markdown-mode gfm-mode)
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
@@ -320,30 +296,24 @@
 
 ;; YAML
 (use-package yaml-mode
-  :ensure t
   :mode "\\.ya?ml\\'"
   )
 
 (use-package dockerfile-mode
   :mode "\\`Dockerfile\\'"
-  :ensure t
   )
 
 ;; Mediawiki
-(use-package mediawiki
-  :ensure t
-  )
+(use-package mediawiki)
 
 ;; Which Key
 (use-package which-key
-  :ensure t
   :delight
   :config
   (which-key-mode))
 
 ;; Company Code Completion
 (use-package company
-  :ensure t
   :delight
 
   :defines company-dabbrev-downcase
@@ -354,7 +324,6 @@
   )
 
 (use-package company-quickhelp
-  :ensure t
   :delight
   :after company
   :config
@@ -364,7 +333,6 @@
 ;; Rainbow Mode
 (use-package rainbow-mode
   :delight
-  :ensure t
 
   :config
   (add-to-list 'rainbow-html-colors-major-mode-list 'less-css-mode)
@@ -372,7 +340,6 @@
 
 ;; ENSIME
 (use-package ensime
-  :ensure t
   :pin melpa-stable
 
   :config
@@ -381,7 +348,6 @@
 ;; Flycheck
 
 (use-package flycheck
-  :ensure t
   :delight
   :config
   (global-flycheck-mode)
@@ -428,7 +394,6 @@
 ;; LESS
 
 (use-package less-css-mode
-  :ensure t
   :mode "\\.less\\'"
   )
 
@@ -439,7 +404,6 @@
 
 ;; nginx
 (use-package nginx-mode
-  :ensure t
   :mode "\\`nginx.conf\\'"
   )
 
@@ -457,17 +421,11 @@
   (kbd "^") 'evil-digit-argument-or-evil-org-beginning-of-line
   )
 
-(use-package ox-jira
-  :ensure t
-  )
+(use-package ox-jira)
 
-(use-package ox-mediawiki
-  :ensure t
-  )
+(use-package ox-mediawiki)
 
-(use-package gnuplot
-  :ensure t
-  )
+(use-package gnuplot)
 
 (setq org-agenda-files '(
                          "~/Sprints/retros/"
@@ -554,20 +512,17 @@
 
 ;; Plant UML
 (use-package plantuml-mode
-  :ensure t
   :mode "\\.plantuml\\'"
   )
 
 ;; Graphviz
 (use-package graphviz-dot-mode
-  :ensure t
   :mode "\\.dot\\'"
   )
 
 ;; Python
 
 (use-package anaconda-mode
-  :ensure t
   :config
   (add-hook 'python-mode-hook 'anaconda-mode)
   (add-hook 'python-mode-hook 'eldoc-mode)
@@ -575,28 +530,22 @@
   )
 
 (use-package company-anaconda
-  :ensure t
   :after anaconda-mode company
   :config
   (add-to-list 'company-backends 'company-anaconda)
   )
 
-(use-package string-inflection
-  :ensure t
-  )
+(use-package string-inflection)
 
 ;; C++
 
 (use-package modern-cpp-font-lock
-  :ensure t
   :delight
   :config
   (add-hook 'c++-mode-hook #'modern-c++-font-lock-mode)
   )
 
 (use-package ggtags
-  :ensure t
-
   :config
 
   (add-hook 'c-mode-common-hook
@@ -605,14 +554,11 @@
                 (ggtags-mode 1))))
   )
 
-(use-package cmake-mode
-  :ensure t
-  )
+(use-package cmake-mode)
 
 ;; Java
 
 (use-package meghanada
-  :ensure t
   :mode "\\.scala\\'"
   :config
   (add-hook 'java-mode-hook
@@ -651,7 +597,6 @@
 ;; Jira
 
 (use-package org-jira
-  :ensure t
   :config
   (setq jiralib-url "https://jira.definiens.local")
   )
@@ -916,7 +861,6 @@
 
 
 ;; (use-package openapi-yaml-mode
-;;   :ensure t
 ;;   :mode "swagger\\.yaml\\'"
 ;;   )
 

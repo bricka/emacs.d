@@ -191,7 +191,7 @@
 
 ;; Web Mode
 (use-package web-mode
-  :mode ("\\.html\\'" "\\.jsx?\\'" "\\.mustache\\'" "\\.php\\'")
+  :mode ("\\.html\\'" "\\.jsx?\\'" "\\.mustache\\'" "\\.php\\'" "\\.tsx\\'")
 
   :config
 
@@ -329,6 +329,7 @@
 
   (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
   (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (flycheck-add-mode 'typescript-tslint 'web-mode)
   )
 
 ;; Shell

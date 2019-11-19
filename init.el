@@ -469,6 +469,8 @@
 
 ;; (run-with-timer 0 1800 'my/get-outlook-calendar)
 
+(use-package htmlize)
+
 ;; Calendar
 (require 'calendar)
 (calendar-set-date-style 'iso)

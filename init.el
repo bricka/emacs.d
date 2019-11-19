@@ -202,7 +202,7 @@
 
 ;; Web Mode
 (use-package web-mode
-  :mode ("\\.html\\'" "\\.jsx?\\'" "\\.mustache\\'" "\\.php\\'" "\\.tsx\\'")
+  :mode ("\\.html\\'" "\\.jsx?\\'" "\\.mustache\\'" "\\.tsx\\'")
 
   :config
 
@@ -260,6 +260,21 @@
   :config
   (setq tide-tsserver-executable "node_modules/typescript/bin/tsserver")
   )
+
+;; PHP
+
+(use-package php-mode
+  :mode "\\.php\\'")
+
+(use-package company-php
+  :after php-mode company
+  :config
+  (ac-php-core-eldoc-setup)
+  (add-to-list 'company-backends 'company-ac-php-backend)
+  )
+
+(use-package flycheck-phpstan
+  :after php-mode)
 
 ;; Cucumber
 

@@ -73,6 +73,17 @@
     :config
     (exec-path-from-shell-initialize)))
 
+;; Auto Insert
+
+(use-package autoinsert
+  :config
+  (setq auto-insert-query nil)
+  (setq auto-insert-directory "~/.emacs.d/insert/")
+  (setq auto-insert t)
+  (add-to-list 'auto-insert-alist '(php-mode . "php-template.php"))
+  (add-hook 'find-file-hook 'auto-insert)
+  )
+
 ;; Evil
 (use-package evil
   :init

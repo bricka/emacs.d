@@ -293,6 +293,12 @@
   :mode "\\.ya?ml\\'"
   )
 
+;; Neon
+(use-package neon-mode
+  :mode "\\.neon\\'"
+  )
+
+;; Docker
 (use-package dockerfile-mode
   :mode "\\`Dockerfile\\'"
   )

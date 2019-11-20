@@ -303,6 +303,8 @@
   :mode "\\`Dockerfile\\'"
   )
 
+(add-to-list 'auto-mode-alist '("\/\\.env" . conf-mode))
+
 ;; Which Key
 (use-package which-key
   :delight

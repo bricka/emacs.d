@@ -853,6 +853,11 @@
 
 (add-to-list 'flycheck-checkers 'swagger)
 
+;; Safe Variables
+
+(add-to-list 'safe-local-variable-values '(flycheck-php-phpcs-executable . "/home/alex/bin/phpcs-correct"))
+(add-to-list 'safe-local-variable-values '(flycheck-phpstan-executable . "/home/alex/bin/php-correct"))
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

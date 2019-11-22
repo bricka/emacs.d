@@ -93,7 +93,6 @@
   :config
 
   (evil-mode 1)
-  (evil-ex-define-cmd "ls" 'helm-mini)
   (evil-add-hjkl-bindings package-menu-mode-map 'emacs)
   (evil-add-hjkl-bindings messages-buffer-mode-map 'emacs)
   (add-to-list 'evil-emacs-state-modes 'ensime-inspector-mode)
@@ -182,23 +181,16 @@
   :config
   (projectile-mode)
   (setq projectile-use-git-grep t)
-  (setq projectile-indexing-method 'alien)
-
-  (use-package helm-projectile
-    :config
-    (setq helm-projectile-set-input-automatically nil)))
-
-;; Helm
-(use-package helm
-  :pin melpa-stable
-  :delight helm-mode
-  :bind (("M-x" . helm-M-x))
-  :config
-  (helm-mode 1)
+  (setq projectile-completion-system 'ivy)
   )
-;; (require 'helm-config)
-;; (helm-mode 1)
-;; (global-set-key (kbd "M-x") 'helm-M-x)
+
+;; Ivy
+(use-package counsel
+  :config
+  (ivy-mode 1)
+  (setq ivy-use-virtual-buffers t)
+  (setq ivy-count-format "(%d/%d) ")
+  )
 
 ;; Web Mode
 (use-package web-mode
@@ -623,7 +615,7 @@
 
 (set-group-string "b" "Buffers")
 (evil-leader/set-key
-  "bb" 'helm-mini
+  "bb" 'ivy-switch-buffer
   "bd" 'kill-this-buffer
   "bD" 'kill-other-buffers
   "br" 'my/revert-buffer)
@@ -724,7 +716,7 @@
 ;; Help Keys
 (set-group-string "h" "Help")
 (evil-leader/set-key
-  "ha" 'helm-apropos
+  "ha" 'counsel-apropos
   "hf" 'describe-function
   "hk" 'describe-key
   "hm" 'describe-mode
@@ -735,8 +727,8 @@
 (evil-leader/set-key
   "p'" 'visit-term-projectile-root
   "pi" 'projectile-invalidate-cache
-  "pf" 'helm-projectile-find-file
-  "pl" 'helm-projectile-switch-project)
+  "pf" 'projectile-find-file
+  "pl" 'projectile-switch-project)
 
 ;; Search Keys
 (set-group-string "s" "Search")

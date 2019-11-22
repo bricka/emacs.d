@@ -104,6 +104,7 @@
 (set-group-string-for-mode 'typescript-mode "m" "Typescript")
 (set-group-string-for-mode 'typescript-mode "mg" "Goto")
 (evil-leader/set-key-for-mode 'typescript-mode
+  "mi" 'tide-documentation-at-point
   "mr" 'tide-references
   "mgd" 'tide-jump-to-definition
   "mgt" (lambda () (tide-jump-to-definition 1))
@@ -167,4 +168,12 @@
 (evil-leader/set-key-for-mode 'java-mode
   "mgd" 'meghanada-jump-declaration
   "mgr" 'meghanada-reference
+  )
+
+;; PHP
+(set-group-string-for-mode 'php-mode "m" "PHP")
+
+(set-group-string-for-mode 'php-mode "mg" "Goto")
+(evil-leader/set-key-for-mode 'php-mode
+  "mgd" 'ac-php-find-symbol-at-point
   )

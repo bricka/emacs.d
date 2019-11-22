@@ -68,7 +68,7 @@
 
 ;; PATH from Shell
 
-(when (memq window-system '(mac ns))
+(when (memq window-system '(mac ns x))
   (use-package exec-path-from-shell
     :config
     (exec-path-from-shell-initialize)))
@@ -251,14 +251,15 @@
 
 ;; Typescript
 
+(add-hook 'typescript-mode 'eldoc-mode)
+
 (use-package tide
   :pin melpa-stable
   :after (typescript-mode company flycheck)
   :hook ((typescript-mode . tide-setup)
          (typescript-mode . tide-hl-identifier-mode))
-
   :config
-  (setq tide-tsserver-executable "node_modules/typescript/bin/tsserver")
+  (setq-default tide-always-show-documentation t)
   )
 
 ;; PHP
@@ -430,10 +431,7 @@
 (use-package gnuplot)
 
 (setq org-agenda-files '(
-                         "~/Sprints/retros/"
-                         "~/Sprints/planning/"
                          "~/org/"
-                         "~/org/1to1/"
                          ))
 (setq org-agenda-start-on-weekday nil)
 (setq org-agenda-time-grid '((daily today require-timed)

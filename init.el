@@ -184,8 +184,12 @@
   (setq projectile-completion-system 'ivy)
   )
 
+(use-package counsel-projectile
+  :after projectile counsel)
+
 ;; Ivy
 (use-package counsel
+  :delight ivy-mode
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
@@ -727,13 +731,13 @@
 (evil-leader/set-key
   "p'" 'visit-term-projectile-root
   "pi" 'projectile-invalidate-cache
-  "pf" 'projectile-find-file
-  "pl" 'projectile-switch-project)
+  "pf" 'counsel-projectile
+  "pl" 'counsel-projectile-switch-project)
 
 ;; Search Keys
 (set-group-string "s" "Search")
 (evil-leader/set-key
-  "sp" 'helm-projectile-grep
+  "sp" 'counsel-projectile-git-grep
   )
 
 ;; Text Keys

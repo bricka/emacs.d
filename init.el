@@ -143,6 +143,11 @@
   (evil-org-agenda-set-keys)
   )
 
+(use-package evil-visualstar
+  :config
+  (global-evil-visualstar-mode)
+  )
+
 ;; Git Configuration
 (use-package magit
   :config
@@ -816,8 +821,6 @@
     (replace-match nil nil t))
   )
 
-(add-to-list 'load-path "c:/cygwin64/bin")
-
 ;; Swagger
 
 (define-derived-mode swagger-yaml-mode yaml-mode
@@ -851,8 +854,10 @@
 
 ;; Safe Variables
 
-(add-to-list 'safe-local-variable-values '(flycheck-php-phpcs-executable . "/home/alex/bin/phpcs-correct"))
-(add-to-list 'safe-local-variable-values '(flycheck-phpstan-executable . "/home/alex/bin/php-correct"))
+(add-to-list 'safe-local-variable-values '(flycheck-php-phpcs-executable . "/home/abrick/bin/phpcs-core"))
+(add-to-list 'safe-local-variable-values '(flycheck-php-phpcs-executable . "/home/abrick/bin/phpcs-siemens"))
+(add-to-list 'safe-local-variable-values '(tide-tsserver-executable . "frontend/node_modules/bin/tsserver"))
+(add-to-list 'safe-local-variable-values '(flycheck-typescript-tslint-executable . "/home/abrick/src/core/frontend/node_modules/.bin/tslint"))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -862,15 +867,17 @@
  '(custom-safe-themes
    (quote
     ("4b207752aa69c0b182c6c3b8e810bbf3afa429ff06f274c8ca52f8df7623eb60" "ed317c0a3387be628a48c4bbdb316b4fa645a414838149069210b66dd521733f" "938d8c186c4cb9ec4a8d8bc159285e0d0f07bad46edf20aa469a89d0d2a586ea" "8ed752276957903a270c797c4ab52931199806ccd9f0c3bb77f6f4b9e71b9272" "4a7abcca7cfa2ccdf4d7804f1162dd0353ce766b1277e8ee2ac7ee27bfbb408f" "10e3d04d524c42b71496e6c2e770c8e18b153fcfcc838947094dad8e5aa02cef" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "2a739405edf418b8581dcd176aaf695d319f99e3488224a3c495cb0f9fd814e3" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
- '(org-agenda-files
-   (quote
-    ("/home/alex/org/burns-workshop-notes.org" "/home/alex/org/ceilidh-plan.org" "/home/alex/org/split-product-goals.org")))
  '(package-selected-packages
    (quote
-    (0x0 evil-magit ox-mediawiki gnuplot feature-mode org-jira ox-jira meghanada openapi-yaml-mode cmake-mode ggtags modern-cpp-font-lock rtags company-quickhelp string-inflection graphviz-dot-mode elpy ample-theme doom-themes solarized-theme editorconfig js2-mode tide mediawiki edit-server nginx-mode dockerfile-mode nagios-mode delight rainbow-delimiters evil-surround git-gutter-fringe diff-hl rainbow-mode less-css-mode web-mode json-mode jsdon-mode spaceline-config use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil)))
+    (counsel-projectile evil-visualstar exec-path-from-shell 0x0 evil-magit ox-mediawiki gnuplot feature-mode org-jira ox-jira meghanada openapi-yaml-mode cmake-mode ggtags modern-cpp-font-lock rtags company-quickhelp string-inflection graphviz-dot-mode elpy ample-theme doom-themes solarized-theme editorconfig js2-mode tide mediawiki edit-server nginx-mode dockerfile-mode nagios-mode delight rainbow-delimiters evil-surround git-gutter-fringe diff-hl rainbow-mode less-css-mode web-mode json-mode jsdon-mode spaceline-config use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil)))
  '(safe-local-variable-values
    (quote
-    ((eval my/set-indentation 2)
+    ((standard-indent . 4)
+     (tide-tsserver-executable . "/home/abrick/src/core/frontend/node_modules/.bin/tsserver")
+     (projectile-enable-caching . t)
+     (tide-tsserver-executable . "frontend/node_modules/bin/tsserver")
+     (flycheck-php-phpcs-executable . "/home/abrick/bin/phpcs-core")
+     (eval my/set-indentation 2)
      (typescript-indent-level . 2)
      (typesecript-indent-level . 2)
      (standard-indent . 2)))))

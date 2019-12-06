@@ -276,7 +276,10 @@
   )
 
 (use-package flycheck-phpstan
-  :after php-mode)
+  :after php-mode
+  :config
+  (flycheck-add-next-checker 'phpstan 'php-phpcs)
+  )
 
 ;; Cucumber
 
@@ -711,6 +714,7 @@
 (set-group-string "g" "Git")
 (evil-leader/set-key
   "gb" 'magit-branch
+  "gB" 'magit-blame
   "gc" 'magit-commit
   "gd" 'magit-diff
   "gp" 'magit-push

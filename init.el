@@ -459,7 +459,7 @@
 (setq appt-message-warning-time 15)
 (setq appt-display-interval 5)
 
-(add-hook 'after-init-hook 'org-agenda-list)
+;; (add-hook 'after-init-hook 'org-agenda-list)
 
 (evil-define-key 'motion org-agenda-mode-map
   (kbd "c") 'org-agenda-columns

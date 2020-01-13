@@ -421,10 +421,10 @@
   )
 
 ;; Org mode
+(setq org-startup-indented t)
 (defun my/enable-org-mode-wordwrap ()
   "Enables word-wrapping for org mode."
-  (visual-line-mode)
-  (org-indent-mode))
+  (visual-line-mode))
 
 (add-hook 'org-mode-hook 'my/enable-org-mode-wordwrap)
 (setq org-special-ctrl-a/e t)
@@ -436,6 +436,10 @@
 (use-package ox-jira)
 
 (use-package ox-mediawiki)
+
+(use-package org-bullets
+  :hook (org-mode . org-bullets-mode)
+  )
 
 (use-package gnuplot)
 

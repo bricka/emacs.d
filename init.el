@@ -293,6 +293,7 @@
   :after php-mode
   :config
   (flycheck-add-next-checker 'phpstan 'php-phpcs)
+  (setq-default phpstan-level nil)
   )
 
 ;; Cucumber
@@ -435,7 +436,6 @@
   (org-indent-mode))
 
 (add-hook 'org-mode-hook 'my/enable-org-mode-wordwrap)
-(setq org-startup-folded "showall")
 (setq org-special-ctrl-a/e t)
 (setq org-deadline-warning-days 3)
 (evil-define-key 'normal org-mode-map

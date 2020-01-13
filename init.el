@@ -296,10 +296,6 @@
   (setq-default phpstan-level nil)
   )
 
-;; Cucumber
-
-(use-package feature-mode)
-
 ;; Markdown
 (use-package markdown-mode
   :commands (markdown-mode gfm-mode)
@@ -418,11 +414,6 @@
 (use-package less-css-mode
   :mode "\\.less\\'"
   )
-
-;; Nagios
-(add-to-list 'load-path "c:/Users/abrick/.emacs.d/modes")
-(autoload 'nagios-mode "nagios-mode" nil t)
-(add-to-list 'auto-mode-alist '("nagios.*\\.cfg\\'" . nagios-mode))
 
 ;; nginx
 (use-package nginx-mode
@@ -556,24 +547,6 @@
   )
 
 (use-package string-inflection)
-
-;; C++
-
-(use-package modern-cpp-font-lock
-  :delight
-  :hook (c++-mode-hook . modern-c++-font-lock-mode)
-  )
-
-(use-package ggtags
-  :mode ("\\.c\\'" "\\.cpp\\'")
-  :config
-  (add-hook 'c-mode-common-hook
-            (lambda ()
-              (when (derived-mode-p 'c-mode 'c++-mode)
-                (ggtags-mode 1))))
-  )
-
-(use-package cmake-mode)
 
 ;; Java
 

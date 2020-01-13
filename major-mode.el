@@ -3,6 +3,13 @@
   (which-key-add-major-mode-key-based-replacements mode
     (concat evil-leader/leader " " prefix) title))
 
+;; Dashboard
+(evil-define-key 'normal dashboard-mode-map
+  "{" 'dashboard-previous-section
+  "}" 'dashboard-next-section
+  "r" 'dashboard-refresh-buffer
+  )
+
 ;; LaTeX
 (set-group-string-for-mode 'latex-mode "m" "LaTeX")
 (evil-leader/set-key-for-mode 'latex-mode

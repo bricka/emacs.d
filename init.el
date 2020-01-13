@@ -201,6 +201,20 @@
   (setq ivy-count-format "(%d/%d) ")
   )
 
+(use-package ivy-rich
+  :after counsel
+  :config
+  (ivy-rich-mode 1)
+  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
+  )
+
+(use-package ivy-posframe
+  :delight
+  :config
+  (setq ivy-posframe-display-functions-alist '((t . ivy-posframe-display)))
+  (ivy-posframe-mode 1)
+  )
+
 ;; Web Mode
 (use-package web-mode
   :mode ("\\.html\\'" "\\.jsx?\\'" "\\.mustache\\'" "\\.tsx\\'")
@@ -730,10 +744,10 @@
 (set-group-string "h" "Help")
 (evil-leader/set-key
   "ha" 'counsel-apropos
-  "hf" 'describe-function
+  "hf" 'counsel-describe-function
   "hk" 'describe-key
   "hm" 'describe-mode
-  "hv" 'describe-variable)
+  "hv" 'counsel-describe-variable)
 
 ;; Project Keys
 (set-group-string "p" "Project")

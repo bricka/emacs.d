@@ -325,6 +325,7 @@
   :after php-mode
   :config
   (flycheck-add-next-checker 'phpstan 'php-phpcs)
+  (flycheck-add-next-checker 'phpstan 'php-phpmd)
   (setq-default phpstan-level nil)
   )
 
@@ -453,6 +454,8 @@
   )
 
 ;; Org mode
+(setq org-directory "~/org")
+(setq org-default-notes-file "~/org/work.org")
 (setq org-startup-indented t)
 (defun my/enable-org-mode-wordwrap ()
   "Enables word-wrapping for org mode."
@@ -896,6 +899,7 @@
      (standard-indent . 2)
      (flycheck-php-phpcs-executable . "/home/abrick/bin/phpcs-core")
      (flycheck-php-phpcs-executable . "/home/abrick/bin/phpcs-siemens")
+     (flycheck-php-phpmd-executable . "/home/abrick/bin/phpmd-core")
      (tide-tsserver-executable . "frontend/node_modules/.bin/tsserver")
      (flycheck-typescript-tslint-executable . "/home/abrick/src/core/frontend/node_modules/.bin/tslint")))))
 (custom-set-faces

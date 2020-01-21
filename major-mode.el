@@ -179,6 +179,10 @@
 
 ;; PHP
 (set-group-string-for-mode 'php-mode "m" "PHP")
+(evil-leader/set-key-for-mode 'php-mode
+  "mi" 'ac-php-show-tip
+  "mr" 'ac-php-remake-tags
+  )
 
 (set-group-string-for-mode 'php-mode "mg" "Goto")
 (evil-leader/set-key-for-mode 'php-mode

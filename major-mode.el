@@ -48,18 +48,27 @@
 ;; org-mode
 (set-group-string-for-mode 'org-mode "m" "Org")
 (evil-leader/set-key-for-mode 'org-mode
+  "m." 'org-time-stamp
+  "m," 'org-schedule
   "m*" 'org-toggle-heading
   "m-" 'org-toggle-item
+  "m/" 'org-sparse-tree
   "ma" 'org-archive-subtree
   "mc" 'org-cycle
   "mC" 'org-global-cycle
   "md" 'org-deadline
   "me" 'org-export-dispatch
   "mE" 'outline-show-all
+  "mn" 'org-narrow-to-subtree
   "mp" 'org-priority
-  "ms" 'org-schedule
   "mt" 'org-todo
   "mx" 'org-toggle-checkbox
+  )
+
+(set-group-string-for-mode 'org-mode "ms" "Show")
+(evil-leader/set-key-for-mode 'org-mode
+  "msa" 'org-show-all
+  "mss" 'org-show-subtree
   )
 
 (set-group-string-for-mode 'org-mode "mT" "Tables")

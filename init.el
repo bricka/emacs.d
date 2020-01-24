@@ -627,6 +627,7 @@
 (evil-leader/set-key
   "'" 'visit-term-buffer
   "a" 'org-agenda-list
+  "A" 'org-agenda
   "d" 'dired-open-current-directory)
 
 ;; Buffers

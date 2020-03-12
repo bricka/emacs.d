@@ -502,10 +502,12 @@
                              (1000 1200 1400 1600)
                              "......"
                              "----------------"))
-(setq appt-message-warning-time 15)
-(setq appt-display-interval 5)
 
-;; (add-hook 'after-init-hook 'org-agenda-list)
+(use-package my-org-agenda-notifier
+  :load-path "./my-packages"
+  :config
+  (my-org-agenda-notifier-mode)
+  )
 
 (evil-define-key 'motion org-agenda-mode-map
   (kbd "c") 'org-agenda-columns
@@ -513,7 +515,10 @@
   (kbd "w") 'org-agenda-week-view
   )
 
-(setq appt-display-duration 20)
+(use-package calfw)
+(use-package calfw-org
+  :after calfw
+  )
 
 ;; Get Outlook calendar and add appointments
 ;; (defun my/got-calendar-sentinel (process state)

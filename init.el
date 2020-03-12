@@ -34,6 +34,10 @@
 (setq-default require-final-newline t)
 (setq-default make-backup-files nil)
 
+(use-package unicode-fonts
+  :config
+  (unicode-fonts-setup))
+
 (cond ((eq system-type 'darwin) (set-face-attribute 'default nil :font "Menlo 15"))
       (t (set-face-attribute 'default nil :font "DejaVu Sans Mono 14")))
 
@@ -45,6 +49,7 @@
                 web-mode-code-indent-offset indentation
                 typescript-indent-level indentation
                 js-indent-level indentation
+                plantuml-indent-level indentation
 ))
 
 (my/set-indentation 2)
@@ -71,9 +76,19 @@
 (when (memq window-system '(mac ns x))
   (use-package exec-path-from-shell
     :config
-    (exec-path-from-shell-initialize)))
+    (setq exec-path-from-shell-arguments nil)
+    (exec-path-from-shell-initialize)
+    )
+  )
 
 (use-package all-the-icons)
+
+(use-package alert
+  :config
+  (setq alert-default-style 'libnotify)
+  (setq alert-fade-time 20)
+  (setq alert-persist-idle-time 60)
+  )
 
 ;; Startup
 
@@ -231,7 +246,7 @@
             (all-the-icons-icon-for-mode 'fundamental-mode)
           icon))))
 
-  (setq ivy-rich--display-transformers-list
+  (setq ivy-rich-display-transformers-list
         '(ivy-switch-buffer
           (:columns
            ((ivy-rich-switch-buffer-icon (:width 2))
@@ -321,7 +336,8 @@
   (add-to-list 'company-backends 'company-ac-php-backend)
   )
 
-(use-package flycheck-phpstan
+(use-package my-flycheck-phpstan
+  :load-path "./my-packages"
   :after php-mode
   :config
   (flycheck-add-next-checker 'phpstan 'php-phpcs)
@@ -563,6 +579,9 @@
 ;; Plant UML
 (use-package plantuml-mode
   :mode "\\.plantuml\\'"
+  :config
+  (setq plantuml-default-exec-mode 'jar)
+  (setq plantuml-output-type "png")
   )
 
 ;; Graphviz

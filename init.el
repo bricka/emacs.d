@@ -520,30 +520,6 @@
   :after calfw
   )
 
-;; Get Outlook calendar and add appointments
-;; (defun my/got-calendar-sentinel (process state)
-;;   "A sentinel that makes events for PROCESS when STATE indicates it is finished."
-;;   (if (string= state "finished\n")
-;;       (progn
-;;         (let ((buffer (find-buffer-visiting "~/org/outlook-calendar.org")))
-;;           (if buffer
-;;               (kill-buffer buffer)))
-;;         )
-;;     )
-;;   )
-;; (defun my/get-outlook-calendar ()
-;;   "Get the outlook calendar in Org mode format."
-;;   (let ((process (start-process "ews-fetch-calendar"
-;;                    "ews-fetch-calendar"
-;;                    "c:/Users/abrick/bin/exchange-to-org-mode.bat")))
-;;     (set-process-sentinel process 'my/got-calendar-sentinel)))
-;; (defun my/get-outlook-calendar-from-timer ()
-;;   "Timer function to get outlook calendar if appointments are active."
-;;   (if appt-timer (my/get-outlook-calendar))
-;;   )
-
-;; (run-with-timer 0 1800 'my/get-outlook-calendar)
-
 (use-package htmlize)
 
 ;; Calendar

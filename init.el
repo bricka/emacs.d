@@ -484,9 +484,7 @@
   (kbd "^") 'evil-digit-argument-or-evil-org-beginning-of-line
   )
 
-(use-package ox-jira)
-
-(use-package ox-mediawiki)
+(require 'ox-md)
 
 (use-package org-bullets
   :hook (org-mode . org-bullets-mode)

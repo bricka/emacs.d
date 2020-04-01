@@ -486,8 +486,12 @@
 
 (require 'ox-md)
 
-(use-package org-bullets
-  :hook (org-mode . org-bullets-mode)
+(use-package org-superstar
+  :hook (org-mode . org-superstar-mode)
+  :config
+  (setq org-superstar-item-bullet-alist '(
+                                          (?- . ?➤)
+                                          ))
   )
 
 (use-package gnuplot)

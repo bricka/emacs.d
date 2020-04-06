@@ -120,11 +120,9 @@
 (set-group-string-for-mode 'typescript-mode "m" "Typescript")
 (set-group-string-for-mode 'typescript-mode "mg" "Goto")
 (evil-leader/set-key-for-mode 'typescript-mode
-  "mi" 'tide-documentation-at-point
-  "mr" 'tide-references
-  "mgd" 'tide-jump-to-definition
-  "mgt" (lambda () (tide-jump-to-definition 1))
-  "mr" 'tide-restart-server
+  "mi" 'lsp-ui-doc-glance
+  "mr" 'lsp-find-references
+  "mgd" 'lsp-find-definition
   )
 
 ;; Kubernetes configs
@@ -188,12 +186,10 @@
 
 ;; PHP
 (set-group-string-for-mode 'php-mode "m" "PHP")
-(evil-leader/set-key-for-mode 'php-mode
-  "mi" 'ac-php-show-tip
-  "mr" 'ac-php-remake-tags
-  )
-
 (set-group-string-for-mode 'php-mode "mg" "Goto")
 (evil-leader/set-key-for-mode 'php-mode
-  "mgd" 'ac-php-find-symbol-at-point
+  "mi" 'lsp-ui-doc-glance
+  "mgd" 'lsp-find-definition
+  )
+
   )

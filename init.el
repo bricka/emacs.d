@@ -294,46 +294,18 @@
   (setq web-mode-content-types-alist '(("jsx" . "\\.[jt]s[x]?\\'")))
   (add-hook 'web-mode-hook 'enable-tern-mode-for-js)
 
-  (add-hook 'web-mode-hook
-            (lambda ()
-              (when (string-equal "tsx" (file-name-extension buffer-file-name))
-                (tide-setup))))
-  )
-
-(use-package company-tern
-  :after company
-  :config
-  (add-to-list 'company-backends 'company-tern)
-  )
-
 ;; JSON
 (use-package json-mode
   :mode ("\\.json" "\\.babelrc\\'" "\\.eslintrc\\'")
   )
 
-;; Typescript
-
-(add-hook 'typescript-mode 'eldoc-mode)
-
-(use-package tide
-  :pin melpa-stable
-  :after (typescript-mode company flycheck)
-  :hook ((typescript-mode . tide-setup)
-         (typescript-mode . tide-hl-identifier-mode))
-  :config
-  (setq-default tide-always-show-documentation t)
-  )
-
 ;; PHP
 
 (use-package php-mode
-  :mode "\\.php\\'")
-
-(use-package company-php
-  :after php-mode company
+  :after lsp-mode flycheck
+  :mode "\\.php\\'"
   :config
-  (ac-php-core-eldoc-setup)
-  (add-to-list 'company-backends 'company-ac-php-backend)
+  (flycheck-add-next-checker 'lsp 'php)
   )
 
 (use-package my-flycheck-phpstan
@@ -386,13 +358,6 @@
   (setq company-dabbrev-downcase nil)
   )
 
-(use-package company-quickhelp
-  :delight
-  :after company
-  :config
-  (company-quickhelp-mode)
-  )
-
 ;; Rainbow Mode
 (use-package rainbow-mode
   :delight
@@ -402,13 +367,32 @@
   (add-to-list 'rainbow-html-colors-major-mode-list 'less-css-mode)
   )
 
-;; ENSIME
-(use-package ensime
-  :pin melpa-stable
-  :mode "\\.java\\'"
-
+;; LSP
+(use-package lsp-mode
+  :hook (
+         (java-mode . lsp)
+         (php-mode . lsp)
+         (typescript-mode . lsp)
+         (web-mode . lsp)
+         (yaml-mode . lsp)
+         )
   :config
-  (setq ensime-use-helm t)
+  (flycheck-add-next-checker 'lsp 'php)
+  )
+
+(use-package company-lsp
+  :after company
+  :config
+  (push 'company-lsp company-backends)
+  )
+(use-package lsp-java
+  :after lsp-mode
+  )
+(use-package lsp-ui
+  :after lsp-mode
+  :config
+  (setq lsp-ui-doc-position 'at-point)
+  (setq lsp-ui-doc-enable nil)
   )
 
 ;; Flycheck

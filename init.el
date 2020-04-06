@@ -504,6 +504,7 @@
 (use-package calfw)
 (use-package calfw-org
   :after calfw
+  :commands cfw:open-org-calendar
   )
 
 (use-package htmlize)
@@ -614,7 +615,9 @@
   "'" 'visit-term-buffer
   "a" 'org-agenda-list
   "A" 'org-agenda
-  "d" 'dired-open-current-directory)
+  "c" 'cfw:open-org-calendar
+  "d" 'dired-open-current-directory
+  )
 
 ;; Buffers
 (defun kill-other-buffers ()

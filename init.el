@@ -455,23 +455,46 @@
   )
 
 ;; Org mode
-(setq org-directory "~/org")
-(setq org-default-notes-file "~/org/work.org")
-(setq org-startup-indented t)
 (defun my/enable-org-mode-wordwrap ()
   "Enables word-wrapping for org mode."
   (visual-line-mode))
 
-(add-hook 'org-mode-hook 'my/enable-org-mode-wordwrap)
-(setq org-special-ctrl-a/e t)
-(setq org-deadline-warning-days 3)
-(evil-define-key 'normal org-mode-map
-  (kbd "^") 'evil-digit-argument-or-evil-org-beginning-of-line
+(use-package org
+  :mode "\\.org\\'"
+  :config
+  (setq
+   org-directory "~/org"
+   org-default-notes-file "~/org/work.org"
+   org-startup-indented t
+   org-special-ctrl-a/e t
+   )
+
+  (add-hook 'org-mode-hook 'my/enable-org-mode-wordwrap)
+
+  (evil-define-key 'normal org-mode-map
+    (kbd "^") 'evil-digit-argument-or-evil-org-beginning-of-line
+    )
+
+  (require 'ox-md)
+
+  ;; Agenda
+  (setq org-agenda-files '(
+                           "~/org/"
+                           ))
+
+  (setq
+   org-deadline-warning-days 3
+   org-agenda-start-on-weekday nil
+   )
+
+  (setq org-agenda-time-grid '((daily today require-timed)
+                               (1000 1200 1400 1600)
+                               "......"
+                               "----------------"))
   )
 
-(require 'ox-md)
-
 (use-package org-superstar
+  :after org
   :hook (org-mode . org-superstar-mode)
   :config
   (setq org-superstar-item-bullet-alist '(
@@ -481,16 +504,8 @@
 
 (use-package gnuplot)
 
-(setq org-agenda-files '(
-                         "~/org/"
-                         ))
-(setq org-agenda-start-on-weekday nil)
-(setq org-agenda-time-grid '((daily today require-timed)
-                             (1000 1200 1400 1600)
-                             "......"
-                             "----------------"))
-
 (use-package my-org-agenda-notifier
+  :after org
   :load-path "./my-packages"
   :config
   (my-org-agenda-notifier-mode)

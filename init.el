@@ -293,6 +293,7 @@
   (my/create-web-mode-js-syntax-table)
   (setq web-mode-content-types-alist '(("jsx" . "\\.[jt]s[x]?\\'")))
   (add-hook 'web-mode-hook 'enable-tern-mode-for-js)
+  )
 
 ;; JSON
 (use-package json-mode

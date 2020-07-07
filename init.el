@@ -62,8 +62,9 @@
 (use-package delight
   :config
   (delight '((auto-revert-mode nil autorevert)
-             (undo-tree-mode nil t)
+             (eldoc-mode nil t)
              (org-indent-mode nil t)
+             (undo-tree-mode nil t)
              ))
   )
 
@@ -109,9 +110,11 @@
 
 (use-package autoinsert
   :config
-  (setq auto-insert-query nil)
-  (setq auto-insert-directory "~/.emacs.d/insert/")
-  (setq auto-insert t)
+  (setq
+   auto-insert-query nil
+   auto-insert-directory "~/.emacs.d/insert/"
+   auto-insert t
+   )
   (add-to-list 'auto-insert-alist '(php-mode . "php-template.php"))
   (add-hook 'find-file-hook 'auto-insert)
   )
@@ -127,7 +130,6 @@
   (evil-mode 1)
   (evil-add-hjkl-bindings package-menu-mode-map 'emacs)
   (evil-add-hjkl-bindings messages-buffer-mode-map 'emacs)
-  (add-to-list 'evil-emacs-state-modes 'ensime-inspector-mode)
   (add-to-list 'evil-emacs-state-modes 'flycheck-error-list-mode)
 
   (define-key evil-insert-state-map (kbd "C-v") 'yank)
@@ -170,6 +172,8 @@
 
   (evil-define-key 'normal evil-org-mode-map
     (kbd "^") 'evil-org-beginning-of-line
+    (kbd "K") 'org-metaup
+    (kbd "J") 'org-metadown
     )
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys)
@@ -182,6 +186,7 @@
 
 ;; Git Configuration
 (use-package magit
+  :commands magit-blame magit-branch magit-commit magit-diff magit-push magit-rebase magit-status
   :config
   (setq vc-handled-backends (delq 'Git vc-handled-backends))) ; Disable VC for Git
 
@@ -222,6 +227,7 @@
   )
 
 (use-package counsel-projectile
+  :commands counsel-projectile counsel-projectile-switch-project
   :after projectile counsel)
 
 ;; Ivy
@@ -320,7 +326,7 @@
 
 ;; Markdown
 (use-package markdown-mode
-  :commands (markdown-mode gfm-mode)
+  :commands markdown-mode gfm-mode
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
@@ -373,6 +379,7 @@
   :hook (
          (java-mode . lsp)
          (php-mode . lsp)
+         (scala-mode . lsp)
          (typescript-mode . lsp)
          (web-mode . lsp)
          (yaml-mode . lsp)
@@ -491,6 +498,20 @@
                                (1000 1200 1400 1600)
                                "......"
                                "----------------"))
+
+(use-package org-super-agenda
+  :config
+  (org-super-agenda-mode)
+  (setq org-super-agenda-header-map nil)
+  (setq org-super-agenda-groups
+       '(;; Each group has an implicit boolean OR operator between its selectors.
+         (:discard (:heading-regexp "^<[[:digit:]]\\{4\\}-[[:digit:]]\\{2\\}-[[:digit:]]\\{2\\} [[:alpha:]]\\{2\\}>$")) ; Date-based notes (e.g. 1-1)
+         (:name "Todos" :todo "TODO")
+         (:name "Calendar"  ; Optionally specify section name
+                :and (:time-grid t :not (:todo t)))
+         ;; After the last group, the agenda will display items that didn't
+         ;; match any of these groups, with the default order position of 99
+         ))
   )
 
 (use-package org-superstar
@@ -592,22 +613,6 @@
 
 ;; Java
 
-(use-package meghanada
-  :mode "\\.scala\\'"
-  :config
-  (add-hook 'java-mode-hook
-            (lambda ()
-              (meghanada-mode t)))
-  (add-to-list 'company-backends 'company-meghanada)
-  (cond
-   ((eq system-type 'windows-nt)
-    (setq meghanada-java-path (expand-file-name "bin/java.exe" (getenv "JAVA_HOME")))
-    (setq meghanada-maven-path "c:/Users/abrick/apache-maven-3.5.4/bin/mvn.cmd"))
-   (t
-    (setq meghanada-java-path "java")
-    (setq meghanada-maven-path "mvn")))
-  )
-
 (defun my/java-indent-setup ()
   "Define preferred indentation style."
   (progn
@@ -615,6 +620,11 @@
     (c-set-offset 'arglist-close 0)
   ))
 (add-hook 'java-mode-hook 'my/java-indent-setup)
+
+;; Scala
+
+(use-package scala-mode
+  :mode "\\.scala\\'")
 
 ;; XML
 
@@ -626,10 +636,14 @@
   (which-key-add-key-based-replacements
     (concat evil-leader/leader " " prefix) title))
 
+(defun my-daily-agenda ()
+  (interactive)
+  (org-agenda-list 1))
+
 ;; Top-Level Keys
 (evil-leader/set-key
   "'" 'visit-term-buffer
-  "a" 'org-agenda-list
+  "a" 'my-daily-agenda
   "A" 'org-agenda
   "c" 'cfw:open-org-calendar
   "d" 'dired-open-current-directory

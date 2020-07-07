@@ -38,6 +38,7 @@
   "mE" 'outline-show-all
   "mn" 'org-narrow-to-subtree
   "mp" 'org-priority
+  "mr" 'org-reveal
   "mt" 'org-todo
   "mx" 'org-toggle-checkbox
   )
@@ -59,25 +60,6 @@
 (evil-leader/set-key-for-mode 'org-mode
   "mTdr" 'org-table-kill-row
   )
-
-;; (defun my/add-below-org-mode-same-level ()
-;;   (interactive)
-;;   (progn
-;;     (org-insert-heading-after-current)
-;;     (evil-append-line 1)))
-
-;; (defun my/add-above-org-mode-same-level ()
-;;   (interactive)
-;;   (progn
-;;     (org-insert-heading)
-;;     (evil-append-line 1)))
-
-;; (evil-define-key 'normal org-mode-map
-;;   ">>" 'org-do-demote
-;;   "<<" 'org-do-promote
-;;   (kbd "C-o") 'my/add-below-org-mode-same-level
-;;   (kbd "C-O" )'my/add-above-org-mode-same-level
-;;   )
 
 ;; dired-mode
 

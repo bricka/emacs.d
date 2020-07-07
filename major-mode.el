@@ -17,32 +17,9 @@
   )
 
 ;; Scala
-(defun maven-project-p ()
-  "Determine if this project is a Maven project."
-  (file-exists-p (concat (projectile-project-root) "/pom.xml")))
-
-(defun sbt-project-p ()
-  "Determine if this project is an SBT project."
-  (file-exists-p (concat (projectile-project-root) "/build.sbt")))
-
-(defun ensime-gen ()
-  "Generate the ensime configuration file."
-  (interactive)
-  (cond ((maven-project-p) (projectile-run-async-shell-command "mvn ensime:generate"))
-        ((sbt-project-p) (sbt:command "ensimeConfig"))
-        ))
 (set-group-string-for-mode 'scala-mode "m" "Scala")
 (evil-leader/set-key-for-mode 'scala-mode
-  "el" 'ensime-show-all-errors-and-warnings ; Overriding flycheck for Scala
-  "mm" 'ensime-gen
-  "mi" 'ensime-inspect-type-at-point
-  "ms" 'ensime-search
-  )
-
-(set-group-string-for-mode 'scala-mode "mg" "Goto")
-(evil-leader/set-key-for-mode 'scala-mode
-  "mgi" 'ensime-goto-impl
-  "mgt" 'ensime-goto-test
+  "mi" 'lsp-ui-doc-glance
   )
 
 ;; org-mode
@@ -173,9 +150,7 @@
 ;; Java
 (set-group-string-for-mode 'java-mode "m" "Java")
 (evil-leader/set-key-for-mode 'java-mode
-  "mi" 'meghanada-typeinfo
-  "mI" 'meghanada-import-at-point
-  "mr" 'meghanada-restart
+  "mi" 'lsp-ui-doc-glance
   )
 
 (set-group-string-for-mode 'java-mode "mg" "Goto")

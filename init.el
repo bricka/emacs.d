@@ -6,20 +6,21 @@
 
 ;;; Code:
 
-;; Enable MELPA
-(require 'package)
-(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/"))
-(add-to-list 'package-archives '("melpa-stable" . "http://stable.melpa.org/packages/"))
-(package-initialize)
+(defvar bootstrap-version)
+(let ((bootstrap-file
+       (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
+      (bootstrap-version 5))
+  (unless (file-exists-p bootstrap-file)
+    (with-current-buffer
+        (url-retrieve-synchronously
+         "https://raw.githubusercontent.com/raxod502/straight.el/develop/install.el"
+         'silent 'inhibit-cookies)
+      (goto-char (point-max))
+      (eval-print-last-sexp)))
+  (load bootstrap-file nil 'nomessage))
+(setq straight-use-package-by-default t)
 
-(unless (package-installed-p 'use-package)
-  (package-refresh-contents)
-  (package-install 'use-package))
-
-(eval-when-compile
-  (require 'use-package))
-
-(setq use-package-always-ensure t)
+(straight-use-package 'use-package)
 
 ;; Disable Menus
 (menu-bar-mode -1)
@@ -59,13 +60,11 @@
 (electric-pair-mode 1)
 
 ;; Mode Line
-(use-package delight
+(use-package blackout
   :config
-  (delight '((auto-revert-mode nil autorevert)
-             (eldoc-mode nil t)
-             (org-indent-mode nil t)
-             (undo-tree-mode nil t)
-             ))
+  (blackout 'auto-revert-mode)
+  (blackout 'eldoc-mode)
+  (blackout 'undo-tree-mode)
   )
 
 (use-package rainbow-delimiters
@@ -114,6 +113,7 @@
    auto-insert-query nil
    auto-insert-directory "~/.emacs.d/insert/"
    auto-insert t
+   auto-insert-alist nil
    )
   (add-to-list 'auto-insert-alist '(php-mode . "php-template.php"))
   (add-hook 'find-file-hook 'auto-insert)
@@ -141,7 +141,7 @@
 
 (use-package evil-commentary
   :after evil
-  :delight
+  :blackout
   :config
   (evil-commentary-mode)
   )
@@ -160,7 +160,7 @@
   )
 
 (use-package evil-org
-  :delight
+  :blackout
   :after evil org
   :hook (org-mode . evil-org-mode)
 
@@ -191,7 +191,7 @@
   (setq vc-handled-backends (delq 'Git vc-handled-backends))) ; Disable VC for Git
 
 (use-package git-gutter
-  :delight
+  :blackout
   :config
   (global-git-gutter-mode t))
 
@@ -232,7 +232,7 @@
 
 ;; Ivy
 (use-package counsel
-  :delight ivy-mode
+  :blackout ivy-mode
   :config
   (ivy-mode 1)
   (setq ivy-use-virtual-buffers t)
@@ -316,7 +316,7 @@
   )
 
 (use-package my-flycheck-phpstan
-  :load-path "./my-packages"
+  :straight (:local-repo "my-flycheck-phpstan")
   :after php-mode
   :config
   (flycheck-add-next-checker 'phpstan 'php-phpcs)
@@ -351,13 +351,13 @@
 
 ;; Which Key
 (use-package which-key
-  :delight
+  :blackout
   :config
   (which-key-mode))
 
 ;; Company Code Completion
 (use-package company
-  :delight
+  :blackout
   :defines company-dabbrev-downcase
   :hook (after-init . global-company-mode)
 
@@ -367,7 +367,7 @@
 
 ;; Rainbow Mode
 (use-package rainbow-mode
-  :delight
+  :blackout
   :hook css-mode
 
   :config
@@ -406,7 +406,7 @@
 ;; Flycheck
 
 (use-package flycheck
-  :delight
+  :blackout
   :config
   (global-flycheck-mode)
 
@@ -467,7 +467,8 @@
   (visual-line-mode))
 
 (use-package org
-  :mode "\\.org\\'"
+  :straight org-plus-contrib
+  :mode ("\\.org\\'" . org-mode)
   :config
   (setq
    org-directory "~/org"
@@ -499,6 +500,8 @@
                                "......"
                                "----------------"))
 
+  )
+
 (use-package org-super-agenda
   :config
   (org-super-agenda-mode)
@@ -526,8 +529,8 @@
 (use-package gnuplot)
 
 (use-package my-org-agenda-notifier
+  :straight (:local-repo "my-org-agenda-notifier")
   :after org
-  :load-path "./my-packages"
   :config
   (my-org-agenda-notifier-mode)
   )

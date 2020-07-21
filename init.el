@@ -479,8 +479,18 @@
    org-directory "~/org"
    org-default-notes-file "~/org/work.org"
    org-startup-indented t
+   org-startup-folded t
    org-special-ctrl-a/e t
    )
+
+  (setq org-capture-templates
+        '(
+          ("t" "Task" entry (file+headline "" "Tasks")
+           "* TODO %?\nSCHEDULED: %T\n%i\n%a")
+          ("p" "Post scrum" checkitem (file+olp "" "Post Scrums"))
+          )
+        )
+  (add-hook 'org-capture-mode-hook 'evil-insert-state)
 
   (add-hook 'org-mode-hook 'my/enable-org-mode-wordwrap)
 
@@ -504,6 +514,7 @@
                                (1000 1200 1400 1600)
                                "......"
                                "----------------"))
+  (setq org-agenda-current-time-string "⮜┈┈┈┈┈┈┈ now")
 
   )
 
@@ -654,6 +665,7 @@
   "a" 'my-daily-agenda
   "A" 'org-agenda
   "c" 'cfw:open-org-calendar
+  "C" 'org-capture
   "d" 'dired-open-current-directory
   )
 

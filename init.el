@@ -450,6 +450,9 @@
 
 ;; (add-hook 'latex-mode-hook 'TeX-source-correlate-mode)
 
+;; Spell Checking
+(setq ispell-dictionary "english")
+
 ;; LESS
 
 (use-package less-css-mode
@@ -470,6 +473,8 @@
   :straight org-plus-contrib
   :mode ("\\.org\\'" . org-mode)
   :config
+  (add-hook 'org-mode-hook 'flyspell-mode)
+
   (setq
    org-directory "~/org"
    org-default-notes-file "~/org/work.org"

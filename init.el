@@ -195,16 +195,18 @@
   :config
   (global-git-gutter-mode t))
 
-;; Powerline
-(use-package spaceline
-  :init (require 'spaceline-config)
+;; Mode line
+(use-package doom-modeline
+  :after all-the-icons
+  :defines doom-modeline-buffer-encoding doom-modeline-checker-simple-format doom-modeline-minor-modes doom-modeline-mu4e
   :config
-  (spaceline-spacemacs-theme)
-  (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
-  )
-;; (require 'spaceline-config)
-;; (spaceline-spacemacs-theme)
-;; (setq spaceline-highlight-face-func 'spaceline-highlight-face-evil-state)
+  (setq
+   doom-modeline-buffer-encoding nil
+   doom-modeline-checker-simple-format nil
+   doom-modeline-minor-modes t
+   doom-modeline-mu4e t
+   )
+  (doom-modeline-mode 1))
 
 ;; Theme
 ;; (load-theme 'spacemacs-dark 1)

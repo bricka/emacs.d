@@ -149,4 +149,8 @@
   "mgd" 'lsp-find-definition
   )
 
+;; Elisp
+(set-group-string-for-mode 'emacs-lisp-mode "m" "ELisp")
+(evil-leader/set-key-for-mode 'emacs-lisp-mode
+  "mn" 'narrow-to-defun
   )

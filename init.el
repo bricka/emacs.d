@@ -40,7 +40,7 @@
   (unicode-fonts-setup))
 
 (cond ((eq system-type 'darwin) (set-face-attribute 'default nil :font "Menlo 15"))
-      (t (set-face-attribute 'default nil :font "DejaVu Sans Mono 14")))
+      (t (set-face-attribute 'default nil :font "DejaVu Sans Mono 15")))
 
 ;; Indentation
 (defun my/set-indentation (indentation)

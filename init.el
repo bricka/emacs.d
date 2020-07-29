@@ -209,16 +209,15 @@
   (doom-modeline-mode 1))
 
 ;; Theme
-;; (load-theme 'spacemacs-dark 1)
-(use-package color-theme-sanityinc-tomorrow
+(use-package modus-vivendi-theme
+  :defines modus-vivendi-theme-bold-constructs modus-vivendi-theme-rainbow-headings
   :config
-  (load-theme 'sanityinc-tomorrow-night 1)
+  (setq
+   modus-vivendi-theme-rainbow-headings t
+   modus-vivendi-theme-bold-constructs t
+   )
+  (load-theme 'modus-vivendi t)
   )
-;; (use-package zenburn-theme
-;;   :config
-;;   (load-theme 'zenburn t))
-;; (load-theme 'sanityinc-tomorrow-night 1)
-;; (load-theme 'doom-tomorrow-night 1)
 
 ;; Projectile
 (use-package projectile

@@ -227,47 +227,35 @@
   (setq projectile-completion-system 'ivy)
   )
 
-(use-package counsel-projectile
-  :commands counsel-projectile counsel-projectile-switch-project
-  :after projectile counsel)
-
-;; Ivy
-(use-package counsel
-  :blackout ivy-mode
+;; Helm
+(use-package helm
+  :after helm-icons
+  :blackout
   :config
-  (ivy-mode 1)
-  (setq ivy-use-virtual-buffers t)
-  (setq ivy-count-format "(%d/%d) ")
+  (bind-key "M-x" 'helm-M-x)
+  (helm-mode 1)
   )
 
-(use-package ivy-rich
-  :after counsel
-  :config
-  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
-
-  (defun ivy-rich-switch-buffer-icon (candidate)
-    (with-current-buffer
-        (get-buffer candidate)
-      (let ((icon (all-the-icons-icon-for-mode major-mode)))
-        (if (symbolp icon)
-            (all-the-icons-icon-for-mode 'fundamental-mode)
-          icon))))
-
-  (setq ivy-rich-display-transformers-list
-        '(ivy-switch-buffer
-          (:columns
-           ((ivy-rich-switch-buffer-icon (:width 2))
-            (ivy-rich-candidate (:width 30))
-            (ivy-rich-switch-buffer-size (:width 7))
-            (ivy-rich-switch-buffer-indicators (:width 4 :face error :align right))
-            (ivy-rich-switch-buffer-major-mode (:width 12 :face warning))
-            (ivy-rich-switch-buffer-project (:width 15 :face success))
-            (ivy-rich-switch-buffer-path (:width (lambda (x) (ivy-rich-switch-buffer-shorten-path x (ivy-rich-minibuffer-width 0.3))))))
-           :predicate
-           (lambda (cand) (get-buffer cand)))))
-
-  (ivy-rich-mode 1)
+(use-package helm-projectile
+  :after helm
   )
+
+(use-package helm-icons
+  :config
+  (helm-icons-enable)
+  )
+
+(use-package treemacs
+  :commands treemacs
+  :config
+  (treemacs-follow-mode)
+  )
+
+(use-package treemacs-evil
+  :after treemacs evil)
+
+(use-package treemacs-projectile
+  :after treemacs projectile)
 
 ;; Web Mode
 (use-package web-mode
@@ -668,6 +656,7 @@
   "c" 'cfw:open-org-calendar
   "C" 'org-capture
   "d" 'dired-open-current-directory
+  "T" 'treemacs
   )
 
 ;; Buffers
@@ -686,7 +675,7 @@
 
 (set-group-string "b" "Buffers")
 (evil-leader/set-key
-  "bb" 'ivy-switch-buffer
+  "bb" 'helm-buffers-list
   "bd" 'kill-this-buffer
   "bD" 'kill-other-buffers
   "br" 'my/revert-buffer)
@@ -788,24 +777,25 @@
 ;; Help Keys
 (set-group-string "h" "Help")
 (evil-leader/set-key
-  "ha" 'counsel-apropos
-  "hf" 'counsel-describe-function
+  "ha" 'apropos
+  "hf" 'describe-function
   "hk" 'describe-key
   "hm" 'describe-mode
-  "hv" 'counsel-describe-variable)
+  "hv" 'describe-variable)
 
 ;; Project Keys
 (set-group-string "p" "Project")
 (evil-leader/set-key
   "p'" 'visit-term-projectile-root
   "pi" 'projectile-invalidate-cache
-  "pf" 'counsel-projectile
-  "pl" 'counsel-projectile-switch-project)
+  "pf" 'helm-projectile-find-file
+  "pl" 'helm-projectile-switch-project
+  )
 
 ;; Search Keys
 (set-group-string "s" "Search")
 (evil-leader/set-key
-  "sp" 'counsel-projectile-git-grep
+  "sp" 'helm-projectile-grep
   )
 
 ;; Text Keys

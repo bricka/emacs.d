@@ -133,6 +133,9 @@
   (add-to-list 'evil-emacs-state-modes 'flycheck-error-list-mode)
 
   (define-key evil-insert-state-map (kbd "C-v") 'yank)
+  (define-key evil-normal-state-map
+    (kbd "C-u") 'evil-scroll-up
+    )
   )
 
 (use-package evil-magit
@@ -165,15 +168,10 @@
   :hook (org-mode . evil-org-mode)
 
   :config
-  (setq evil-org-key-theme '(return))
-  (add-hook 'evil-org-mode-hook
-            (lambda ()
-              (evil-org-set-key-theme)))
-
   (evil-define-key 'normal evil-org-mode-map
-    (kbd "^") 'evil-org-beginning-of-line
-    (kbd "K") 'org-metaup
-    (kbd "J") 'org-metadown
+    (kbd "RET") 'evil-org-return
+    "K" 'org-metaup
+    "J" 'org-metadown
     )
   (require 'evil-org-agenda)
   (evil-org-agenda-set-keys)
@@ -540,6 +538,11 @@
   (my-org-agenda-notifier-mode)
   )
 
+(use-package helm-org
+  :after helm org
+  :commands helm-org-in-buffer-headings
+  )
+
 (evil-define-key 'motion org-agenda-mode-map
   (kbd "c") 'org-agenda-columns
   (kbd "d") 'org-agenda-day-view
@@ -795,7 +798,7 @@
 ;; Search Keys
 (set-group-string "s" "Search")
 (evil-leader/set-key
-  "sp" 'helm-projectile-grep
+  "sp" 'helm-projectile-ag
   )
 
 ;; Text Keys

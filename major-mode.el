@@ -43,10 +43,9 @@
   "mx" 'org-toggle-checkbox
   )
 
-(set-group-string-for-mode 'org-mode "ms" "Show")
+(set-group-string-for-mode 'org-mode "ms" "Search")
 (evil-leader/set-key-for-mode 'org-mode
-  "msa" 'org-show-all
-  "mss" 'org-show-subtree
+  "msh" 'helm-org-in-buffer-headings
   )
 
 (set-group-string-for-mode 'org-mode "mT" "Tables")

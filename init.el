@@ -62,7 +62,9 @@
 ;; Mode Line
 (use-package blackout
   :config
-  (blackout 'auto-revert-mode)
+  (eval-after-load 'auto-revert
+    (blackout 'auto-revert-mode)
+    )
   (blackout 'eldoc-mode)
   (blackout 'undo-tree-mode)
   )
@@ -325,7 +327,6 @@
 
 ;; Markdown
 (use-package markdown-mode
-  :commands markdown-mode gfm-mode
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
@@ -640,7 +641,6 @@
   (add-to-list 'company-backends 'company-anaconda)
   )
 
-(use-package string-inflection)
 (use-package string-inflection
   :commands string-inflection-camelcase string-inflection-underscore
   )
@@ -911,33 +911,6 @@
     (replace-match nil nil t))
   )
 
-;; Swagger
-
-(define-derived-mode swagger-yaml-mode yaml-mode
-  "Swagger YAML"
-  "Major mode for Swagger YAML files"
-  )
-(add-to-list 'auto-mode-alist '("swagger.\\.ya?ml\\'" . swagger-yaml-mode))
-
-(flycheck-define-checker swagger
-  "A syntax checker for Swagger using swagger-cli."
-
-  :command ("C:/Users/abrick/AppData/Roaming/npm/swagger" "validate" source)
-
-  :error-patterns (
-   (error line-start (message) "at line " line ", column " column ":" line-end)
-   (error line-start "SyntaxError: " (message) line-end)
-   )
-
-  :error-filter
-  (lambda (errors)
-    (let ((errors (flycheck-sanitize-errors errors)))
-      (dolist (err errors)
-        (unless (flycheck-error-line err)
-          (setf (flycheck-error-line err) 1)))
-      errors))
-
-  :modes (swagger-yaml-mode)
 ;; Time
 (use-package time
   :commands display-time-world
@@ -953,7 +926,9 @@
    )
   )
 
-(add-to-list 'flycheck-checkers 'swagger)
+;; Local Configuration
+(if (file-exists-p "local-config.el")
+    (load-file (expand-file-name "./local-config.el")))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

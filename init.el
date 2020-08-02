@@ -59,6 +59,53 @@
 (show-paren-mode 1)
 (electric-pair-mode 1)
 
+;; Key Bindings
+(defconst my-leader-key "SPC"
+  "Normal leader key for keybindings."
+  )
+
+(defun my/kill-other-buffers ()
+  "Kill all other buffers."
+  (interactive)
+  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
+
+(use-package general
+  :config
+  (general-define-key
+   :prefix my-leader-key
+   :states 'normal
+   "" nil
+   "'" 'visit-term-buffer
+   "d" 'dired-open-current-directory
+
+   "b" '(:ignore t :wk "Buffers")
+   "bd" 'kill-this-buffer
+   "bD" 'my/kill-other-buffers
+   "br" 'revert-buffer
+
+   "e" '(:ignore t :wk "Errors")
+
+   "f" '(:ignore t :wk "Files")
+
+   "g" '(:ignore t :wk "Git")
+   "gh" '(:ignore t :wk "Hunks")
+
+   "h" '(:ignore t :wk "Help")
+   "hf" 'describe-function
+   "hk" 'describe-key
+   "hm" 'describe-mode
+   "hv" 'describe-variable
+
+   "m" '(:ignore t :wk "Major")
+
+   "p" '(:ignore t :wk "Project")
+
+   "s" '(:ignore t :wk "Search")
+
+   "w" '(:ignore t :wk "Window")
+   )
+  )
+
 ;; Mode Line
 (use-package blackout
   :config
@@ -97,6 +144,14 @@
 (use-package dashboard
   :after all-the-icons projectile
   :config
+  ; Not using :general to avoid deferring the loading
+  (general-define-key
+   :states 'normal
+   :keymaps 'dashboard-mode-map
+   "{" 'dashboard-previous-section
+   "}" 'dashboard-next-section
+   "r" 'dashboard-refresh-buffer
+   )
   (setq dashboard-set-heading-icons t)
   (setq dashboard-set-file-icons t)
   (setq dashboard-items '(
@@ -130,15 +185,25 @@
   :config
 
   (evil-mode 1)
-  (evil-add-hjkl-bindings package-menu-mode-map 'emacs)
-  (evil-add-hjkl-bindings messages-buffer-mode-map 'emacs)
+  (let ((maps '(
+                archive-mode-map
+                messages-buffer-mode-map
+                )))
+    (dolist (map maps)
+      (evil-add-hjkl-bindings map 'emacs)))
+
   (add-to-list 'evil-emacs-state-modes 'flycheck-error-list-mode)
   (add-to-list 'evil-emacs-state-modes 'display-time-world-mode)
+  (evil-set-initial-state 'org-agenda-mode 'motion)
 
-  (define-key evil-insert-state-map (kbd "C-v") 'yank)
-  (define-key evil-normal-state-map
-    (kbd "C-u") 'evil-scroll-up
-    )
+  (general-define-key
+   :states 'insert
+   "C-v" 'yank
+   )
+  (general-define-key
+   :states 'normal
+   "C-u" 'evil-scroll-up
+   )
   )
 
 (use-package evil-magit
@@ -152,13 +217,6 @@
   (evil-commentary-mode)
   )
 
-(use-package evil-leader
-  :after evil
-  :config
-  (global-evil-leader-mode)
-  (evil-leader/set-leader "<SPC>")
-  )
-
 (use-package evil-surround
   :after evil
   :config
@@ -168,16 +226,62 @@
 (use-package evil-org
   :blackout
   :after evil org
-  :hook (org-mode . evil-org-mode)
+  :general
+  (:states 'insert
+   :keymaps 'org-mode-map
+   "<return>" 'evil-org-return
+   )
+  (:states 'normal
+   :keymaps 'org-mode-map
+   ;; Motion
+   "^" 'evil-org-beginning-of-line
+   "$" 'evil-org-end-of-line
 
+   ;; Inserting
+   "A" 'evil-org-append-line
+   "I" 'evil-org-insert-line
+   "o" 'evil-org-open-below
+   "O" 'evil-org-open-above
+
+   ;; Move
+   "K" 'org-metaup
+   "J" 'org-metadown
+
+   ;; Delete
+   "d" 'evil-org-delete
+   "x" 'evil-org-delete-char
+
+   ;; Follow
+   "<return>" 'org-open-at-point
+   )
+  (:states '(normal visual)
+   :keymaps 'org-mode-map
+   "<" 'evil-org-<
+   ">" 'evil-org->
+   )
+  (:states 'motion
+   :keymaps 'org-agenda-mode-map
+   "<tab>" 'org-agenda-goto
+   "<return>" 'org-agenda-switch-to
+   "," 'org-agenda-schedule
+   "j" 'org-agenda-next-line
+   "k" 'org-agenda-previous-line
+   "H" 'org-agenda-do-date-earlier
+   "L" 'org-agenda-do-date-later
+   "t" 'org-agenda-todo
+   "u" 'org-agenda-undo
+   "[" 'org-agenda-earlier
+   "]" 'org-agenda-later
+   ">" 'org-agenda-goto-date
+   )
   :config
-  (evil-define-key 'normal evil-org-mode-map
-    (kbd "RET") 'evil-org-return
-    "K" 'org-metaup
-    "J" 'org-metadown
-    )
-  (require 'evil-org-agenda)
-  (evil-org-agenda-set-keys)
+  ;; Some keys that are more complex to map
+  (general-define-key
+   :states 'normal
+   :keymaps 'org-mode-map
+   "<C-return>" (evil-org-define-eol-command org-insert-heading-respect-content)
+   "<C-S-return>" (evil-org-define-eol-command org-insert-todo-heading-respect-content)
+   )
   )
 
 (use-package evil-visualstar
@@ -187,14 +291,32 @@
 
 ;; Git Configuration
 (use-package magit
-  :commands magit-blame magit-branch magit-commit magit-diff magit-push magit-rebase magit-status
+  :general
+  (:states 'normal
+   :prefix my-leader-key
+   "gb" 'magit-branch
+   "gB" 'magit-blame
+   "gc" 'magit-commit
+   "gd" 'magit-diff
+   "gp" 'magit-push
+   "gr" 'magit-rebase
+   "gs" 'magit-status
+   )
   :config
   (setq vc-handled-backends (delq 'Git vc-handled-backends))) ; Disable VC for Git
 
 (use-package git-gutter
   :blackout
   :config
-  (global-git-gutter-mode t))
+  ; Not using :general to avoid deferring
+  (general-define-key
+   :states 'normal
+   :prefix my-leader-key
+   "ghn" 'git-gutter:next-hunk
+   "ghp" 'git-gutter:previous-hunk
+   )
+  (global-git-gutter-mode t)
+  )
 
 ;; Mode line
 (use-package doom-modeline
@@ -223,6 +345,13 @@
 ;; Projectile
 (use-package projectile
   :config
+  ; Not using general to avoid deferring
+  (general-define-key
+   :states 'normal
+   :prefix my-leader-key
+   "p'" 'visit-term-projectile-root
+   "pi" 'projectile-invalidate-cache
+   )
   (projectile-mode)
   (setq projectile-use-git-grep t)
   (setq projectile-completion-system 'ivy)
@@ -233,6 +362,16 @@
   :after helm-icons
   :blackout
   :config
+  ;; Not using :general to avoid deferring
+  (general-define-key
+   "M-x" 'helm-M-x
+   )
+  (general-define-key
+   :states 'normal
+   :prefix my-leader-key
+   "bb" 'helm-buffers-list
+   "ha" 'helm-apropos
+   )
   (bind-key "M-x" 'helm-M-x)
   (helm-mode 1)
   )
@@ -242,6 +381,13 @@
 
 (use-package helm-projectile
   :after helm helm-ag
+  :general
+  (:states 'normal
+   :prefix my-leader-key
+   "pf" 'helm-projectile-find-file
+   "pl" 'helm-projectile-switch-project
+   "sp" 'helm-projectile-ag
+   )
   )
 
 (use-package helm-icons
@@ -256,6 +402,11 @@
 
 (use-package treemacs
   :commands treemacs
+  :general
+  (:states 'normal
+   :prefix my-leader-key
+   "T" 'treemacs
+   )
   :config
   (setq
    treemacs-wrap-around nil
@@ -310,6 +461,12 @@
 ;; JSON
 (use-package json-mode
   :mode ("\\.json" "\\.babelrc\\'" "\\.eslintrc\\'")
+  :general
+  (:states 'normal
+   :prefix my-leader-key
+   :keymaps 'json-mode-map
+   "mb" 'json-pretty-print-buffer
+   )
   )
 
 ;; PHP
@@ -381,6 +538,7 @@
 
 ;; LSP
 (use-package lsp-mode
+  :after flycheck
   :hook (
          (java-mode . lsp)
          (php-mode . lsp)
@@ -389,8 +547,19 @@
          (web-mode . lsp)
          (yaml-mode . lsp)
          )
-  :config
-  (flycheck-add-next-checker 'lsp 'php)
+  :general
+  (:states 'normal
+   :keymaps '(
+              java-mode-map
+              php-mode-map
+              scala-mode-map
+              typescript-mode-map
+              web-mode-map
+              )
+   :prefix my-leader-key
+   "mi" 'lsp-ui-doc-glance
+   "mr" 'lsp-find-references
+   )
   )
 
 (use-package company-lsp
@@ -398,9 +567,11 @@
   :config
   (push 'company-lsp company-backends)
   )
+
 (use-package lsp-java
   :after lsp-mode
   )
+
 (use-package lsp-ui
   :after lsp-mode
   :config
@@ -412,6 +583,14 @@
 
 (use-package flycheck
   :blackout
+  :general
+  (:states 'normal
+   :prefix my-leader-key
+   "el" 'flycheck-list-errors
+   "en" 'flycheck-next-error
+   "ep" 'flycheck-previous-error
+   "ev" 'flycheck-verify-setup
+   )
   :config
   (global-flycheck-mode)
 
@@ -447,13 +626,23 @@
   (interactive)
   (dired (file-name-directory (buffer-file-name))))
 
-;; Latex
+(general-define-key
+ :prefix my-leader-key
+ :states 'normal
+ :keymaps 'dired-mode-map
+ "mo" 'dired-omit-mode
+ )
 
-;; (setq TeX-auto-save t)
-;; (setq TeX-parse-self t)
-;; (setq TeX-PDF-mode t)
-
-;; (add-hook 'latex-mode-hook 'TeX-source-correlate-mode)
+;; ELisp
+(general-define-key
+ :prefix my-leader-key
+ :states 'normal
+ :keymaps 'emacs-lisp-mode-map
+ "mn" 'narrow-to-defun
+ "mx" '(:ignore t :wk "Eval")
+ "mxd" 'eval-defun
+ "mxe" 'eval-expression
+ )
 
 ;; Spell Checking
 (setq ispell-dictionary "english")
@@ -478,15 +667,59 @@
   "Enables word-wrapping for org mode."
   (visual-line-mode))
 
+(defun my-daily-agenda ()
+  "Open up daily agenda."
+  (interactive)
+  (org-agenda-list nil nil 'day)
+  )
+
 (use-package org
   :straight org-plus-contrib
   :mode ("\\.org\\'" . org-mode)
+  :general
+  (:states 'normal
+   :prefix my-leader-key
+   "a" 'my-daily-agenda
+   "A" 'org-agenda
+   "c" 'org-capture
+   )
+  (:states 'normal
+   :prefix my-leader-key
+   :keymaps 'org-mode-map
+   "m." 'org-time-stamp
+   "m," 'org-schedule
+   "m*" 'org-toggle-heading
+   "m-" 'org-toggle-item
+   "m/" 'org-sparse-tree
+   "ma" 'org-archive-subtree
+   "mc" 'org-cycle
+   "mC" 'org-global-cycle
+   "md" 'org-deadline
+   "me" 'org-export-dispatch
+   "mE" 'outline-show-all
+   "mn" 'org-narrow-to-subtree
+   "mp" 'org-priority
+   "mr" 'org-reveal
+   "mt" 'org-todo
+   "mx" 'org-toggle-checkbox
+
+   "ms" '(:ignore t :wk "Search")
+   "msh" 'helm-org-in-buffer-headings
+
+   "mT" '(:ignore t :wk "Tables")
+   "mT*" 'org-table-recalculate
+   "mTt" 'org-table-iterate
+   "mTI" 'org-table-iterate-buffer-tables
+
+   "mTd" '(:ignore t :wk "Delete")
+   "mTdr" 'org-table-kill-row
+   )
   :config
   (add-hook 'org-mode-hook 'flyspell-mode)
 
   (setq
    org-directory "~/org"
-   org-default-notes-file "~/org/work.org"
+   org-default-notes-file "~/Dropbox/Arbeit Sync/org/work.org"
    org-startup-indented t
    org-startup-folded t
    org-special-ctrl-a/e t
@@ -494,27 +727,14 @@
    org-return-follows-link t
    )
 
-  (setq org-capture-templates
-        '(
-          ("t" "Task" entry (file+headline "" "Tasks")
-           "* TODO %?\nSCHEDULED: %T\n%i\n%a")
-          ("p" "Post scrum" checkitem (file+olp "" "Post Scrums"))
-          )
-        )
   (add-hook 'org-capture-mode-hook 'evil-insert-state)
 
   (add-hook 'org-mode-hook 'my/enable-org-mode-wordwrap)
 
-  (evil-define-key 'normal org-mode-map
-    (kbd "^") 'evil-digit-argument-or-evil-org-beginning-of-line
-    )
-
   (require 'ox-md)
 
   ;; Agenda
-  (setq org-agenda-files '(
-                           "~/org/"
-                           ))
+  (setq org-agenda-files '("~/org/"))
 
   (setq
    org-deadline-warning-days 3
@@ -570,16 +790,14 @@
   :commands helm-org-in-buffer-headings
   )
 
-(evil-define-key 'motion org-agenda-mode-map
-  (kbd "c") 'org-agenda-columns
-  (kbd "d") 'org-agenda-day-view
-  (kbd "w") 'org-agenda-week-view
-  )
-
 (use-package calfw)
 (use-package calfw-org
   :after calfw
-  :commands cfw:open-org-calendar
+  :general
+  (:states 'normal
+   :prefix my-leader-key
+   "C" 'cfw:open-org-calendar
+   )
   )
 
 (use-package htmlize)
@@ -619,9 +837,20 @@
         (holiday-fixed 8 15 "Mariae Himmelfahrt")
         (holiday-fixed 11 1 "Allerheiligen")))
 
+(defun my/plantuml-preview-new-window ()
+  "Preview the PlantUML in a new window."
+  (interactive)
+  (plantuml-preview 4))
+
 ;; Plant UML
 (use-package plantuml-mode
   :mode "\\.plantuml\\'"
+  :general
+  (:states 'normal
+   :prefix my-leader-key
+   :keymaps 'plantuml-mode-map
+   "mp" 'my/plantuml-preview-new-window
+   )
   :config
   (setq plantuml-default-exec-mode 'jar)
   (setq plantuml-output-type "png")
@@ -630,6 +859,12 @@
 ;; Graphviz
 (use-package graphviz-dot-mode
   :mode "\\.dot\\'"
+  :general
+  (:states 'normal
+   :prefix my-leader-key
+   :keymaps 'graphviz-mode-map
+   "mp" 'graphviz-dot-preview
+   )
   )
 
 ;; Python
@@ -648,7 +883,13 @@
   )
 
 (use-package string-inflection
-  :commands string-inflection-camelcase string-inflection-underscore
+  :general
+  (:states 'normal
+   :prefix my-leader-key
+   "t" '(:ignore t :wk "Text")
+   "t_" 'string-inflection-underscore
+   "tC" 'string-inflection-camelcase
+   )
   )
 
 ;; Java
@@ -680,60 +921,8 @@
   :mode "\\.kt\\'"
   )
 
-;; Keys
-(defun set-group-string (prefix title)
-  "Set the which-key string for LEADER PREFIX to TITLE."
-  (which-key-add-key-based-replacements
-    (concat evil-leader/leader " " prefix) title))
-
-(defun my-daily-agenda ()
-  "Open up daily agenda."
-  (interactive)
-  (org-agenda-list 1))
-
-;; Top-Level Keys
-(evil-leader/set-key
-  "'" 'visit-term-buffer
-  "a" 'my-daily-agenda
-  "A" 'org-agenda
-  "c" 'org-capture
-  "C" 'cfw:open-org-calendar
-  "d" 'dired-open-current-directory
-  "T" 'treemacs
-  )
-
-;; Buffers
-(defun kill-other-buffers ()
-  "Kill all other buffers."
-  (interactive)
-  (mapc 'kill-buffer (delq (current-buffer) (buffer-list))))
-
-(defun my/revert-buffer ()
-  "Revert buffer correctly."
-  (interactive)
-  (if (equal system-type 'windows-nt)
-      (revert-buffer-with-coding-system 'utf-8-dos)
-      (revert-buffer)
-  ))
-
-(set-group-string "b" "Buffers")
-(evil-leader/set-key
-  "bb" 'helm-buffers-list
-  "bd" 'kill-this-buffer
-  "bD" 'kill-other-buffers
-  "br" 'my/revert-buffer)
-
-;; Errors
-(set-group-string "e" "Errors")
-(evil-leader/set-key
-  "el" 'flycheck-list-errors
-  "en" 'flycheck-next-error
-  "ep" 'flycheck-previous-error
-  "ev" 'flycheck-verify-setup
-  )
-
 ;; File Keys
-(defun visit-emacs-init ()
+(defun my/visit-emacs-init ()
   "Visit ~/.emacs.d/init.el."
   (interactive)
   (find-file "~/.emacs.d/init.el"))
@@ -741,7 +930,7 @@
 
 ;; These are taken from Steve Yegge's .emacs:
 ;; https://sites.google.com/site/steveyegge2/my-dot-emacs-file
-(defun rename-file-and-buffer (new-name)
+(defun my/rename-file-and-buffer (new-name)
  "Renames both current buffer and file it's visiting to NEW-NAME." (interactive "sNew name: ")
  (let ((name (buffer-name))
 	(filename (buffer-file-name)))
@@ -755,7 +944,7 @@
      (set-visited-file-name new-name)
      (set-buffer-modified-p nil))))))
 
-(defun move-buffer-file (dir)
+(defun my/move-buffer-file (dir)
  "Move both current buffer and file it's visiting to DIR." (interactive "DNew directory: ")
  (let* ((name (buffer-name))
 	 (filename (buffer-file-name))
@@ -773,7 +962,7 @@
     (set-buffer-modified-p nil)
     t))))
 
-(defun delete-file-and-buffer ()
+(defun my/delete-file-and-buffer ()
   "Kill the current buffer and deletes the file it is visiting."
   (interactive)
   (let ((filename (buffer-file-name)))
@@ -784,82 +973,24 @@
                  (message "Deleted file %s" filename)
                  (kill-buffer)))))))
 
-(set-group-string "f" "Files")
-(evil-leader/set-key
-  "fd" 'delete-file-and-buffer
-  "fe" 'visit-emacs-init
-  "fm" 'move-buffer-file
-  "fr" 'rename-file-and-buffer
-  )
-
-;; Git Keys
-(defun my/delete-merged-branches ()
-  "Delete all branches that have been merged into master."
-  (interactive)
-  (let ((branches (magit-git-lines "branch --merged master")))
-    (dolist (branch branches)
-      (if (not (equal branch "master"))
-          (magit-call-git (concat "branch -d " branch)))))
-  )
-
-(set-group-string "g" "Git")
-(evil-leader/set-key
-  "gb" 'magit-branch
-  "gB" 'magit-blame
-  "gc" 'magit-commit
-  "gd" 'magit-diff
-  "gp" 'magit-push
-  "gr" 'magit-rebase
-  "gs" 'magit-status)
-
-(set-group-string "gh" "Hunks")
-(evil-leader/set-key
-  "ghn" 'git-gutter:next-hunk
-  "ghp" 'git-gutter:previous-hunk)
-
-;; Help Keys
-(set-group-string "h" "Help")
-(evil-leader/set-key
-  "ha" 'apropos
-  "hf" 'describe-function
-  "hk" 'describe-key
-  "hm" 'describe-mode
-  "hv" 'describe-variable)
-
-;; Project Keys
-(set-group-string "p" "Project")
-(evil-leader/set-key
-  "p'" 'visit-term-projectile-root
-  "pi" 'projectile-invalidate-cache
-  "pf" 'helm-projectile-find-file
-  "pl" 'helm-projectile-switch-project
-  )
-
-;; Search Keys
-(set-group-string "s" "Search")
-(evil-leader/set-key
-  "sp" 'helm-projectile-ag
-  )
-
-;; Text Keys
-(set-group-string "t" "Text")
-(evil-leader/set-key
-  "t_" 'string-inflection-underscore
-  "tC" 'string-inflection-camelcase)
+(general-define-key
+ :prefix my-leader-key
+ :states 'normal
+ "fd" 'my/delete-file-and-buffer
+ "fe" 'my/visit-emacs-init
+ "fm" 'my/move-buffer-file
+ "fr" 'my/rename-file-and-buffer
+ )
 
 ;; Window Keys
-(set-group-string "w" "Window")
-(evil-leader/set-key
-  "w-" 'split-window-below
-  "w/" 'split-window-right
-  "w=" 'balance-windows
-  "wn" 'make-frame)
-
-;;; MAJOR MODE KEYS
-(load-file "~/.emacs.d/major-mode.el")
-
-;; Other Keys
-(global-set-key (kbd "s-u") 'revert-buffer-no-confirm)
+(general-define-key
+ :prefix my-leader-key
+ :states 'normal
+ "w-" 'split-window-below
+ "w/" 'split-window-right
+ "w=" 'balance-windows
+ "wn" 'make-frame
+ )
 
 (defun evil-ex-define-cmd-local
     (cmd function)
@@ -932,6 +1063,16 @@
    )
   )
 
+;; Reddit
+(use-package md4rd
+  :commands md4rd md4rd-login
+  :defines md4rd-subs-active
+  :config
+  (add-to-list 'evil-emacs-state-modes 'md4rd-mode)
+  (setq
+   md4rd-subs-active '(awww germany))
+  )
+
 ;; Local Configuration
 (if (file-exists-p (expand-file-name "~/.emacs.d/local-config.el"))
     (load-file (expand-file-name "~/.emacs.d/local-config.el")))
@@ -946,7 +1087,7 @@
     ("4b207752aa69c0b182c6c3b8e810bbf3afa429ff06f274c8ca52f8df7623eb60" "ed317c0a3387be628a48c4bbdb316b4fa645a414838149069210b66dd521733f" "938d8c186c4cb9ec4a8d8bc159285e0d0f07bad46edf20aa469a89d0d2a586ea" "8ed752276957903a270c797c4ab52931199806ccd9f0c3bb77f6f4b9e71b9272" "4a7abcca7cfa2ccdf4d7804f1162dd0353ce766b1277e8ee2ac7ee27bfbb408f" "10e3d04d524c42b71496e6c2e770c8e18b153fcfcc838947094dad8e5aa02cef" "06f0b439b62164c6f8f84fdda32b62fb50b6d00e8b01c2208e55543a6337433a" "8aebf25556399b58091e533e455dd50a6a9cba958cc4ebb0aab175863c25b9a4" "d677ef584c6dfc0697901a44b885cc18e206f05114c8a3b7fde674fce6180879" "2a739405edf418b8581dcd176aaf695d319f99e3488224a3c495cb0f9fd814e3" "bffa9739ce0752a37d9b1eee78fc00ba159748f50dc328af4be661484848e476" default)))
  '(package-selected-packages
    (quote
-    (org-bullets dashboard ivy-posframe all-the-icons-ivy ivy-rich counsel-projectile evil-visualstar exec-path-from-shell 0x0 evil-magit ox-mediawiki gnuplot feature-mode org-jira ox-jira meghanada openapi-yaml-mode cmake-mode ggtags modern-cpp-font-lock rtags company-quickhelp string-inflection graphviz-dot-mode elpy ample-theme doom-themes solarized-theme editorconfig js2-mode tide mediawiki edit-server nginx-mode dockerfile-mode nagios-mode delight rainbow-delimiters evil-surround git-gutter-fringe diff-hl rainbow-mode less-css-mode web-mode json-mode jsdon-mode spaceline-config use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil)))
+    (org-timeline org-super-agenda yaml-mode lsp-treemacs company-lsp lsp-company lsp-ui lsp-mode ox-md org-wild-notifier calfw calfw-org unicode-fonts mu4e-alert org-bullets dashboard ivy-posframe all-the-icons-ivy ivy-rich counsel-projectile evil-visualstar exec-path-from-shell 0x0 evil-magit ox-mediawiki gnuplot feature-mode org-jira ox-jira meghanada openapi-yaml-mode cmake-mode ggtags modern-cpp-font-lock rtags company-quickhelp string-inflection graphviz-dot-mode elpy ample-theme doom-themes solarized-theme editorconfig js2-mode tide mediawiki edit-server nginx-mode dockerfile-mode nagios-mode delight rainbow-delimiters evil-surround git-gutter-fringe diff-hl rainbow-mode less-css-mode web-mode json-mode jsdon-mode spaceline-config use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil)))
  '(safe-local-variable-values
    (quote
     ((json-encoding-default-indeitation . "    ")

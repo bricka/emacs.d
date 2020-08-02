@@ -131,6 +131,7 @@
   (evil-add-hjkl-bindings package-menu-mode-map 'emacs)
   (evil-add-hjkl-bindings messages-buffer-mode-map 'emacs)
   (add-to-list 'evil-emacs-state-modes 'flycheck-error-list-mode)
+  (add-to-list 'evil-emacs-state-modes 'display-time-world-mode)
 
   (define-key evil-insert-state-map (kbd "C-v") 'yank)
   (define-key evil-normal-state-map
@@ -201,7 +202,7 @@
   (setq
    doom-modeline-buffer-encoding nil
    doom-modeline-checker-simple-format nil
-   doom-modeline-minor-modes t
+   doom-modeline-minor-modes nil
    doom-modeline-mu4e t
    )
   (doom-modeline-mode 1))
@@ -234,8 +235,11 @@
   (helm-mode 1)
   )
 
+(use-package helm-ag
+  :after helm)
+
 (use-package helm-projectile
-  :after helm
+  :after helm helm-ag
   )
 
 (use-package helm-icons
@@ -243,9 +247,17 @@
   (helm-icons-enable)
   )
 
+(use-package helm-flx
+  :config
+  (helm-flx-mode 1)
+  )
+
 (use-package treemacs
   :commands treemacs
   :config
+  (setq
+   treemacs-wrap-around nil
+   )
   (treemacs-follow-mode)
   )
 
@@ -439,6 +451,10 @@
 
 ;; Spell Checking
 (setq ispell-dictionary "english")
+(use-package flyspell
+  :blackout
+  :hook (org-mode . flyspell-mode)
+  )
 
 ;; LESS
 
@@ -468,6 +484,8 @@
    org-startup-indented t
    org-startup-folded t
    org-special-ctrl-a/e t
+   org-hide-emphasis-markers t
+   org-return-follows-link t
    )
 
   (setq org-capture-templates
@@ -495,6 +513,7 @@
   (setq
    org-deadline-warning-days 3
    org-agenda-start-on-weekday nil
+   org-agenda-window-setup 'other-window
    )
 
   (setq org-agenda-time-grid '((daily today require-timed)
@@ -523,6 +542,7 @@
 (use-package org-superstar
   :after org
   :hook (org-mode . org-superstar-mode)
+  :defines org-superstar-item-bullet-alist
   :config
   (setq org-superstar-item-bullet-alist '(
                                           (?- . ?➤)
@@ -621,6 +641,9 @@
   )
 
 (use-package string-inflection)
+(use-package string-inflection
+  :commands string-inflection-camelcase string-inflection-underscore
+  )
 
 ;; Java
 
@@ -639,7 +662,17 @@
 
 ;; XML
 
-(setq nxml-slash-auto-complete-flag t)
+(use-package nxml-mode
+  :straight (:type built-in)
+  :mode "\\.xml"
+  :config
+  (setq nxml-slash-auto-complete-flag t)
+  )
+
+;; Kotlin
+(use-package kotlin-mode
+  :mode "\\.kt\\'"
+  )
 
 ;; Keys
 (defun set-group-string (prefix title)
@@ -648,6 +681,7 @@
     (concat evil-leader/leader " " prefix) title))
 
 (defun my-daily-agenda ()
+  "Open up daily agenda."
   (interactive)
   (org-agenda-list 1))
 
@@ -656,8 +690,8 @@
   "'" 'visit-term-buffer
   "a" 'my-daily-agenda
   "A" 'org-agenda
-  "c" 'cfw:open-org-calendar
-  "C" 'org-capture
+  "c" 'org-capture
+  "C" 'cfw:open-org-calendar
   "d" 'dired-open-current-directory
   "T" 'treemacs
   )
@@ -904,6 +938,19 @@
       errors))
 
   :modes (swagger-yaml-mode)
+;; Time
+(use-package time
+  :commands display-time-world
+  :config
+  (setq
+   zoneinfo-style-world-list '(
+                               ("Europe/Berlin" "München")
+                               ("Europe/Moscow" "Moscow")
+                               ("America/Sao_Paulo" "Belo Horizonte")
+                               )
+   display-time-format "%Y-%m-%d %H:%M"
+   display-time-default-load-average nil
+   )
   )
 
 (add-to-list 'flycheck-checkers 'swagger)

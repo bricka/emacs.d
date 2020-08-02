@@ -526,6 +526,7 @@
   )
 
 (use-package org-super-agenda
+  :defines org-super-agenda-header-map org-super-agenda-groups
   :config
   (org-super-agenda-mode)
   (setq org-super-agenda-header-map nil)
@@ -927,8 +928,8 @@
   )
 
 ;; Local Configuration
-(if (file-exists-p "local-config.el")
-    (load-file (expand-file-name "./local-config.el")))
+(if (file-exists-p (expand-file-name "~/.emacs.d/local-config.el"))
+    (load-file (expand-file-name "~/.emacs.d/local-config.el")))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

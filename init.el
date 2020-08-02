@@ -269,6 +269,11 @@
 (use-package treemacs-projectile
   :after treemacs projectile)
 
+(use-package treemacs-all-the-icons
+  :config
+  (treemacs-load-theme "all-the-icons")
+  )
+
 ;; Web Mode
 (use-package web-mode
   :mode ("\\.html\\'" "\\.jsx?\\'" "\\.mustache\\'" "\\.tsx\\'")

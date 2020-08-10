@@ -34,6 +34,7 @@
 (setq inhibit-startup-screen t)
 (setq-default require-final-newline t)
 (setq-default make-backup-files nil)
+(setq ring-bell-function 'ignore)
 
 (use-package unicode-fonts
   :config
@@ -41,6 +42,8 @@
 
 (cond ((eq system-type 'darwin) (set-face-attribute 'default nil :font "Menlo 15"))
       (t (set-face-attribute 'default nil :font "DejaVu Sans Mono 15")))
+
+(set-face-attribute 'variable-pitch nil :font "DejaVu Serif 15")
 
 ;; Indentation
 (defun my/set-indentation (indentation)
@@ -530,7 +533,7 @@
 ;; Rainbow Mode
 (use-package rainbow-mode
   :blackout
-  :hook css-mode
+  :hook css-mode web-mode typescript-mode
 
   :config
   (add-to-list 'rainbow-html-colors-major-mode-list 'less-css-mode)
@@ -592,6 +595,7 @@
    "ev" 'flycheck-verify-setup
    )
   :config
+  (setq flycheck-global-modes '(not org-mode))
   (global-flycheck-mode)
 
   (defun my/use-eslint-from-node-modules ()
@@ -716,10 +720,14 @@
    )
   :config
   (add-hook 'org-mode-hook 'flyspell-mode)
+  (add-hook 'org-mode-hook 'variable-pitch-mode)
+
+  ;; Font Configuration
+  (set-face-attribute 'org-checkbox nil :family "monospace")
+  (set-face-attribute 'org-link nil :family "monospace")
 
   (setq
    org-directory "~/org"
-   org-default-notes-file "~/Dropbox/Arbeit Sync/org/work.org"
    org-startup-indented t
    org-startup-folded t
    org-special-ctrl-a/e t
@@ -771,6 +779,8 @@
   :hook (org-mode . org-superstar-mode)
   :defines org-superstar-item-bullet-alist
   :config
+  (set-face-attribute 'org-superstar-item nil :family "monospace")
+  (set-face-attribute 'org-superstar-header-bullet nil :family "monospace")
   (setq org-superstar-item-bullet-alist '(
                                           (?- . ?➤)
                                           ))
@@ -1050,7 +1060,6 @@
 
 ;; Time
 (use-package time
-  :commands display-time-world
   :config
   (setq
    zoneinfo-style-world-list '(
@@ -1061,16 +1070,7 @@
    display-time-format "%Y-%m-%d %H:%M"
    display-time-default-load-average nil
    )
-  )
-
-;; Reddit
-(use-package md4rd
-  :commands md4rd md4rd-login
-  :defines md4rd-subs-active
-  :config
-  (add-to-list 'evil-emacs-state-modes 'md4rd-mode)
-  (setq
-   md4rd-subs-active '(awww germany))
+  (display-time-mode)
   )
 
 ;; Local Configuration
@@ -1090,7 +1090,7 @@
     (org-timeline org-super-agenda yaml-mode lsp-treemacs company-lsp lsp-company lsp-ui lsp-mode ox-md org-wild-notifier calfw calfw-org unicode-fonts mu4e-alert org-bullets dashboard ivy-posframe all-the-icons-ivy ivy-rich counsel-projectile evil-visualstar exec-path-from-shell 0x0 evil-magit ox-mediawiki gnuplot feature-mode org-jira ox-jira meghanada openapi-yaml-mode cmake-mode ggtags modern-cpp-font-lock rtags company-quickhelp string-inflection graphviz-dot-mode elpy ample-theme doom-themes solarized-theme editorconfig js2-mode tide mediawiki edit-server nginx-mode dockerfile-mode nagios-mode delight rainbow-delimiters evil-surround git-gutter-fringe diff-hl rainbow-mode less-css-mode web-mode json-mode jsdon-mode spaceline-config use-package helm monokai-theme moe-theme color-theme-sanityinc-tomorrow zenburn-theme spaceline powerline flx-ido projectile magit evil)))
  '(safe-local-variable-values
    (quote
-    ((json-encoding-default-indeitation . "    ")
+    ((json-encoding-default-indentation . "    ")
      (standard-indent . 4)
      (tide-tsserver-executable . "/home/abrick/src/core/frontend/node_modules/.bin/tsserver")
      (projectile-enable-caching . t)

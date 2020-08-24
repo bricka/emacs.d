@@ -502,15 +502,6 @@
   (flycheck-add-next-checker 'lsp 'php)
   )
 
-(use-package my-flycheck-phpstan
-  :straight (:local-repo "my-flycheck-phpstan")
-  :after php-mode
-  :config
-  (flycheck-add-next-checker 'phpstan 'php-phpcs)
-  (flycheck-add-next-checker 'phpstan 'php-phpmd)
-  (setq-default phpstan-level nil)
-  )
-
 ;; Markdown
 (use-package markdown-mode
   :mode (("README\\.md\\'" . gfm-mode)
@@ -810,13 +801,6 @@
   )
 
 (use-package gnuplot)
-
-(use-package my-org-agenda-notifier
-  :straight (:local-repo "my-org-agenda-notifier")
-  :after org
-  :config
-  (my-org-agenda-notifier-mode)
-  )
 
 (use-package helm-org
   :after helm org

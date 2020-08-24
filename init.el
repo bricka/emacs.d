@@ -247,8 +247,8 @@
    "O" 'evil-org-open-above
 
    ;; Move
-   "K" 'org-metaup
-   "J" 'org-metadown
+   "C-K" 'org-metaup
+   "C-J" 'org-metadown
 
    ;; Delete
    "d" 'evil-org-delete
@@ -321,6 +321,14 @@
   (global-git-gutter-mode t)
   )
 
+(use-package browse-at-remote
+  :general
+  (:states '(normal visual)
+   :prefix my-leader-key
+   "gp" 'browse-at-remote
+   )
+  )
+
 ;; Mode line
 (use-package doom-modeline
   :after all-the-icons
@@ -330,6 +338,7 @@
    doom-modeline-buffer-encoding nil
    doom-modeline-checker-simple-format nil
    doom-modeline-minor-modes nil
+   doom-modeline-buffer-file-name-style 'truncate-with-project
    doom-modeline-mu4e t
    )
   (doom-modeline-mode 1))
@@ -343,6 +352,16 @@
    modus-vivendi-theme-bold-constructs t
    )
   (load-theme 'modus-vivendi t)
+  )
+
+;; Whitespace
+(use-package origami
+  :hook (prog-mode . origami-mode)
+  :general
+  (:states 'normal
+   :keymaps 'origami-mode-map
+   "<tab>" 'origami-recursively-toggle-node
+   )
   )
 
 ;; Projectile
@@ -724,6 +743,8 @@
 
   ;; Font Configuration
   (set-face-attribute 'org-checkbox nil :family "monospace")
+  (set-face-attribute 'org-checkbox-statistics-todo nil :family "monospace")
+  (set-face-attribute 'org-checkbox-statistics-done nil :family "monospace")
   (set-face-attribute 'org-link nil :family "monospace")
 
   (setq

@@ -498,8 +498,6 @@
 (use-package php-mode
   :after lsp-mode flycheck
   :mode "\\.php\\'"
-  :config
-  (flycheck-add-next-checker 'lsp 'php)
   )
 
 ;; Markdown
@@ -553,7 +551,6 @@
 
 ;; LSP
 (use-package lsp-mode
-  :after flycheck
   :hook (
          (java-mode . lsp)
          (php-mode . lsp)

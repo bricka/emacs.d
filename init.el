@@ -20,6 +20,8 @@
   (load bootstrap-file nil 'nomessage))
 (setq straight-use-package-by-default t)
 
+(add-to-list 'straight-profiles '(local . "local.el"))
+
 (straight-use-package 'use-package)
 
 ;; Disable Menus
@@ -1096,7 +1098,9 @@
 
 ;; Local Configuration
 (if (file-exists-p (expand-file-name "~/.emacs.d/local-config.el"))
-    (load-file (expand-file-name "~/.emacs.d/local-config.el")))
+    (let ((straight-current-profile 'local))
+      (load-file (expand-file-name "~/.emacs.d/local-config.el"))
+      ))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.

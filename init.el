@@ -307,9 +307,13 @@
    "gp" 'magit-push
    "gr" 'magit-rebase
    "gs" 'magit-status
+
+   "gll" 'magit-log
+   "glf" 'magit-log-buffer-file
    )
   :config
-  (setq vc-handled-backends (delq 'Git vc-handled-backends))) ; Disable VC for Git
+  (setq vc-handled-backends (delq 'Git vc-handled-backends)) ; Disable VC for Git
+  )
 
 (use-package git-gutter
   :blackout
@@ -330,6 +334,8 @@
    :prefix my-leader-key
    "gp" 'browse-at-remote
    )
+  :config
+  (setq browse-at-remote-prefer-symbolic nil)
   )
 
 ;; Mode line
@@ -355,6 +361,12 @@
    modus-vivendi-theme-bold-constructs t
    )
   (load-theme 'modus-vivendi t)
+  )
+
+;; Window
+(use-package zoom
+  :config
+  (zoom-mode 1)
   )
 
 ;; Whitespace
@@ -426,13 +438,12 @@
   )
 
 (use-package treemacs
-  :commands treemacs
-  :general
-  (:states 'normal
+  :config
+  (general-define-key
+   :states 'normal
    :prefix my-leader-key
    "T" 'treemacs
    )
-  :config
   (setq
    treemacs-wrap-around nil
    )
@@ -497,7 +508,6 @@
 ;; PHP
 
 (use-package php-mode
-  :after lsp-mode flycheck
   :mode "\\.php\\'"
   )
 
@@ -556,6 +566,7 @@
          (java-mode . lsp)
          (php-mode . lsp)
          (scala-mode . lsp)
+         (sh-mode . lsp)
          (typescript-mode . lsp)
          (web-mode . lsp)
          (yaml-mode . lsp)
@@ -566,19 +577,13 @@
               java-mode-map
               php-mode-map
               scala-mode-map
+              sh-mode-map
               typescript-mode-map
               web-mode-map
               )
    :prefix my-leader-key
    "mi" 'lsp-ui-doc-glance
-   "mr" 'lsp-find-references
    )
-  )
-
-(use-package company-lsp
-  :after company
-  :config
-  (push 'company-lsp company-backends)
   )
 
 (use-package lsp-java
@@ -590,6 +595,26 @@
   :config
   (setq lsp-ui-doc-position 'at-point)
   (setq lsp-ui-doc-enable nil)
+  )
+
+(use-package lsp-treemacs
+  :after lsp-mode treemacs
+  :general
+  (:states 'normal
+   :keymaps '(
+              java-mode-map
+              php-mode-map
+              scala-mode-map
+              sh-mode-map
+              typescript-mode-map
+              web-mode-map
+              )
+   :prefix my-leader-key
+   "mr" `(
+          ,(lambda () (interactive) (lsp-treemacs-references 1))
+          :wk "lsp-treemacs-references"
+          )
+   )
   )
 
 ;; Flycheck

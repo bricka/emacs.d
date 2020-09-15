@@ -354,12 +354,11 @@
 
 ;; Theme
 (use-package modus-vivendi-theme
-  :defines modus-vivendi-theme-bold-constructs modus-vivendi-theme-rainbow-headings
+  :defines modus-vivendi-theme-bold-constructs modus-vivendi-theme-headings
   :config
-  (setq
-   modus-vivendi-theme-rainbow-headings t
-   modus-vivendi-theme-bold-constructs t
-   )
+  (setq modus-vivendi-theme-headings
+        '((t . rainbow)))
+  (setq modus-vivendi-theme-bold-constructs t)
   (load-theme 'modus-vivendi t)
   )
 

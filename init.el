@@ -341,7 +341,7 @@
 ;; Mode line
 (use-package doom-modeline
   :after all-the-icons
-  :defines doom-modeline-buffer-encoding doom-modeline-checker-simple-format doom-modeline-minor-modes doom-modeline-mu4e
+  :defines doom-modeline-buffer-encoding doom-modeline-buffer-file-name-style doom-modeline-checker-simple-format doom-modeline-minor-modes doom-modeline-mu4e
   :config
   (setq
    doom-modeline-buffer-encoding nil
@@ -461,6 +461,10 @@
   (treemacs-load-theme "all-the-icons")
   )
 
+(use-package treemacs-magit
+  :after treemacs magit
+  )
+
 ;; Web Mode
 (use-package web-mode
   :mode ("\\.html\\'" "\\.jsx?\\'" "\\.mustache\\'" "\\.tsx\\'")
@@ -516,7 +520,12 @@
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown"))
+  :init (setq markdown-command "multimarkdown")
+  )
+
+(use-package edit-indirect
+  :after markdown-mode
+  )
 
 ;; YAML
 (use-package yaml-mode
@@ -630,7 +639,7 @@
    "ev" 'flycheck-verify-setup
    )
   :config
-  (setq flycheck-global-modes '(not org-mode))
+  (setq flycheck-global-modes '(not org-mode text-mode))
   (global-flycheck-mode)
 
   (defun my/use-eslint-from-node-modules ()
@@ -669,6 +678,7 @@
  :prefix my-leader-key
  :states 'normal
  :keymaps 'dired-mode-map
+ "br" 'revert-buffer
  "mo" 'dired-omit-mode
  )
 

@@ -595,18 +595,16 @@
   )
 
 (use-package lsp-java
-  :after lsp-mode
   )
 
 (use-package lsp-ui
-  :after lsp-mode
   :config
   (setq lsp-ui-doc-position 'at-point)
   (setq lsp-ui-doc-enable nil)
   )
 
 (use-package lsp-treemacs
-  :after lsp-mode treemacs
+  :after treemacs
   :general
   (:states 'normal
    :keymaps '(

@@ -215,6 +215,8 @@
    :states 'normal
    "C-u" 'evil-scroll-up
    )
+
+  (evil-ex-define-cmd "ls" 'helm-mini)
   )
 
 (use-package evil-magit
@@ -705,6 +707,16 @@
  "mxe" 'eval-expression
  )
 
+;; Plain Text
+(general-define-key
+ :prefix my-leader-key
+ :states 'normal
+ :keymaps 'text-mode-map
+ "mTj" 'table-justify
+ "mTs" 'table-span-cell
+ "mTS" 'table-split-cell
+ )
+
 ;; Spell Checking
 (setq ispell-dictionary "english")
 (use-package flyspell
@@ -792,13 +804,17 @@
    org-special-ctrl-a/e t
    org-hide-emphasis-markers t
    org-return-follows-link t
+   org-refile-use-outline-path t
    )
+  (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.5))
 
   (add-hook 'org-capture-mode-hook 'evil-insert-state)
 
   (add-hook 'org-mode-hook 'my/enable-org-mode-wordwrap)
 
+  ;; Export
   (require 'ox-md)
+  (setq org-html-validation-link nil)
 
   ;; Agenda
   (setq org-agenda-files '("~/org/"))

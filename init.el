@@ -456,6 +456,7 @@
   :after treemacs projectile)
 
 (use-package treemacs-all-the-icons
+  :after treemacs
   :config
   (treemacs-load-theme "all-the-icons")
   )
@@ -573,6 +574,7 @@
   :hook (
          (java-mode . lsp)
          (php-mode . lsp)
+         (rustic-mode . lsp)
          (scala-mode . lsp)
          (sh-mode . lsp)
          (typescript-mode . lsp)
@@ -584,6 +586,7 @@
    :keymaps '(
               java-mode-map
               php-mode-map
+              rustic-mode-map
               scala-mode-map
               sh-mode-map
               typescript-mode-map
@@ -954,6 +957,20 @@
 
 (use-package scala-mode
   :mode "\\.scala\\'")
+
+;; Rust
+(use-package rustic
+  :mode ("\\.rs\\'" . rustic-mode)
+  :general
+  (states 'normal
+   :prefix my-leader-key
+   :keymaps 'rustic-mode-map
+   "mt" 'rustic-cargo-test)
+  :config
+  (setq
+   lsp-rust-analyzer-cargo-watch-command "clippy"
+   )
+  )
 
 ;; XML
 

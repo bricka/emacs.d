@@ -686,6 +686,7 @@
  :keymaps 'emacs-lisp-mode-map
  "mn" 'narrow-to-defun
  "mx" '(:ignore t :wk "Eval")
+ "mxb" 'eval-buffer
  "mxd" 'eval-defun
  "mxe" 'eval-expression
  )

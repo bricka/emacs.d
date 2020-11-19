@@ -532,6 +532,12 @@
   :mode "\\.ya?ml\\'"
   )
 
+;; LaTeX
+(use-package latex-preview-pane
+  :config
+  (latex-preview-pane-enable)
+  )
+
 ;; Neon
 (use-package neon-mode
   :mode "\\.neon\\'"

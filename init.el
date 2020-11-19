@@ -61,6 +61,11 @@
 
 (my/set-indentation 2)
 
+(use-package aggressive-indent
+  :config
+  (global-aggressive-indent-mode 1)
+  )
+
 ;; Parens
 (show-paren-mode 1)
 (electric-pair-mode 1)

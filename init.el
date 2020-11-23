@@ -835,7 +835,11 @@
 
   ;; Export
   (require 'ox-md)
-  (setq org-html-validation-link nil)
+  (setq
+   org-export-initial-scope 'subtree
+   org-html-validation-link nil
+   org-export-with-toc nil
+   )
 
   ;; Agenda
   (setq org-agenda-files '("~/org/"))

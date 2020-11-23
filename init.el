@@ -816,6 +816,7 @@
   (set-face-attribute 'org-checkbox-statistics-todo nil :family "monospace")
   (set-face-attribute 'org-checkbox-statistics-done nil :family "monospace")
   (set-face-attribute 'org-link nil :family "monospace")
+  (set-face-attribute 'org-column-title nil :family "monospace")
 
   (setq
    org-directory "~/org"

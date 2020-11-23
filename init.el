@@ -345,6 +345,12 @@
   (setq browse-at-remote-prefer-symbolic nil)
   )
 
+(use-package transient)
+
+(use-package forge
+  :after magit
+  )
+
 ;; Mode line
 (use-package doom-modeline
   :after all-the-icons

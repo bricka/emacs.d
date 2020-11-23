@@ -187,11 +187,17 @@
   (add-hook 'find-file-hook 'auto-insert)
   )
 
+;; Undo
+(use-package undo-tree
+  :config
+  (global-undo-tree-mode)
+  )
+
 ;; Evil
 (use-package evil
   :init
-
   (setq evil-want-C-u-scroll t)
+  (setq evil-undo-system 'undo-tree)
 
   :config
 

@@ -272,6 +272,14 @@
    "<" 'evil-org-<
    ">" 'evil-org->
    )
+
+  ;; Text Objects
+  (:states '(visual operator)
+   :keymaps 'org-mode-map
+   "ae" 'evil-org-an-object
+   "ie" 'evil-org-inner-object
+   )
+
   (:states 'motion
    :keymaps 'org-agenda-mode-map
    "<tab>" 'org-agenda-goto

@@ -480,7 +480,11 @@
   (setq
    treemacs-wrap-around nil
    )
+  (defun my/is-node_modules (name _)
+    (string-equal "node_modules" name))
+  (add-to-list 'treemacs-ignored-file-predicates 'my/is-node_modules)
   (treemacs-follow-mode)
+  (treemacs-git-mode 'extended)
   )
 
 (use-package treemacs-evil

@@ -414,12 +414,13 @@
 ;; Projectile
 (use-package projectile
   :config
-  ; Not using general to avoid deferring
+  ;; Not using general to avoid deferring
   (general-define-key
    :states 'normal
    :prefix my-leader-key
    "p'" 'visit-term-projectile-root
    "pi" 'projectile-invalidate-cache
+   "pK" 'projectile-kill-buffers
    )
   (projectile-mode)
   (setq projectile-use-git-grep t)
@@ -633,6 +634,7 @@
               )
    :prefix my-leader-key
    "mi" 'lsp-ui-doc-glance
+   "mR" 'lsp-rename
    )
   )
 

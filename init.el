@@ -669,6 +669,7 @@
           :wk "lsp-treemacs-references"
           )
    )
+  )
 
 (use-package yasnippet
   :config

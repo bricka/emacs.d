@@ -316,6 +316,12 @@
   (global-evil-visualstar-mode)
   )
 
+(use-package evil-exchange
+  :after evil
+  :config
+  (evil-exchange-install)
+  )
+
 ;; Git Configuration
 (use-package magit
   :general

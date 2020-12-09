@@ -639,6 +639,7 @@
    :prefix my-leader-key
    "mi" 'lsp-ui-doc-glance
    "mR" 'lsp-rename
+   "mx" 'lsp-execute-code-action
    )
   )
 

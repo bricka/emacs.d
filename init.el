@@ -221,8 +221,6 @@
    :states 'normal
    "C-u" 'evil-scroll-up
    )
-
-  (evil-ex-define-cmd "ls" 'helm-mini)
   )
 
 (use-package evil-magit
@@ -427,47 +425,44 @@
   (setq projectile-completion-system 'ivy)
   )
 
-;; Helm
-(use-package helm
-  :after helm-icons
-  :blackout
+;; Ivy
+(use-package counsel
   :config
-  ;; Not using :general to avoid deferring
-  (general-define-key
-   "M-x" 'helm-M-x
-   )
   (general-define-key
    :states 'normal
    :prefix my-leader-key
-   "bb" 'helm-buffers-list
-   "ha" 'helm-apropos
+   "bb" 'ivy-switch-buffer
    )
-  (bind-key "M-x" 'helm-M-x)
-  (helm-mode 1)
+  (general-define-key
+   "M-x" 'counsel-M-x
+   )
+  (setq ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
+  (ivy-mode 1)
   )
 
-(use-package helm-ag
-  :after helm)
+(use-package ivy-rich
+  :after counsel
+  :config
+  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
+  (ivy-rich-mode 1)
+  )
 
-(use-package helm-projectile
-  :after helm helm-ag
-  :general
-  (:states 'normal
+(use-package all-the-icons-ivy-rich
+  :after ivy-rich
+  :config
+  (all-the-icons-ivy-rich-mode 1)
+  )
+
+(use-package counsel-projectile
+  :after counsel projectile
+  :config
+  (general-define-key
+   :states 'normal
    :prefix my-leader-key
-   "pf" 'helm-projectile-find-file
-   "pl" 'helm-projectile-switch-project
-   "sp" 'helm-projectile-ag
+   "pl" 'counsel-projectile-switch-project
+   "pf" 'counsel-projectile
+   "sp" 'counsel-projectile-grep
    )
-  )
-
-(use-package helm-icons
-  :config
-  (helm-icons-enable)
-  )
-
-(use-package helm-flx
-  :config
-  (helm-flx-mode 1)
   )
 
 (use-package treemacs
@@ -905,11 +900,6 @@
   )
 
 (use-package gnuplot)
-
-(use-package helm-org
-  :after helm org
-  :commands helm-org-in-buffer-headings
-  )
 
 (use-package calfw)
 (use-package calfw-org

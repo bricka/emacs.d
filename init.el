@@ -384,12 +384,12 @@
   (doom-modeline-mode 1))
 
 ;; Theme
-(use-package modus-vivendi-theme
-  :defines modus-vivendi-theme-bold-constructs modus-vivendi-theme-headings
+(use-package modus-themes
+  :straight (:branch "main")
   :config
-  (setq modus-vivendi-theme-headings
+  (setq modus-themes-headings
         '((t . rainbow)))
-  (setq modus-vivendi-theme-bold-constructs t)
+  (setq modus-themes-bold-constructs t)
   (load-theme 'modus-vivendi t)
   )
 

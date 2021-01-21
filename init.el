@@ -676,15 +676,15 @@
 
 (use-package flycheck
   :blackout
-  :general
-  (:states 'normal
+  :config
+  (general-define-key
+   :states 'normal
    :prefix my-leader-key
    "el" 'flycheck-list-errors
    "en" 'flycheck-next-error
    "ep" 'flycheck-previous-error
    "ev" 'flycheck-verify-setup
    )
-  :config
   (setq flycheck-global-modes '(not org-mode text-mode))
   (global-flycheck-mode)
 
@@ -849,7 +849,6 @@
   ;; Export
   (require 'ox-md)
   (setq
-   org-export-initial-scope 'subtree
    org-html-validation-link nil
    org-export-with-toc nil
    )

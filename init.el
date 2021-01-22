@@ -1051,6 +1051,12 @@
    )
   )
 
+;; TypeScript
+
+(use-package add-node-modules-path
+  :hook (typescript-mode)
+  )
+
 ;; XML
 
 (use-package nxml-mode

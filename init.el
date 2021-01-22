@@ -82,6 +82,7 @@
 
 (use-package general
   :config
+  (general-auto-unbind-keys)
   (general-define-key
    :prefix my-leader-key
    :states 'normal

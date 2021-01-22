@@ -228,7 +228,12 @@
   :defines evil-collection-mode-list
   :after evil
   :config
-  (setq evil-collection-mode-list '(magit))
+  (setq evil-collection-mode-list
+        '(
+          dired
+          magit
+          )
+        )
   (evil-collection-init)
   )
 

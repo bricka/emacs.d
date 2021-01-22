@@ -197,6 +197,7 @@
 (use-package evil
   :init
   (setq evil-want-C-u-scroll t)
+  (setq evil-want-keybinding nil)
   (setq evil-undo-system 'undo-tree)
 
   :config
@@ -223,8 +224,12 @@
    )
   )
 
-(use-package evil-magit
-  :after evil magit
+(use-package evil-collection
+  :defines evil-collection-mode-list
+  :after evil
+  :config
+  (setq evil-collection-mode-list '(magit))
+  (evil-collection-init)
   )
 
 (use-package evil-commentary

@@ -753,6 +753,12 @@
  "mxd" 'eval-defun
  "mxe" 'eval-expression
  )
+(general-define-key
+ :prefix my-leader-key
+ :states 'normal
+ :keymaps 'emacs-lisp-mode-map
+ "mxr" 'eval-region
+ )
 
 ;; Plain Text
 (general-define-key

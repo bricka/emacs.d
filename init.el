@@ -823,7 +823,6 @@
    :keymaps 'org-mode-map
    "m." 'org-time-stamp
    "m," 'org-schedule
-   "m*" 'org-toggle-heading
    "m-" 'org-toggle-item
    "m/" 'org-sparse-tree
    "ma" 'org-archive-subtree
@@ -836,7 +835,6 @@
    "mp" 'org-priority
    "mr" 'org-reveal
    "mt" 'org-todo
-   "mx" 'org-toggle-checkbox
 
    "ms" '(:ignore t :wk "Search")
    "msh" 'helm-org-in-buffer-headings
@@ -848,6 +846,11 @@
 
    "mTd" '(:ignore t :wk "Delete")
    "mTdr" 'org-table-kill-row
+   )
+  (:states '(normal visual)
+   :keymaps 'org-mode-map
+   "m*" 'org-toggle-heading
+   "mx" 'org-toggle-checkbox
    )
   :config
   (add-hook 'org-mode-hook 'flyspell-mode)

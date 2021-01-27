@@ -659,6 +659,22 @@
   :config
 
   (setq lsp-headerline-breadcrumb-enable nil)
+
+  ;; Enabling mode-specific Flycheck checkers with LSP
+
+  (defvar-local my/flycheck-local-cache nil)
+
+  (defun my/flycheck-checker-get (fn checker property)
+    (or (alist-get property (alist-get checker my/flycheck-local-cache))
+        (funcall fn checker property)))
+
+  (advice-add 'flycheck-checker-get :around 'my/flycheck-checker-get)
+
+  (add-hook 'lsp-managed-mode-hook
+            (lambda ()
+              (when (derived-mode-p 'typescript-mode)
+                (setq my/flycheck-local-cache '((lsp . ((next-checkers . (javascript-eslint)))))))))
+
   )
 
 (use-package lsp-java

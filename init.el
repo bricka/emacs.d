@@ -1214,11 +1214,7 @@
 (use-package time
   :config
   (setq
-   zoneinfo-style-world-list '(
-                               ("Europe/Berlin" "München")
-                               ("Europe/Moscow" "Moscow")
-                               ("America/Sao_Paulo" "Belo Horizonte")
-                               )
+   zoneinfo-style-world-list '(("Europe/Berlin" "München"))
    display-time-format "%Y-%m-%d %H:%M"
    display-time-default-load-average nil
    )

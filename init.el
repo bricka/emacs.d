@@ -38,6 +38,8 @@
 (setq-default make-backup-files nil)
 (setq ring-bell-function 'ignore)
 (setq custom-file "/dev/null")
+(setq gc-cons-threshold 100000000)
+(setq read-process-output-max (* 1024 1024)) ;; 1mb
 
 (use-package unicode-fonts
   :config

@@ -228,9 +228,10 @@
   )
 
 (use-package evil-collection
-  :defines evil-collection-mode-list
+  :defines evil-collection-mode-list evil-collection-want-unimpaired-p
   :after evil
   :config
+  (setq evil-collection-want-unimpaired-p nil)
   (setq evil-collection-mode-list
         '(
           dired

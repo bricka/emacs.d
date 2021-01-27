@@ -651,10 +651,14 @@
               web-mode-map
               )
    :prefix my-leader-key
+   "mE" 'lsp-treemacs-errors-list
    "mi" 'lsp-ui-doc-glance
    "mR" 'lsp-rename
    "mx" 'lsp-execute-code-action
    )
+  :config
+
+  (setq lsp-headerline-breadcrumb-enable nil)
   )
 
 (use-package lsp-java

@@ -473,9 +473,10 @@
   (general-define-key
    :states 'normal
    :prefix my-leader-key
+   "pb" 'counsel-projectile-switch-to-buffer
    "pl" 'counsel-projectile-switch-project
-   "pf" 'counsel-projectile
-   "sp" 'counsel-projectile-grep
+   "pf" 'counsel-projectile-find-file
+   "sp" 'counsel-projectile-ag
    )
   )
 

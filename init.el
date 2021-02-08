@@ -1260,6 +1260,17 @@
   (display-time-mode)
   )
 
+;; Pomodoro
+
+(use-package pomidor
+  :general
+  ("<f12>" #'pomidor)
+  :config
+  (setq
+   pomidor-sound-tick nil
+   pomidor-sound-tack nil
+   ))
+
 ;; Local Configuration
 (if (file-exists-p (expand-file-name "~/.emacs.d/local-config.el"))
     (let ((straight-current-profile 'local))

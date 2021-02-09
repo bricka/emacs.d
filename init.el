@@ -45,10 +45,17 @@
   :config
   (unicode-fonts-setup))
 
-(cond ((eq system-type 'darwin) (set-face-attribute 'default nil :font "Menlo 15"))
-      (t (set-face-attribute 'default nil :font "DejaVu Sans Mono 15")))
+(defun my/configure-fonts-for-frame (frame)
+  "Configure fonts for FRAME."
+  (when frame
+    (cond ((eq system-type 'darwin) (set-face-attribute 'default frame :font "Menlo 15"))
+          (t (set-face-attribute 'default frame :font "DejaVu Sans Mono 15")))
+    (set-face-attribute 'variable-pitch frame :font "DejaVu Serif 15")
+    )
+  )
 
-(set-face-attribute 'variable-pitch nil :font "DejaVu Serif 15")
+(my/configure-fonts-for-frame (selected-frame))
+(add-hook 'after-make-frame-functions #'my/configure-fonts-for-frame)
 
 ;; Indentation
 (defun my/set-indentation (indentation)
@@ -59,7 +66,8 @@
                 typescript-indent-level indentation
                 js-indent-level indentation
                 plantuml-indent-level indentation
-))
+                )
+  )
 
 (my/set-indentation 2)
 

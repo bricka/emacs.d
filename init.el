@@ -156,9 +156,11 @@
 
 (use-package alert
   :config
-  (setq alert-default-style 'libnotify)
-  (setq alert-fade-time 20)
-  (setq alert-persist-idle-time 60)
+  (setq
+   alert-default-style 'libnotify
+   alert-fade-time 20
+   alert-persist-idle-time 60
+   )
   )
 
 ;; Startup
@@ -212,6 +214,7 @@
   (setq evil-undo-system 'undo-tree)
 
   :config
+  (unbind-key "C-i" evil-motion-state-map)
 
   (evil-mode 1)
   (let ((maps '(
@@ -402,8 +405,10 @@
    doom-modeline-minor-modes nil
    doom-modeline-buffer-file-name-style 'truncate-with-project
    doom-modeline-mu4e t
+   doom-modeline-icon t
    )
-  (doom-modeline-mode 1))
+  (doom-modeline-mode 1)
+  )
 
 ;; Theme
 (use-package modus-themes
@@ -615,15 +620,13 @@
 ;; Company Code Completion
 (use-package company
   :blackout
-  :defines company-dabbrev-downcase
-  :hook (after-init . global-company-mode)
-
   :config
   (setq
    company-minimum-prefix-length 1
    company-idle-delay 0.0
    company-dabbrev-downcase nil
    )
+  (add-hook 'after-init-hook 'global-company-mode)
   )
 
 ;; Rainbow Mode
@@ -680,8 +683,11 @@
 
   (add-hook 'lsp-managed-mode-hook
             (lambda ()
-              (when (derived-mode-p 'typescript-mode)
-                (setq my/flycheck-local-cache '((lsp . ((next-checkers . (javascript-eslint)))))))))
+              (cond ((derived-mode-p 'typescript-mode)
+                     (setq my/flycheck-local-cache '((lsp . ((next-checkers . (javascript-eslint)))))))
+                    ((derived-mode-p 'php-mode)
+                     (setq my/flycheck-local-cache '((lsp . ((next-checkers . (php)))))))
+                    )))
 
   )
 
@@ -803,6 +809,16 @@
  "mTS" 'table-split-cell
  )
 
+(use-package string-inflection
+  :general
+  (:states 'normal
+   :prefix my-leader-key
+   "t" '(:ignore t :wk "Text")
+   "t_" 'string-inflection-underscore
+   "tC" 'string-inflection-camelcase
+   )
+  )
+
 ;; Spell Checking
 (setq ispell-dictionary "english")
 (use-package flyspell
@@ -872,6 +888,7 @@
    "mTdr" 'org-table-kill-row
    )
   (:states '(normal visual)
+   :prefix my-leader-key
    :keymaps 'org-mode-map
    "m*" 'org-toggle-heading
    "mx" 'org-toggle-checkbox
@@ -1048,16 +1065,6 @@
   (add-to-list 'company-backends 'company-anaconda)
   )
 
-(use-package string-inflection
-  :general
-  (:states 'normal
-   :prefix my-leader-key
-   "t" '(:ignore t :wk "Text")
-   "t_" 'string-inflection-underscore
-   "tC" 'string-inflection-camelcase
-   )
-  )
-
 ;; Java
 
 (defun my/java-indent-setup ()
@@ -1089,8 +1096,16 @@
 
 ;; TypeScript
 
+(use-package typescript-mode
+  :mode "\\.tsx?\\'"
+  )
+
 (use-package add-node-modules-path
-  :hook (typescript-mode)
+  :hook typescript-mode prettier-js-mode
+  )
+
+(use-package prettier-js
+  :hook (typescript-mode . prettier-js-mode)
   )
 
 ;; XML

@@ -1266,10 +1266,24 @@
   :general
   ("<f12>" #'pomidor)
   :config
+  (defun my/pomidor-mode-line ()
+    "Calculate what string should appear in the modeline."
+    (cond
+     ((not (pomidor-running-p)) nil)
+     ((pomidor-overwork-p) (:propertize "TAKE BREAK" 'face 'bad-face))
+     ((pomidor-break-over-p) (:propertize "BREAK OVER" 'face 'warning))
+     (t (format-time-string "%M:%S" (pomidor-total-duration)))
+     )
+    )
   (setq
    pomidor-sound-tick nil
    pomidor-sound-tack nil
-   ))
+   )
+  (add-to-list
+   'global-mode-string
+   '(:eval (my/pomidor-mode-line))
+   t)
+  )
 
 ;; Local Configuration
 (if (file-exists-p (expand-file-name "~/.emacs.d/local-config.el"))

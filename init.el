@@ -1283,6 +1283,7 @@
    'global-mode-string
    '(:eval (my/pomidor-mode-line))
    t)
+  (add-to-list 'evil-emacs-state-modes 'pomidor-mode)
   )
 
 ;; Local Configuration

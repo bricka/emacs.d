@@ -1273,6 +1273,13 @@
       (cond
        ((pomidor-overwork-p) (propertize "🍅 TAKE BREAK" 'face 'success))
        ((pomidor-break-over-p) (propertize "🍅 BREAK OVER" 'face 'warning))
+       ((pomidor-break-duration)
+        (propertize
+         (format-time-string
+          "🍅 %M:%S" (time-subtract
+                      (seconds-to-time pomidor-break-seconds)
+                      (pomidor-break-duration)))
+         'face 'success))
        (t (format-time-string "🍅 %M:%S" (pomidor-total-duration)))
        )
       ))

@@ -493,6 +493,14 @@
    )
   )
 
+(use-package prescient)
+
+(use-package ivy-prescient
+  :after counsel prescient
+  :config
+  (ivy-prescient-mode)
+  )
+
 (use-package treemacs
   :config
   (general-define-key

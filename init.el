@@ -897,6 +897,8 @@
   (add-hook 'org-mode-hook 'flyspell-mode)
   (add-hook 'org-mode-hook 'variable-pitch-mode)
 
+  (put 'org-ascii-text-width 'safe-local-variable #'numberp)
+
   ;; Font Configuration
   (set-face-attribute 'org-checkbox nil :family "monospace")
   (set-face-attribute 'org-checkbox-statistics-todo nil :family "monospace")

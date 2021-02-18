@@ -97,7 +97,7 @@
    :prefix my-leader-key
    :states 'normal
    "" nil
-   "'" 'visit-term-buffer
+   "'" 'my/open-terminal
    "d" 'dired-open-current-directory
 
    "b" '(:ignore t :wk "Buffers")

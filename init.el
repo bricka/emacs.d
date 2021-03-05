@@ -827,6 +827,7 @@
 (require 'dired-x)
 (setq-default dired-omit-files-p t)
 (setq dired-omit-files (concat dired-omit-files "\\|^\\...+$"))
+(setq dired-listing-switches "-alh")
 
 (defun dired-open-current-directory ()
   "Open dired in the directory of this file."

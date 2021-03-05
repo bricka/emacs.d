@@ -444,6 +444,7 @@
   (:states 'normal
    :keymaps 'origami-mode-map
    "<tab>" 'origami-recursively-toggle-node
+   )
   )
 
 ;; Commands

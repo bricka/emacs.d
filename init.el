@@ -768,7 +768,38 @@
   )
 
 ;; Shell
-(load-file "~/.emacs.d/shell-configuration.el")
+(defun my/open-projectile-vterm ()
+  "Set up another window, then run `projectile-run-vterm'."
+  (interactive)
+  (split-window-sensibly)
+  (other-window 1)
+  (projectile-run-vterm)
+  )
+
+(defun my/open-vterm-ssh (host user)
+  "Open vterm and SSH to HOST as USER."
+  (vterm-other-window)
+  (vterm-send-string (concat "ssh -l " user " " host "\n"))
+  )
+
+(defun my/open-vterm ()
+  "Open vterm, SSHing if current directory is remote."
+  (interactive)
+  (let ((host (file-remote-p default-directory 'host))
+        (user (file-remote-p default-directory 'user)))
+    (if host
+        (my/open-vterm-ssh host user)
+      (vterm-other-window)))
+  )
+
+(use-package vterm
+  :general
+  (:states 'normal
+           :prefix my-leader-key
+           "'" #'my/open-vterm
+           "p'" #'my/open-projectile-vterm
+           )
+  )
 
 ;; Dired
 

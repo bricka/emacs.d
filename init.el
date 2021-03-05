@@ -30,16 +30,22 @@
 (scroll-bar-mode -1)
 
 ;; Straightforward config
-(setq scroll-step 1)
-(setq-default indent-tabs-mode nil)
-(setq delete-old-versions t)
-(setq inhibit-startup-screen t)
-(setq-default require-final-newline t)
-(setq-default make-backup-files nil)
-(setq ring-bell-function 'ignore)
-(setq custom-file "/dev/null")
-(setq gc-cons-threshold 100000000)
-(setq read-process-output-max (* 1024 1024)) ;; 1mb
+(setq-default
+ indent-tabs-mode nil
+ require-final-newline t
+ make-backup-files nil
+ )
+(setq
+ scroll-step 1
+ delete-old-versions t
+ inhibit-startup-screen t
+ ring-bell-function 'ignore
+ custom-file "/dev/null"
+ gc-cons-threshold 100000000
+ read-process-output-max (* 1024 1024) ;; 1mb
+ clean-buffer-list-delay-general 2
+ confirm-kill-emacs #'yes-or-no-p
+ )
 
 (use-package unicode-fonts
   :config

@@ -444,7 +444,17 @@
   (:states 'normal
    :keymaps 'origami-mode-map
    "<tab>" 'origami-recursively-toggle-node
+  )
+
+;; Commands
+(use-package run-command
+  :config
+  (general-define-key
+   :states 'normal
+   :prefix my-leader-key
+   "!" 'run-command
    )
+  (setq run-command-experiments '(vterm-run-method))
   )
 
 ;; Projectile

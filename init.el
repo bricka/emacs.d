@@ -82,6 +82,11 @@
   (global-aggressive-indent-mode 1)
   )
 
+(use-package editorconfig
+  :config
+  (editorconfig-mode 1)
+  )
+
 ;; Parens
 (show-paren-mode 1)
 (electric-pair-mode 1)

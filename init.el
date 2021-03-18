@@ -481,6 +481,7 @@
    :states 'normal
    :prefix my-leader-key
    "bb" 'ivy-switch-buffer
+   "fR" 'counsel-recentf
    )
   (general-define-key
    "M-x" 'counsel-M-x
@@ -492,6 +493,7 @@
 (use-package ivy-rich
   :after counsel
   :config
+  (setq ivy-rich-parse-remote-buffer nil)
   (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
   (ivy-rich-mode 1)
   )
@@ -638,6 +640,8 @@
 (use-package dockerfile-mode
   :mode "\\`Dockerfile\\'"
   )
+
+(use-package docker-tramp)
 
 (add-to-list 'auto-mode-alist '("\/\\.env" . conf-mode))
 
@@ -821,6 +825,10 @@
            "'" #'my/open-vterm
            "p'" #'my/open-projectile-vterm
            )
+  :custom
+  (vterm-min-window-width 1000 "Make the vterm not wrap lines")
+  :config
+  (add-hook 'vterm-mode (lambda () (toggle-truncate-lines 1)))
   )
 
 ;; Dired

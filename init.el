@@ -634,7 +634,10 @@
   :mode "\\`Dockerfile\\'"
   )
 
-(use-package docker-tramp)
+(use-package docker-tramp
+  :custom
+  (docker-tramp-use-names t "Use container names for accessing containers")
+  )
 
 (add-to-list 'auto-mode-alist '("\/\\.env" . conf-mode))
 

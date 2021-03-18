@@ -1033,16 +1033,6 @@
 
 (use-package gnuplot)
 
-(use-package calfw)
-(use-package calfw-org
-  :after calfw
-  :general
-  (:states 'normal
-   :prefix my-leader-key
-   "C" 'cfw:open-org-calendar
-   )
-  )
-
 (use-package htmlize)
 
 ;; Calendar

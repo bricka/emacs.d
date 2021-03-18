@@ -207,7 +207,6 @@
    auto-insert t
    auto-insert-alist nil
    )
-  (add-to-list 'auto-insert-alist '(php-mode . "php-template.php"))
   (add-hook 'find-file-hook 'auto-insert)
   )
 
@@ -602,12 +601,6 @@
    )
   )
 
-;; PHP
-
-(use-package php-mode
-  :mode "\\.php\\'"
-  )
-
 ;; Markdown
 (use-package markdown-mode
   :mode (("README\\.md\\'" . gfm-mode)
@@ -676,7 +669,6 @@
 (use-package lsp-mode
   :hook (
          (java-mode . lsp)
-         (php-mode . lsp)
          (rustic-mode . lsp)
          (scala-mode . lsp)
          (sh-mode . lsp)
@@ -688,7 +680,6 @@
   (:states 'normal
    :keymaps '(
               java-mode-map
-              php-mode-map
               rustic-mode-map
               scala-mode-map
               sh-mode-map
@@ -719,8 +710,6 @@
             (lambda ()
               (cond ((derived-mode-p 'typescript-mode)
                      (setq my/flycheck-local-cache '((lsp . ((next-checkers . (javascript-eslint)))))))
-                    ((derived-mode-p 'php-mode)
-                     (setq my/flycheck-local-cache '((lsp . ((next-checkers . (php)))))))
                     )))
 
   )
@@ -740,7 +729,6 @@
   (:states 'normal
    :keymaps '(
               java-mode-map
-              php-mode-map
               scala-mode-map
               sh-mode-map
               typescript-mode-map

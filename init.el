@@ -174,29 +174,6 @@
    )
   )
 
-;; Startup
-
-(use-package dashboard
-  :after all-the-icons projectile
-  :config
-  ; Not using :general to avoid deferring the loading
-  (general-define-key
-   :states 'normal
-   :keymaps 'dashboard-mode-map
-   "{" 'dashboard-previous-section
-   "}" 'dashboard-next-section
-   "r" 'dashboard-refresh-buffer
-   )
-  (setq dashboard-set-heading-icons t)
-  (setq dashboard-set-file-icons t)
-  (setq dashboard-items '(
-                          (recents . 5)
-                          (projects . 5)
-                          (agenda . 5)
-                          ))
-  (dashboard-setup-startup-hook)
-  )
-
 ;; Auto Insert
 
 (use-package autoinsert

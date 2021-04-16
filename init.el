@@ -633,7 +633,7 @@
    company-idle-delay 0.0
    company-dabbrev-downcase nil
    )
-  (add-hook 'after-init-hook 'global-company-mode)
+  (add-hook 'prog-mode-hook 'company-mode)
   )
 
 ;; Rainbow Mode

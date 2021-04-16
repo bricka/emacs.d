@@ -819,6 +819,12 @@
  "mo" 'dired-omit-mode
  )
 
+(general-define-key
+ :states 'normal
+ :keymaps 'dired-mode-map
+ "s" 'dired-sort-toggle-or-edit
+ )
+
 ;; ELisp
 (general-define-key
  :prefix my-leader-key

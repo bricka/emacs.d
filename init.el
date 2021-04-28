@@ -51,6 +51,22 @@
   :config
   (unicode-fonts-setup))
 
+
+;; Scratch
+(setq initial-scratch-message nil)
+(when (and (executable-find "cowsay")
+           (executable-find "fortune"))
+  (setq
+   initial-scratch-message
+   (string-join
+    (seq-map
+     (lambda (l) (concat ";; " l))
+     (split-string
+      (shell-command-to-string "fortune | cowsay")
+      "\n")
+     )
+    "\n")))
+
 (defun my/configure-fonts-for-frame (frame)
   "Configure fonts for FRAME."
   (when frame

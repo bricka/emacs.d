@@ -838,8 +838,14 @@
 (general-define-key
  :states 'normal
  :keymaps 'dired-mode-map
+ "o" 'dired-find-file-other-window
  "s" 'dired-sort-toggle-or-edit
  )
+
+(use-package diredfl
+  :config
+  (add-hook 'dired-mode-hook 'diredfl-mode)
+  )
 
 ;; ELisp
 (general-define-key

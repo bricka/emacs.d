@@ -994,6 +994,9 @@
    org-export-with-toc nil
    )
 
+  (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
+  (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
+
   ;; Agenda
   (setq org-agenda-files '("~/org/"))
 

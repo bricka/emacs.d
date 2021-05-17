@@ -1179,6 +1179,7 @@
         scripts))))
 
 (defun run-command-recipe-package-json ()
+  "Recipes for scripts in package.json."
   (when-let* ((project-dir
                (locate-dominating-file default-directory "package.json"))
               (scripts

@@ -397,6 +397,8 @@
   :after magit
   )
 
+(add-to-list 'auto-mode-alist '("CODEOWNERS\\'" . conf-mode))
+
 ;; Mode line
 (use-package doom-modeline
   :after all-the-icons

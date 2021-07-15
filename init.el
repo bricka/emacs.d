@@ -1201,6 +1201,9 @@
 
 (add-to-list 'run-command-recipes #'run-command-recipe-package-json)
 
+;; CSV
+(use-package csv-mode)
+
 ;; XML
 
 (use-package nxml-mode

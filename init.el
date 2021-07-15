@@ -212,9 +212,11 @@
 ;; Evil
 (use-package evil
   :init
-  (setq evil-want-C-u-scroll t)
-  (setq evil-want-keybinding nil)
-  (setq evil-undo-system 'undo-tree)
+  (setq
+   evil-want-C-u-scroll t
+   evil-want-keybinding nil
+   evil-undo-system 'undo-tree
+   )
 
   :config
   (unbind-key "C-i" evil-motion-state-map)
@@ -814,7 +816,7 @@
   :custom
   (vterm-min-window-width 1000 "Make the vterm not wrap lines")
   :config
-  (add-hook 'vterm-mode (lambda () (toggle-truncate-lines 1)))
+  (add-hook 'vterm-mode-hook (lambda () (toggle-truncate-lines -1)))
   )
 
 ;; Dired
@@ -966,6 +968,7 @@
   (add-hook 'org-mode-hook 'variable-pitch-mode)
 
   (put 'org-ascii-text-width 'safe-local-variable #'numberp)
+  (setq org-ascii-text-width 120)
 
   ;; Font Configuration
   (set-face-attribute 'org-checkbox nil :family "monospace")
@@ -979,7 +982,7 @@
    org-startup-indented t
    org-startup-folded t
    org-special-ctrl-a/e t
-   org-hide-emphasis-markers t
+   org-hide-emphasis-markers nil
    org-return-follows-link t
    org-refile-use-outline-path t
    )

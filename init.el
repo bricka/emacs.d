@@ -920,7 +920,6 @@
   )
 
 (use-package org
-  :straight org-plus-contrib
   :mode ("\\.org\\'" . org-mode)
   :general
   (:states 'normal

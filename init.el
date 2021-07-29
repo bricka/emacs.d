@@ -557,7 +557,7 @@
 
 ;; Web Mode
 (use-package web-mode
-  :mode ("\\.html\\'" "\\.jsx?\\'" "\\.mustache\\'" "\\.tsx\\'")
+  :mode ("\\.html\\'" "\\.jsx\\'" "\\.mustache\\'")
 
   :config
 

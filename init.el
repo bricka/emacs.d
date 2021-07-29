@@ -425,6 +425,7 @@
         '((t . rainbow)))
   (setq modus-themes-bold-constructs t)
   (load-theme 'modus-vivendi t)
+  (setq shr-color-visible-luminance-min 80)
   )
 
 ;; Window
@@ -996,6 +997,7 @@
   (require 'ox-md)
   (setq
    org-html-validation-link nil
+   org-html-postamble nil
    org-export-with-toc nil
    )
 

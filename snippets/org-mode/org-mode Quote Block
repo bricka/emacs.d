@@ -1,0 +1,8 @@
+# -*- mode: snippet -*-
+# name: org-mode Quote Block
+# key: #quote
+# --
+
+#+BEGIN_QUOTE
+$0
+#+END_QUOTE

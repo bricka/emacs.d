@@ -1,0 +1,12 @@
+# -*- mode: snippet -*-
+# name: Template for a JIRA item
+# key: JIRA
+# --
+
+$1
+
+*Acceptance Criteria*
+- $0
+
+*Technical Notes*
+- 

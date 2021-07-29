@@ -1,0 +1,10 @@
+# -*- mode: snippet -*-
+# name: React Component
+# key: component
+# --
+
+interface $1Props {}
+
+export function ${1:Component}(props: $1Props) {
+    $0
+}

@@ -767,20 +767,6 @@
   (setq flycheck-global-modes '(not org-mode text-mode))
   (global-flycheck-mode)
 
-  (defun my/use-eslint-from-node-modules ()
-    "Configure Flycheck to use eslint from node_modules if present."
-    (let* ((root (locate-dominating-file
-                  (or (buffer-file-name) default-directory)
-                  "node_modules"))
-           (global-eslint (executable-find "eslint"))
-           (local-eslint (expand-file-name "node_modules/.bin/eslint.cmd"
-                                           root))
-           (eslint (if (file-executable-p local-eslint)
-                       local-eslint
-                     global-eslint)))
-      (setq-local flycheck-javascript-eslint-executable eslint)))
-
-  (add-hook 'flycheck-mode-hook #'my/use-eslint-from-node-modules)
   (flycheck-add-mode 'javascript-eslint 'web-mode)
   (flycheck-add-mode 'typescript-tslint 'web-mode)
   )

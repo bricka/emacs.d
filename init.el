@@ -393,6 +393,7 @@
    )
   :config
   (setq browse-at-remote-prefer-symbolic nil)
+  (add-to-list 'browse-at-remote-remote-type-regexps (cons "^gitlab\\." "gitlab"))
   )
 
 (use-package transient)

@@ -368,12 +368,14 @@
    )
   :config
   (setq vc-handled-backends (delq 'Git vc-handled-backends)) ; Disable VC for Git
+  ;; magit-extras expects this variable to exist, but for whatever reason, it doesn't for me.
+  (defvar project-switch-commands nil)
   )
 
 (use-package git-gutter
   :blackout
   :config
-  ; Not using :general to avoid deferring
+  ;; Not using :general to avoid deferring
   (general-define-key
    :states 'normal
    :prefix my-leader-key

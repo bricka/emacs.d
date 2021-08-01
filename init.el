@@ -1208,6 +1208,12 @@
   :mode "\\.kt\\'"
   )
 
+;; PDF
+(use-package pdf-tools
+  :config
+  (pdf-tools-install)
+  )
+
 ;; File Keys
 (defun my/visit-emacs-init ()
   "Visit ~/.emacs.d/init.el."

@@ -427,7 +427,11 @@
   :config
   (setq modus-themes-headings
         '((t . rainbow)))
-  (setq modus-themes-bold-constructs t)
+  (setq
+   modus-themes-bold-constructs t
+   modus-themes-completions 'opinionated
+   modus-themes-org-agenda '(( scheduled . rainbow))
+   )
   (load-theme 'modus-vivendi t)
   (setq shr-color-visible-luminance-min 80)
   )

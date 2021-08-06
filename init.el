@@ -960,11 +960,29 @@
   (setq org-ascii-text-width 120)
 
   ;; Font Configuration
-  (set-face-attribute 'org-checkbox nil :family "monospace")
   (set-face-attribute 'org-checkbox-statistics-todo nil :family "monospace")
   (set-face-attribute 'org-checkbox-statistics-done nil :family "monospace")
   (set-face-attribute 'org-link nil :family "monospace")
   (set-face-attribute 'org-column-title nil :family "monospace")
+
+  ;; Checkbox Configuration
+  ;; Taken from https://jft.home.blog/2019/07/17/use-unicode-symbol-to-display-org-mode-checkboxes/
+  (defface org-checkbox-done-text
+    '((t (:inherit 'font-lock-comment-face :strike-through t)))
+    "Face for the text part of a checked org-mode checkbox.")
+  (font-lock-add-keywords
+   'org-mode
+   `(("^[ \t]*\\(?:[-+*]\\|[0-9]+[).]\\)[ \t]+\\(\\(?:\\[@\\(?:start:\\)?[0-9]+\\][ \t]*\\)?\\[\\(?:X\\|\\([0-9]+\\)/\\2\\)\\][^\n]*\n\\)"
+      1 'org-checkbox-done-text prepend))
+   'append)
+
+  (defun my/set-org-prettify-symbols ()
+    "Set the `prettify-mode' symbols for org checkboxes."
+    (push '("[ ]" . "☐") prettify-symbols-alist)
+    (push '("[X]" . "☑") prettify-symbols-alist)
+    (prettify-symbols-mode)
+    )
+  (add-hook 'org-mode-hook #'my/set-org-prettify-symbols)
 
   (setq
    org-directory "~/org"

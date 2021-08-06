@@ -999,6 +999,7 @@
    org-hide-emphasis-markers nil
    org-return-follows-link t
    org-refile-use-outline-path t
+   org-highlight-latex-and-related '(latex script)
    )
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.5))
 

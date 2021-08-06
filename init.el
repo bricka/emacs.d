@@ -140,6 +140,7 @@
    "gh" '(:ignore t :wk "Hunks")
 
    "h" '(:ignore t :wk "Help")
+   "hc" 'describe-char
    "hf" 'describe-function
    "hk" 'describe-key
    "hm" 'describe-mode

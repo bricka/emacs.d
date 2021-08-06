@@ -1063,6 +1063,12 @@
                                           ))
   )
 
+(use-package org-wild-notifier
+  :defines org-wild-notifier-keyword-whitelist org-wild-notifier-alert-time
+  :config
+  (setq org-wild-notifier-alert-time '(10 1))
+  )
+
 (use-package gnuplot)
 
 (use-package htmlize)

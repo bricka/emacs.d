@@ -929,7 +929,7 @@
    :keymaps 'org-mode-map
    "m." 'org-time-stamp
    "m," 'org-schedule
-   "m-" 'org-toggle-item
+   "m-" 'org-cycle-list-bullet
    "m/" 'org-sparse-tree
    "ma" 'org-archive-subtree
    "mc" 'org-cycle

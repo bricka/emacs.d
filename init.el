@@ -1035,6 +1035,12 @@
 
   )
 
+(use-package org-wild-notifier
+  :custom
+  (org-wild-notifier-alert-time '(1 10) "Notify also shortly before event")
+  (org-wild-notifier-keyword-whitelist nil "Notify for all events")
+  )
+
 (use-package org-super-agenda
   :defines org-super-agenda-header-map org-super-agenda-groups
   :config

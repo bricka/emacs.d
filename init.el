@@ -973,6 +973,8 @@
   (set-face-attribute 'org-checkbox-statistics-done nil :family "monospace")
   (set-face-attribute 'org-link nil :family "monospace")
   (set-face-attribute 'org-column-title nil :family "monospace")
+  (set-face-attribute 'org-meta-line nil :family "monospace")
+  (set-face-attribute 'org-code nil :family "monospace")
 
   ;; Checkbox Configuration
   ;; Taken from https://jft.home.blog/2019/07/17/use-unicode-symbol-to-display-org-mode-checkboxes/

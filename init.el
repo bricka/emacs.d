@@ -403,6 +403,8 @@
   :after magit
   )
 
+(use-package git-modes)
+
 (add-to-list 'auto-mode-alist '("CODEOWNERS\\'" . conf-mode))
 
 ;; Mode line
@@ -1168,6 +1170,10 @@
     (c-set-offset 'arglist-close 0)
   ))
 (add-hook 'java-mode-hook 'my/java-indent-setup)
+
+; Gradle files are written in Groovy
+(use-package groovy-mode
+  :mode "\\.gradle")
 
 ;; Scala
 

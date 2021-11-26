@@ -696,6 +696,7 @@
 (use-package lsp-mode
   :hook (
          (java-mode . lsp)
+         (js-mode . lsp)
          (rustic-mode . lsp)
          (scala-mode . lsp)
          (sh-mode . lsp)
@@ -707,6 +708,7 @@
   (:states 'normal
    :keymaps '(
               java-mode-map
+              js-mode-map
               rustic-mode-map
               scala-mode-map
               sh-mode-map

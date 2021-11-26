@@ -24,6 +24,10 @@
 
 (straight-use-package 'use-package)
 
+(setq straight-host-usernames
+      '((github . "bricka")
+        (gitlab . "bricka")))
+
 ;; Disable Menus
 (menu-bar-mode -1)
 (tool-bar-mode -1)

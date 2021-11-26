@@ -933,6 +933,12 @@
   (org-agenda-list nil nil 'day)
   )
 
+(defun my/org-expand-all ()
+  "Expand an Org document for the things I like."
+  (interactive)
+  (org-show-all '(blocks headings))
+  )
+
 (use-package org
   :mode ("\\.org\\'" . org-mode)
   :general
@@ -954,7 +960,7 @@
    "mC" 'org-global-cycle
    "md" 'org-deadline
    "me" 'org-export-dispatch
-   "mE" 'outline-show-all
+   "mE" 'my/org-expand-all
    "mn" 'org-narrow-to-subtree
    "mp" 'org-priority
    "mr" 'org-reveal
@@ -991,6 +997,7 @@
   (set-face-attribute 'org-column-title nil :family "monospace")
   (set-face-attribute 'org-meta-line nil :family "monospace")
   (set-face-attribute 'org-code nil :family "monospace")
+  (set-face-attribute 'org-block nil :family "monospace")
 
   ;; Checkbox Configuration
   ;; Taken from https://jft.home.blog/2019/07/17/use-unicode-symbol-to-display-org-mode-checkboxes/
@@ -1052,6 +1059,9 @@
                                "......"
                                "----------------"))
   (setq org-agenda-current-time-string "⮜┈┈┈┈┈┈┈ now")
+  (setq
+   org-agenda-dim-blocked-tasks nil
+   org-agenda-inhibit-startup t)
 
   )
 
@@ -1059,6 +1069,8 @@
   :custom
   (org-wild-notifier-alert-time '(1 10) "Notify also shortly before event")
   (org-wild-notifier-keyword-whitelist nil "Notify for all events")
+  :config
+  (org-wild-notifier-mode)
   )
 
 (use-package org-super-agenda

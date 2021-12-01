@@ -261,12 +261,16 @@
 (use-package evil-collection
   :defines evil-collection-mode-list evil-collection-want-unimpaired-p
   :after evil
+  :custom
+  (evil-collection-want-unimpaired-p nil "Disable binding of square brackets")
   :config
-  (setq evil-collection-want-unimpaired-p nil)
   (setq evil-collection-mode-list
         '(
           dired
+          elfeed
+          image
           magit
+          xwidget
           )
         )
   (evil-collection-init)
@@ -1458,6 +1462,44 @@
    '(:eval (my/pomidor-mode-line))
    t)
   (add-to-list 'evil-emacs-state-modes 'pomidor-mode)
+  )
+
+;; Elfeed
+
+(defun my/elfeed-filter-to-feed (entry)
+  "Add the feed of the ENTRY to the filter."
+  (interactive (list (elfeed-search-selected :ignore-region)))
+  (let* ((feed (elfeed-entry-feed entry))
+         (feed-title (elfeed-feed-title feed))
+         (escaped-title (s-replace " " "[[:space:]]" feed-title)))
+    (elfeed-search-set-filter (format "%s =^%s$" elfeed-search-filter escaped-title))
+    )
+  )
+
+(use-package elfeed
+  :commands elfeed
+  :defines elfeed-feeds
+  :config
+  (setq elfeed-feeds '(("theoldreader+https://user@theoldreader.com" :use-authinfo t)))
+  (add-hook 'elfeed-show-mode-hook 'visual-line-mode)
+  (general-define-key
+   :keymaps 'elfeed-search-mode-map
+   "F" 'my/elfeed-filter-to-feed
+   "L" 'elfeed-goodies/toggle-logs
+   )
+  )
+
+(use-package elfeed-protocol
+  :straight (:fork t :branch "theoldreader")
+  :after elfeed
+  :config
+  (elfeed-protocol-enable)
+  )
+
+(use-package elfeed-goodies
+  :after elfeed
+  :config
+  (elfeed-goodies/setup)
   )
 
 ;; Local Configuration

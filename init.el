@@ -1065,6 +1065,13 @@
    org-export-with-toc nil
    )
 
+  (put
+   'org-export-initial-scope
+   'safe-local-variable
+   (lambda (v)
+     (memq v '(buffer subtree)))
+   )
+
   (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
   (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
 

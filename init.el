@@ -109,6 +109,7 @@
 
 (use-package aggressive-indent
   :config
+  (add-to-list 'aggressive-indent-excluded-modes 'scala-mode)
   (global-aggressive-indent-mode 1)
   )
 
@@ -507,11 +508,16 @@
    :prefix my-leader-key
    "bb" 'ivy-switch-buffer
    "fR" 'counsel-recentf
+   "hf" 'counsel-describe-function
+   "hv" 'counsel-describe-variable
    )
   (general-define-key
    "M-x" 'counsel-M-x
    )
   (setq ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
+  (setq
+   ivy-use-virtual-buffers t
+   ivy-count-format "(%d/%d) ")
   (ivy-mode 1)
   )
 
@@ -845,6 +851,8 @@
 (setq dired-omit-files (concat dired-omit-files "\\|^\\...+$"))
 (setq dired-listing-switches "-alh")
 
+(add-hook 'dired-mode-hook 'dired-omit-mode)
+
 (defun dired-open-current-directory ()
   "Open dired in the directory of this file."
   (interactive)
@@ -868,6 +876,17 @@
 (use-package diredfl
   :config
   (add-hook 'dired-mode-hook 'diredfl-mode)
+  )
+
+(use-package all-the-icons-dired
+  :config
+  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+  )
+
+;; Images
+(use-package eimp
+  :config
+  (add-hook 'image-mode-hook 'eimp-mode)
   )
 
 ;; ELisp
@@ -1214,6 +1233,8 @@
 (use-package scala-mode
   :mode "\\.scala\\'")
 
+(use-package lsp-metals)
+
 ;; Rust
 (use-package rustic
   :mode ("\\.rs\\'" . rustic-mode)
@@ -1427,7 +1448,6 @@
    display-time-format "%Y-%m-%d %H:%M"
    display-time-default-load-average nil
    )
-  (display-time-mode)
   )
 
 ;; Pomodoro
@@ -1507,3 +1527,5 @@
     (let ((straight-current-profile 'local))
       (load-file (expand-file-name "~/.emacs.d/local-config.el"))
       ))
+
+(server-start)

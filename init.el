@@ -1048,7 +1048,6 @@
    org-special-ctrl-a/e t
    org-hide-emphasis-markers nil
    org-return-follows-link t
-   org-refile-use-outline-path t
    org-highlight-latex-and-related '(latex script)
    )
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.5))
@@ -1056,6 +1055,13 @@
   (add-hook 'org-capture-mode-hook 'evil-insert-state)
 
   (add-hook 'org-mode-hook 'my/enable-org-mode-wordwrap)
+
+  ;; Refile
+  (setq
+   org-refile-targets '((nil . (:maxlevel . 10)))
+   org-refile-use-outline-path t
+   org-outline-path-complete-in-steps nil
+   )
 
   ;; Export
   (require 'ox-md)
@@ -1240,7 +1246,10 @@
 (use-package scala-mode
   :mode "\\.scala\\'")
 
-(use-package lsp-metals)
+(use-package lsp-metals
+  :custom
+  (lsp-metals-server-args '("-J-Dmetals.allow-multiline-string-formatting=off"))
+  )
 
 ;; Rust
 (use-package rustic

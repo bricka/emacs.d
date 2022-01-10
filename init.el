@@ -987,10 +987,8 @@
    "mn" 'org-narrow-to-subtree
    "mp" 'org-priority
    "mr" 'org-reveal
+   "ms" 'counsel-org-goto
    "mt" 'org-todo
-
-   "ms" '(:ignore t :wk "Search")
-   "msh" 'helm-org-in-buffer-headings
 
    "mT" '(:ignore t :wk "Tables")
    "mT*" 'org-table-recalculate

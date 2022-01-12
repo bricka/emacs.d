@@ -229,7 +229,6 @@
 (use-package evil
   :init
   (setq
-   evil-want-C-u-scroll t
    evil-want-keybinding nil
    evil-undo-system 'undo-tree
    )

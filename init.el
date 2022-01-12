@@ -513,11 +513,13 @@
    )
   (general-define-key
    "M-x" 'counsel-M-x
+   "C-x C-f" 'counsel-find-file
    )
   (setq ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
   (setq
    ivy-use-virtual-buffers t
-   ivy-count-format "(%d/%d) ")
+   ivy-count-format "(%d/%d) "
+   ivy-use-selectable-prompt t)
   (ivy-mode 1)
   )
 

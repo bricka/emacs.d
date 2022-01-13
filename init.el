@@ -839,6 +839,8 @@
            "'" #'my/open-vterm
            "p'" #'my/open-projectile-vterm
            )
+  (:keymaps 'vterm-mode-map
+            "C-w C-w" 'evil-window-next)
   :custom
   (vterm-min-window-width 1000 "Make the vterm not wrap lines")
   :config

@@ -843,6 +843,7 @@
   (vterm-min-window-width 1000 "Make the vterm not wrap lines")
   :config
   (add-hook 'vterm-mode-hook (lambda () (toggle-truncate-lines -1)))
+  (add-to-list 'evil-emacs-state-modes 'vterm-mode)
   )
 
 ;; Dired

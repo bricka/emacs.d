@@ -438,6 +438,8 @@
   )
 
 ;; Theme
+(defvar dark-mode-p nil "Whether or not dark mode is enabled.")
+
 (use-package modus-themes
   :straight (:branch "main")
   :config
@@ -450,6 +452,16 @@
    )
   (load-theme 'modus-vivendi t)
   (setq shr-color-visible-luminance-min 80)
+  (setq dark-mode-p t)
+  )
+
+(defun toggle-dark-mode ()
+  "Toggle dark mode."
+  (interactive)
+  (if dark-mode-p
+      (load-theme 'modus-operandi t)
+    (load-theme 'modus-vivendi t))
+  (setq dark-mode-p (not dark-mode-p))
   )
 
 ;; Window

@@ -252,10 +252,6 @@
    :states 'insert
    "C-v" 'yank
    )
-  (general-define-key
-   :states 'normal
-   "C-u" 'evil-scroll-up
-   )
   )
 
 (use-package evil-collection
@@ -840,12 +836,18 @@
            "p'" #'my/open-projectile-vterm
            )
   (:keymaps 'vterm-mode-map
-            "C-w C-w" 'evil-window-next)
+            "C-w C-w" #'evil-window-next)
   :custom
   (vterm-min-window-width 1000 "Make the vterm not wrap lines")
   :config
+  (add-hook 'vterm-mode-hook #'turn-off-evil-mode)
   (add-hook 'vterm-mode-hook (lambda () (toggle-truncate-lines -1)))
-  (add-to-list 'evil-emacs-state-modes 'vterm-mode)
+
+  (add-hook 'vterm-copy-mode-hook
+            (lambda ()
+              (if vterm-copy-mode
+                  (turn-on-evil-mode)
+                (turn-off-evil-mode))))
   )
 
 ;; Dired

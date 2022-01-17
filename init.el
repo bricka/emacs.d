@@ -590,35 +590,7 @@
 
 ;; Web Mode
 (use-package web-mode
-  :mode ("\\.html\\'" "\\.jsx\\'" "\\.mustache\\'")
-
-  :config
-
-  (defvar web-mode-js-syntax-table)
-
-  (defun my/web-mode-is-js ()
-    "Determine if the current buffer is using a JS web-mode content type."
-    (member web-mode-content-type '("js" "jsx")))
-
-  (defun enable-tern-mode-for-js ()
-    "Enable tern-mode if this web-mode content type is a form of JS."
-    (if (my/web-mode-is-js) (tern-mode)))
-
-  (defun my/create-web-mode-js-syntax-table ()
-    "Create a syntax table for web mode in JS."
-    (let ((st (make-syntax-table web-mode-syntax-table))
-          (use-hook (lambda () (if (my/web-mode-is-js) (set-syntax-table web-mode-js-syntax-table)))))
-      (progn
-        (modify-syntax-entry ?` "\"" st)
-        (modify-syntax-entry ?' "\"" st)
-        (setq web-mode-js-syntax-table st)
-        (add-hook 'web-mode-hook
-                  (lambda () (if (my/web-mode-is-js) (set-syntax-table web-mode-js-syntax-table))))
-        )))
-
-  (my/create-web-mode-js-syntax-table)
-  (setq web-mode-content-types-alist '(("jsx" . "\\.[jt]s[x]?\\'")))
-  (add-hook 'web-mode-hook 'enable-tern-mode-for-js)
+  :mode ("\\.html\\'" "\\.mustache\\'")
   )
 
 ;; JSON

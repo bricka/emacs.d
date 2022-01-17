@@ -1099,22 +1099,6 @@
   (org-wild-notifier-mode)
   )
 
-(use-package org-super-agenda
-  :defines org-super-agenda-header-map org-super-agenda-groups
-  :config
-  (org-super-agenda-mode)
-  (setq org-super-agenda-header-map nil)
-  (setq org-super-agenda-groups
-       '(;; Each group has an implicit boolean OR operator between its selectors.
-         (:discard (:heading-regexp "^<[[:digit:]]\\{4\\}-[[:digit:]]\\{2\\}-[[:digit:]]\\{2\\} [[:alpha:]]\\{2\\}>$")) ; Date-based notes (e.g. 1-1)
-         (:name "Todos" :todo "TODO")
-         (:name "Calendar"  ; Optionally specify section name
-                :and (:time-grid t :not (:todo t)))
-         ;; After the last group, the agenda will display items that didn't
-         ;; match any of these groups, with the default order position of 99
-         ))
-  )
-
 (use-package org-superstar
   :after org
   :hook (org-mode . org-superstar-mode)
@@ -1125,12 +1109,6 @@
   (setq org-superstar-item-bullet-alist '(
                                           (?- . ?➤)
                                           ))
-  )
-
-(use-package org-wild-notifier
-  :defines org-wild-notifier-keyword-whitelist org-wild-notifier-alert-time
-  :config
-  (setq org-wild-notifier-alert-time '(10 1))
   )
 
 (use-package gnuplot)

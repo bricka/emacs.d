@@ -51,11 +51,6 @@
  confirm-kill-emacs #'yes-or-no-p
  )
 
-(use-package unicode-fonts
-  :config
-  (unicode-fonts-setup))
-
-
 ;; Scratch
 (setq initial-scratch-message nil)
 (when (and (executable-find "cowsay")
@@ -105,12 +100,6 @@
 (defun my/disable-auto-save-mode ()
   "Ideally used as a hook to disable 'auto-save-mode'."
   (auto-save-mode -1)
-  )
-
-(use-package aggressive-indent
-  :config
-  (add-to-list 'aggressive-indent-excluded-modes 'scala-mode)
-  (global-aggressive-indent-mode 1)
   )
 
 (use-package editorconfig
@@ -424,8 +413,9 @@
 ;; Mode line
 (use-package doom-modeline
   :after all-the-icons
-  :defines doom-modeline-buffer-encoding doom-modeline-buffer-file-name-style doom-modeline-checker-simple-format doom-modeline-minor-modes doom-modeline-mu4e
+  :defines doom-modeline-buffer-encoding doom-modeline-buffer-file-name-style doom-modeline-checker-simple-format doom-modeline-minor-modes doom-modeline-mu4e doom-modeline-icon
   :config
+  (add-hook 'server-after-make-frame-hook #'doom-modeline-refresh-font-width-cache)
   (setq
    doom-modeline-buffer-encoding nil
    doom-modeline-checker-simple-format nil
@@ -925,6 +915,11 @@
  "mxr" 'eval-region
  )
 
+(use-package dash
+  :config
+  (global-dash-fontify-mode)
+  )
+
 ;; Plain Text
 (general-define-key
  :prefix my-leader-key
@@ -1097,6 +1092,11 @@
   (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
   (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
 
+  (setq org-confirm-babel-evaluate
+        (lambda (language _)
+          (memq language '(plantuml)))
+        )
+
   ;; Agenda
   (setq org-agenda-files '("~/org/"))
 
@@ -1115,6 +1115,8 @@
    org-agenda-dim-blocked-tasks nil
    org-agenda-inhibit-startup t)
 
+  ;; Clocking
+  (setq org-clock-idle-time 10)
   )
 
 (use-package org-wild-notifier
@@ -1250,7 +1252,7 @@
   (progn
     (c-set-offset 'arglist-intro '+)
     (c-set-offset 'arglist-close 0)
-  ))
+    ))
 (add-hook 'java-mode-hook 'my/java-indent-setup)
 
 ; Gradle files are written in Groovy

@@ -9,6 +9,7 @@
 /ensime/
 /forge-database.sqlite
 /lsp-cache/
+/.lsp-session-v1
 /meghanada/
 /network-security.data
 /.org-id-locations
@@ -18,6 +19,7 @@ projectile-bookmarks.eld
 /recentf
 /request/
 /server/
+/session.*
 /straight/
 /tramp
 /transient/

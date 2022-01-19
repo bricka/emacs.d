@@ -1,4 +1,4 @@
-;;; init.el --- Alex Brick's Emacs configuration
+;;; init.el --- Alex Brick's Emacs configuration  -*- lexical-binding: t; -*-
 
 ;;; Commentary:
 ;;;
@@ -817,14 +817,9 @@
   :custom
   (vterm-min-window-width 1000 "Make the vterm not wrap lines")
   :config
-  (add-hook 'vterm-mode-hook #'turn-off-evil-mode)
-  (add-hook 'vterm-mode-hook (lambda () (toggle-truncate-lines -1)))
+  (add-to-list 'evil-emacs-state-modes 'vterm-mode)
 
-  (add-hook 'vterm-copy-mode-hook
-            (lambda ()
-              (if vterm-copy-mode
-                  (turn-on-evil-mode)
-                (turn-off-evil-mode))))
+  (add-hook 'vterm-mode-hook (lambda () (toggle-truncate-lines -1)))
   )
 
 ;; Dired

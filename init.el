@@ -6,6 +6,8 @@
 
 ;;; Code:
 
+(require 'face-utils)
+
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -452,6 +454,7 @@
       (load-theme 'modus-operandi t)
     (load-theme 'modus-vivendi t))
   (setq dark-mode-p (not dark-mode-p))
+  (run-hooks 'face-hooks)
   )
 
 ;; Window
@@ -997,13 +1000,13 @@
   (setq org-ascii-text-width 120)
 
   ;; Font Configuration
-  (set-face-attribute 'org-checkbox-statistics-todo nil :family "monospace")
-  (set-face-attribute 'org-checkbox-statistics-done nil :family "monospace")
-  (set-face-attribute 'org-link nil :family "monospace")
-  (set-face-attribute 'org-column-title nil :family "monospace")
-  (set-face-attribute 'org-meta-line nil :family "monospace")
-  (set-face-attribute 'org-code nil :family "monospace")
-  (set-face-attribute 'org-block nil :family "monospace")
+  (my/set-face-attribute 'org-checkbox-statistics-todo nil :family "monospace")
+  (my/set-face-attribute 'org-checkbox-statistics-done nil :family "monospace")
+  (my/set-face-attribute 'org-link nil :family "monospace")
+  (my/set-face-attribute 'org-column-title nil :family "monospace")
+  (my/set-face-attribute 'org-meta-line nil :family "monospace")
+  (my/set-face-attribute 'org-code nil :family "monospace")
+  (my/set-face-attribute 'org-block nil :family "monospace")
 
   ;; Checkbox Configuration
   ;; Taken from https://jft.home.blog/2019/07/17/use-unicode-symbol-to-display-org-mode-checkboxes/
@@ -1104,8 +1107,8 @@
   :hook (org-mode . org-superstar-mode)
   :defines org-superstar-item-bullet-alist
   :config
-  (set-face-attribute 'org-superstar-item nil :family "monospace")
-  (set-face-attribute 'org-superstar-header-bullet nil :family "monospace")
+  (my/set-face-attribute 'org-superstar-item nil :family "monospace")
+  (my/set-face-attribute 'org-superstar-header-bullet nil :family "monospace")
   (setq org-superstar-item-bullet-alist '(
                                           (?- . ?➤)
                                           ))

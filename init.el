@@ -1092,9 +1092,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
                                "......"
                                "----------------"))
   (setq org-agenda-current-time-string "⮜┈┈┈┈┈┈┈ now")
-  (setq
-   org-agenda-dim-blocked-tasks nil
-   org-agenda-inhibit-startup t)
+  (setq org-agenda-dim-blocked-tasks nil)
 
   ;; Clocking
   (setq org-clock-idle-time 10)

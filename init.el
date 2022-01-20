@@ -82,9 +82,9 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 (defun my/configure-fonts-for-frame (frame)
   "Configure fonts for FRAME."
   (when frame
-    (cond ((eq system-type 'darwin) (set-face-attribute 'default frame :font "Menlo 15"))
-          (t (set-face-attribute 'default frame :font "DejaVu Sans Mono 15")))
-    (set-face-attribute 'variable-pitch frame :font "DejaVu Serif 15")
+    (cond ((eq system-type 'darwin) (my/set-face-attribute 'default frame :font "Menlo 15"))
+          (t (my/set-face-attribute 'default frame :font "DejaVu Sans Mono 15")))
+    (my/set-face-attribute 'variable-pitch frame :font "DejaVu Serif 15")
     )
   )
 

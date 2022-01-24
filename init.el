@@ -1025,6 +1025,21 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
       1 'org-checkbox-done-text prepend))
    'append)
 
+  ;; "Local Variables" Configuration
+  (defface org-local-variables-headlines
+    '((t (:inherit shadow :slant italic :weight ultra-light :height 100)))
+    "Face for the Local Variables headline in org-mode.")
+  (add-hook
+   'org-mode-hook
+   (lambda ()
+     (font-lock-add-keywords
+      nil
+      '(("^* Local Variables$" 0 'org-local-variables-headlines t)))
+      t
+      )
+     (font-lock-ensure)
+     )
+
   (defun my/set-org-prettify-symbols ()
     "Set the `prettify-mode' symbols for org checkboxes."
     (push '("[ ]" . "☐") prettify-symbols-alist)

@@ -503,12 +503,17 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    :states 'normal
    :prefix my-leader-key
    "p'" 'visit-term-projectile-root
+   "pf" 'projectile-find-file
    "pi" 'projectile-invalidate-cache
+   "pl" 'projectile-switch-project
    "pK" 'projectile-kill-buffers
    )
-  (projectile-mode)
-  (setq projectile-use-git-grep t)
-  (setq projectile-completion-system 'ivy)
+  (setq
+   projectile-use-git-grep t
+   projectile-completion-system 'ivy
+   )
+
+  (projectile-mode 1)
   )
 
 ;; Ivy
@@ -528,7 +533,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    )
   (setq ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
   (setq
-   ivy-use-virtual-buffers t
    ivy-count-format "(%d/%d) "
    ivy-use-selectable-prompt t)
   (ivy-mode 1)
@@ -539,13 +543,20 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :config
   (setq ivy-rich-parse-remote-buffer nil)
   (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
-  (ivy-rich-mode 1)
   )
 
 (use-package all-the-icons-ivy-rich
-  :after ivy-rich
+  :after ivy-rich counsel-projectile
   :config
+  ;; Only display project names
+  (ivy-rich-set-columns
+   'counsel-projectile-find-file
+   '((all-the-icons-ivy-rich-file-icon)
+     (all-the-icons-ivy-rich-project-name)
+     ))
+
   (all-the-icons-ivy-rich-mode 1)
+  (ivy-rich-mode 1)
   )
 
 (use-package counsel-projectile
@@ -558,6 +569,18 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "pl" 'counsel-projectile-switch-project
    "pf" 'counsel-projectile-find-file
    "sp" 'counsel-projectile-ag
+   )
+  (setq
+   counsel-projectile-remove-current-project t
+   )
+  ;; When switching project, run `counsel-project-find-file' in the new project
+  (setq
+   counsel-projectile-switch-project-action
+   (lambda (name)
+     (let ((default-directory name))
+       (counsel-projectile-find-file)
+       )
+     )
    )
   )
 
@@ -837,8 +860,11 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 (require 'dired-x)
 (setq-default dired-omit-files-p t)
-(setq dired-omit-files (concat dired-omit-files "\\|^\\...+$"))
-(setq dired-listing-switches "-alh")
+(setq
+ dired-omit-files (concat dired-omit-files "\\|^\\...+$")
+ dired-listing-switches "-alh"
+ dired-create-destination-dirs 'ask
+ )
 
 (add-hook 'dired-mode-hook 'dired-omit-mode)
 
@@ -1041,12 +1067,12 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
      )
 
   (defun my/set-org-prettify-symbols ()
-    "Set the `prettify-mode' symbols for org checkboxes."
-    (push '("[ ]" . "☐") prettify-symbols-alist)
-    (push '("[X]" . "☑") prettify-symbols-alist)
-    (prettify-symbols-mode)
+    "Set the `prettify-symbols-mode' symbols for org checkboxes."
+    (add-to-list 'prettify-symbols-alist '("[ ]" . "☐"))
+    (add-to-list 'prettify-symbols-alist '("[X]" . "☑"))
     )
   (add-hook 'org-mode-hook #'my/set-org-prettify-symbols)
+  (add-hook 'org-mode-hook #'prettify-symbols-mode 90)
 
   (setq
    org-directory "~/org"

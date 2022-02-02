@@ -840,17 +840,21 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   )
 
 (use-package vterm
-  :general
-  (:states 'normal
-           :prefix my-leader-key
-           "'" #'my/open-vterm
-           "p'" #'my/open-projectile-vterm
-           )
-  (:keymaps 'vterm-mode-map
-            "C-w C-w" #'evil-window-next)
   :custom
   (vterm-min-window-width 1000 "Make the vterm not wrap lines")
   :config
+  (general-define-key
+   :states 'normal
+   :prefix my-leader-key
+   "'" #'my/open-vterm
+   "p'" #'my/open-projectile-vterm
+   )
+  (general-define-key
+   :keymaps 'vterm-mode-map
+   "C-w C-w" #'evil-window-next
+   "C-w o" #'delete-other-windows
+   "C-w C-o" #'delete-other-windows
+   )
   (add-to-list 'evil-emacs-state-modes 'vterm-mode)
 
   (add-hook 'vterm-mode-hook (lambda () (toggle-truncate-lines -1)))

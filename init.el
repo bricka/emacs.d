@@ -51,6 +51,8 @@
  confirm-kill-emacs #'yes-or-no-p
  )
 
+(add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
+
 ;; Helper functions for handling font faces
 (defvar face-hooks nil "Hooks that should be run to set faces correctly.")
 

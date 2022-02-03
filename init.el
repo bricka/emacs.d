@@ -74,7 +74,11 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    initial-scratch-message
    (string-join
     (seq-map
-     (lambda (l) (concat ";; " l))
+     (lambda (l)
+       (if (string-empty-p (string-trim l))
+           ""
+         (concat ";; " l)
+       ))
      (split-string
       (shell-command-to-string "fortune | cowsay")
       "\n")

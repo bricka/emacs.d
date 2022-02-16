@@ -1541,9 +1541,18 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   )
 
 ;; Local Configuration
-(if (file-exists-p (expand-file-name "~/.emacs.d/local-config.el"))
+(defvar local-config-location
+  (let ((val (getenv "EMACS_LOCAL_CONFIG_PATH")))
+    (and
+     val
+     (expand-file-name val)
+     ))
+  "Location of a local configuration file. Value is taken from EMACS_LOCAL_CONFIG_PATH environment variable."
+  )
+
+(if (and local-config-location (file-exists-p local-config-location))
     (let ((straight-current-profile 'local))
-      (load-file (expand-file-name "~/.emacs.d/local-config.el"))
+      (load-file local-config-location)
       ))
 
 (server-start)

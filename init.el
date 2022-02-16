@@ -1541,6 +1541,18 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (elfeed-goodies/setup)
   )
 
+(use-package journalctl
+  :straight (:host gitlab :repo "bricka/emacs-journalctl")
+  :commands journalctl journalctl-user
+  :config
+  (general-define-key
+   :keymaps 'journalctl-mode-map
+   :states 'normal
+   "gr" #'journalctl-refresh
+   "q" #'quit-window
+   "ZZ" #'quit-window)
+  )
+
 ;; Local Configuration
 (defvar local-config-location
   (let ((val (getenv "EMACS_LOCAL_CONFIG_PATH")))
@@ -1548,7 +1560,9 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
      val
      (expand-file-name val)
      ))
-  "Location of a local configuration file. Value is taken from EMACS_LOCAL_CONFIG_PATH environment variable."
+  "Location of a local configuration file.
+
+Value is taken from EMACS_LOCAL_CONFIG_PATH environment variable."
   )
 
 (if (and local-config-location (file-exists-p local-config-location))

@@ -75,10 +75,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    (string-join
     (seq-map
      (lambda (l)
-       (if (string-empty-p (string-trim l))
-           ""
-         (concat ";; " l)
-       ))
+       (string-trim-right (concat ";; " l)))
      (split-string
       (shell-command-to-string "fortune | cowsay")
       "\n")

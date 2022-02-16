@@ -57,7 +57,7 @@
 (defvar face-hooks nil "Hooks that should be run to set faces correctly.")
 
 (defun my/set-face-attribute (face frame &rest args)
-  "Like `set-face-attribute', but also add to 'face-hooks so it will be re-run as necessary.
+  "Like `set-face-attribute', but also add to `face-hooks' so it will be re-run as necessary.
 
 FACE, FRAME, and ARGS as in `set-face-attribute'."
   (let ((hook (lambda () (apply 'set-face-attribute face frame args))))
@@ -275,6 +275,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
           elfeed
           image
           magit
+          xref
           xwidget
           )
         )
@@ -493,6 +494,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 ;; Commands
 (use-package run-command
+  :defines run-command-experiments
   :config
   (general-define-key
    :states 'normal
@@ -769,9 +771,15 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   )
 
 (use-package lsp-java
+  :after lsp-mode
+  :config
+  (setq
+   lsp-java-implementations-code-lens-enabled t
+   )
   )
 
 (use-package lsp-ui
+  :after lsp-mode
   :config
   (setq lsp-ui-doc-position 'at-point)
   (setq lsp-ui-doc-enable nil)
@@ -1050,6 +1058,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (my/set-face-attribute 'org-meta-line nil :family "monospace")
   (my/set-face-attribute 'org-code nil :family "monospace")
   (my/set-face-attribute 'org-block nil :family "monospace")
+  (my/set-face-attribute 'org-meta-line nil :family "monospace")
+  (my/set-face-attribute 'org-document-info-keyword nil :family "monospace")
 
   ;; Checkbox Configuration
   ;; Taken from https://jft.home.blog/2019/07/17/use-unicode-symbol-to-display-org-mode-checkboxes/
@@ -1541,7 +1551,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 (use-package elfeed
   :commands elfeed
-  :defines elfeed-feeds
+  :defines elfeed-feeds elfeed-search-filter
   :config
   (setq elfeed-feeds '(("theoldreader+https://user@theoldreader.com" :use-authinfo t)))
   (add-hook 'elfeed-show-mode-hook 'visual-line-mode)

@@ -1505,20 +1505,20 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 ;; Elfeed
 
-(defun my/elfeed-filter-to-feed (entry)
-  "Add the feed of the ENTRY to the filter."
-  (interactive (list (elfeed-search-selected :ignore-region)))
-  (let* ((feed (elfeed-entry-feed entry))
-         (feed-title (elfeed-feed-title feed))
-         (escaped-title (s-replace " " "[[:space:]]" feed-title)))
-    (elfeed-search-set-filter (format "%s =^%s$" elfeed-search-filter escaped-title))
-    )
-  )
-
 (use-package elfeed
   :commands elfeed
   :defines elfeed-feeds elfeed-search-filter
   :config
+  (defun my/elfeed-filter-to-feed (entry)
+    "Add the feed of the ENTRY to the filter."
+    (interactive (list (elfeed-search-selected :ignore-region)))
+    (let* ((feed (elfeed-entry-feed entry))
+           (feed-title (elfeed-feed-title feed))
+           (escaped-title (s-replace " " "[[:space:]]" feed-title)))
+      (elfeed-search-set-filter (format "%s =^%s$" elfeed-search-filter escaped-title))
+      )
+    )
+
   (setq elfeed-feeds '(("theoldreader+https://user@theoldreader.com" :use-authinfo t)))
   (add-hook 'elfeed-show-mode-hook 'visual-line-mode)
   (general-define-key

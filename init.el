@@ -456,7 +456,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :straight (:branch "main")
   :config
   (setq modus-themes-headings
-        '((t . rainbow)))
+        '((t . (rainbow))))
   (setq
    modus-themes-bold-constructs t
    modus-themes-completions 'opinionated

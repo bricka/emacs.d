@@ -200,6 +200,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (use-package exec-path-from-shell
     :config
     (setq exec-path-from-shell-arguments nil)
+    (add-to-list 'exec-path-from-shell-variables "EMACS_LOCAL_CONFIG_PATH")
     (exec-path-from-shell-initialize)
     )
   )

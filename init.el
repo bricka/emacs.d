@@ -1568,3 +1568,6 @@ Value is taken from EMACS_LOCAL_CONFIG_PATH environment variable."
       ))
 
 (server-start)
+
+(provide 'init)
+;;; init.el ends here

@@ -4,6 +4,8 @@
 /.cache/
 /.cask/
 /.dap-breakpoints
+/code-review-db-file.sqlite
+/eclipse.jdt.ls/
 /elpa/
 /emojis/
 /ensime/
@@ -16,6 +18,7 @@
 /org-roam.db
 projectile-bookmarks.eld
 /projectile.cache
+/projects
 /recentf
 /request/
 /server/

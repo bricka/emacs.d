@@ -1139,8 +1139,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
         )
 
   ;; Agenda
-  (setq org-agenda-files '("~/org/"))
-
   (setq
    org-deadline-warning-days 3
    org-agenda-start-on-weekday nil

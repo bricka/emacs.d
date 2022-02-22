@@ -575,7 +575,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "pb" 'counsel-projectile-switch-to-buffer
    "pl" 'counsel-projectile-switch-project
    "pf" 'counsel-projectile-find-file
-   "sp" 'counsel-projectile-ag
+   "sp" 'counsel-projectile-rg
    )
   (setq
    counsel-projectile-remove-current-project t
@@ -1547,6 +1547,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "q" #'quit-window
    "ZZ" #'quit-window)
   )
+
+(use-package deadgrep)
 
 ;; Local Configuration
 (defvar local-config-location

@@ -907,6 +907,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 (use-package diredfl
   :config
+  (setq diredfl-ignore-compressed-flag nil)
   (add-hook 'dired-mode-hook 'diredfl-mode)
   )
 

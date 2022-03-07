@@ -277,6 +277,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :config
   (setq evil-collection-mode-list
         '(
+          deadgrep
           dired
           elfeed
           image

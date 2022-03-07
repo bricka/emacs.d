@@ -643,7 +643,9 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 ;; Web Mode
 (use-package web-mode
-  :mode ("\\.html\\'" "\\.mustache\\'")
+  :mode ("\\.html\\'" "\\.mustache\\'" "\\.hbs")
+  :config
+  (add-to-list 'lsp-language-id-configuration '(".*\\.hbs$" . "html"))
   )
 
 ;; JSON

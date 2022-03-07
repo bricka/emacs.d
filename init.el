@@ -91,7 +91,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
     (if (featurep 'cairo)
         (set-fontset-font t 'symbol "Noto Color Emoji" nil 'prepend)
       (warn "Emacs not configured with Cairo: cannot use color emojis")
-        )
+      )
     )
   )
 
@@ -771,11 +771,11 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
   (advice-add 'flycheck-checker-get :around 'my/flycheck-checker-get)
 
-  (add-hook 'lsp-managed-mode-hook
-            (lambda ()
-              (cond ((derived-mode-p 'typescript-mode)
-                     (setq my/flycheck-local-cache '((lsp . ((next-checkers . (javascript-eslint)))))))
-                    )))
+  ;; (add-hook 'lsp-managed-mode-hook
+  ;;           (lambda ()
+  ;;             (cond ((derived-mode-p 'typescript-mode)
+  ;;                    (setq my/flycheck-local-cache '((lsp . ((next-checkers . (javascript-eslint)))))))
+  ;;                   )))
 
   )
 
@@ -1294,6 +1294,16 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 (use-package lsp-metals
   :custom
   (lsp-metals-server-args '("-J-Dmetals.allow-multiline-string-formatting=off"))
+  :general
+  (states 'normal
+   :prefix my-leader-key
+   :keymaps 'scala-mode-map
+   "mt" 'lsp-metals-toggle-show-inferred-type
+   )
+  :config
+  (setq
+   lsp-metals-show-implicit-conversions-and-classes t
+   )
   )
 
 ;; Rust

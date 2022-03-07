@@ -88,7 +88,10 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
     (cond ((eq system-type 'darwin) (my/set-face-attribute 'default frame :font "Menlo 15"))
           (t (my/set-face-attribute 'default frame :font "DejaVu Sans Mono 15")))
     (my/set-face-attribute 'variable-pitch frame :font "DejaVu Serif 15")
-    (set-fontset-font t 'symbol "Noto Color Emoji" nil 'prepend)
+    (if (featurep 'cairo)
+        (set-fontset-font t 'symbol "Noto Color Emoji" nil 'prepend)
+      (warn "Emacs not configured with Cairo: cannot use color emojis")
+        )
     )
   )
 

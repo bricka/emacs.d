@@ -178,6 +178,11 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
    "w" '(:ignore t :wk "Window")
    )
+
+  (general-define-key
+   :states 'normal
+   :keymaps 'message-mode-map
+   "q" #'quit-window)
   )
 
 ;; Mode Line

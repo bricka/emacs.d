@@ -1295,10 +1295,10 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :custom
   (lsp-metals-server-args '("-J-Dmetals.allow-multiline-string-formatting=off"))
   :general
-  (states 'normal
+  (:states 'normal
    :prefix my-leader-key
    :keymaps 'scala-mode-map
-   "mt" 'lsp-metals-toggle-show-inferred-type
+   "mst" 'lsp-metals-toggle-show-inferred-type
    )
   :config
   (setq
@@ -1310,7 +1310,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 (use-package rustic
   :mode ("\\.rs\\'" . rustic-mode)
   :general
-  (states 'normal
+  (:states 'normal
    :prefix my-leader-key
    :keymaps 'rustic-mode-map
    "mt" 'rustic-cargo-test)

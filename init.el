@@ -1593,7 +1593,10 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "ZZ" #'quit-window)
   )
 
-(use-package deadgrep)
+(use-package deadgrep
+  :config
+  (setq deadgrep-project-root-function #'projectile-project-root)
+  )
 
 ;; Local Configuration
 (defvar local-config-location

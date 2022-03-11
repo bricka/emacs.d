@@ -1191,14 +1191,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (setq org-clock-idle-time 10)
   )
 
-(use-package org-wild-notifier
-  :custom
-  (org-wild-notifier-alert-time '(1 10) "Notify also shortly before event")
-  (org-wild-notifier-keyword-whitelist nil "Notify for all events")
-  :config
-  (org-wild-notifier-mode)
-  )
-
 (use-package org-superstar
   :after org
   :hook (org-mode . org-superstar-mode)

@@ -148,13 +148,13 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    :prefix my-leader-key
    :states 'normal
    "" nil
-   "'" 'my/open-terminal
-   "d" 'dired-open-current-directory
+   "'" #'my/open-terminal
+   "d" #'dired-open-current-directory
 
    "b" '(:ignore t :wk "Buffers")
-   "bd" 'kill-this-buffer
-   "bD" 'my/kill-other-buffers
-   "br" 'revert-buffer
+   "bd" #'kill-this-buffer
+   "bD" #'my/kill-other-buffers
+   "br" #'revert-buffer
 
    "e" '(:ignore t :wk "Errors")
 
@@ -164,11 +164,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "gh" '(:ignore t :wk "Hunks")
 
    "h" '(:ignore t :wk "Help")
-   "hc" 'describe-char
-   "hf" 'describe-function
-   "hk" 'describe-key
-   "hm" 'describe-mode
-   "hv" 'describe-variable
+   "hc" #'describe-char
+   "hm" #'describe-mode
 
    "m" '(:ignore t :wk "Major")
 
@@ -184,6 +181,32 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    :keymaps 'message-mode-map
    "q" #'quit-window)
   )
+
+(use-package discover-my-major
+  :general
+  (:prefix my-leader-key
+   :states 'normal
+   "hM" #'discover-my-major
+   )
+  )
+
+(use-package helpful
+  :general
+  (:prefix my-leader-key
+   :states 'normal
+   "hf" #'helpful-function
+   "hk" #'helpful-key
+   "hv" #'helpful-variable
+   )
+  ("C-f" #'helpful-function
+   "C-k" #'helpful-key
+   "C-v" #'helpful-variable)
+  :config
+  (general-define-key
+   :states 'normal
+   "q" #'quit-window)
+  )
+
 
 ;; Mode Line
 (use-package blackout
@@ -265,7 +288,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
   (general-define-key
    :states 'insert
-   "C-v" 'yank
+   "C-v" #'yank
    )
   )
 
@@ -1440,7 +1463,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
  :prefix my-leader-key
  :states 'normal
  "fd" 'my/delete-file-and-buffer
- "fe" 'my/visit-emacs-init
+ "fe" #'my/visit-emacs-init
  "fm" 'my/move-buffer-file
  "fr" 'my/rename-file-and-buffer
  )

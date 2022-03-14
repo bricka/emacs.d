@@ -575,6 +575,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    ivy-count-format "(%d/%d) "
    ivy-use-selectable-prompt t)
   (ivy-mode 1)
+  (setq counsel-describe-function-function #'helpful-callable)
+  (setq counsel-describe-variable-function #'helpful-variable)
   )
 
 (use-package ivy-rich

@@ -483,8 +483,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   )
 
 ;; Theme
-(defvar dark-mode-p nil "Whether or not dark mode is enabled.")
-
 (use-package modus-themes
   :straight (:branch "main")
   :config
@@ -495,19 +493,14 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    modus-themes-completions 'opinionated
    modus-themes-org-agenda '(( scheduled . rainbow))
    )
-  (load-theme 'modus-vivendi t)
   (setq shr-color-visible-luminance-min 80)
-  (setq dark-mode-p t)
-  )
+)
 
-(defun toggle-dark-mode ()
-  "Toggle dark mode."
-  (interactive)
-  (if dark-mode-p
-      (load-theme 'modus-operandi t)
-    (load-theme 'modus-vivendi t))
-  (setq dark-mode-p (not dark-mode-p))
-  (run-hooks 'face-hooks)
+(use-package follow-the-sun
+  :straight (:host gitlab :repo "bricka/emacs-follow-the-sun")
+  :after modus-themes
+  :config
+  (follow-the-sun 'modus-operandi 'modus-vivendi)
   )
 
 ;; Window

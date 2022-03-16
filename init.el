@@ -235,7 +235,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 (use-package all-the-icons
   :config
-  (add-to-list 'all-the-icons-extension-icon-alist '("gradle" all-the-icons-fileicon "gradle" :face all-the-icons-silver))
   (add-to-list 'all-the-icons-regexp-icon-alist '("^gradlew\\(.bat\\)?$" all-the-icons-alltheicon "terminal" :height 1.0 :v-adjust 0.0 :face all-the-icons-purple))
   (add-to-list 'all-the-icons-regexp-icon-alist '("^.gitlab-ci.yml$" all-the-icons-fileicon "gitlab" :height 1.0 :v-adjust 0.0 :face all-the-icons-orange))
   )

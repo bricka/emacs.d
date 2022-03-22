@@ -235,8 +235,11 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 (use-package all-the-icons
   :config
+  (add-to-list 'all-the-icons-extension-icon-alist '("ics" all-the-icons-octicon "calendar" :face all-the-icons-silver))
+  (add-to-list 'all-the-icons-extension-icon-alist '("deb" all-the-icons-octicon "package" :face all-the-icons-silver))
   (add-to-list 'all-the-icons-regexp-icon-alist '("^gradlew\\(.bat\\)?$" all-the-icons-alltheicon "terminal" :height 1.0 :v-adjust 0.0 :face all-the-icons-purple))
   (add-to-list 'all-the-icons-regexp-icon-alist '("^.gitlab-ci.yml$" all-the-icons-fileicon "gitlab" :height 1.0 :v-adjust 0.0 :face all-the-icons-orange))
+  (add-to-list 'all-the-icons-regexp-icon-alist '("^openapi.ya?ml$" all-the-icons-fileicon "swagger" :height 1.0 :v-adjust 0.0 :face all-the-icons-green))
   )
 
 (use-package alert
@@ -656,6 +659,31 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 (use-package treemacs-all-the-icons
   :after treemacs
   :config
+  (treemacs-modify-theme "all-the-icons"
+    :config
+    (progn
+      (treemacs-create-icon :icon (format "  %s%s"
+                                          (all-the-icons-fileicon "gitlab" :height 1.0 :v-adjust 0.0 :face 'all-the-icons-orange)
+                                          treemacs-all-the-icons-tab)
+                            :extensions (".gitlab-ci.yml")
+                            :fallback 'same-as-icon)
+      (treemacs-create-icon :icon (format "  %s%s"
+                                          (all-the-icons-fileicon "swagger" :height 1.0 :v-adjust 0.0 :face 'all-the-icons-green)
+                                          treemacs-all-the-icons-tab)
+                            :extensions ("openapi.yaml")
+                            :fallback 'same-as-icon)
+      (treemacs-create-icon :icon (format "  %s%s"
+                                          (all-the-icons-alltheicon "terminal" :height 1.0 :v-adjust 0.0 :face 'all-the-icons-purple)
+                                          treemacs-all-the-icons-tab)
+                            :extensions ("gradlew")
+                            :fallback 'same-as-icon)
+      (treemacs-create-icon :icon (format "  %s%s"
+                                          (all-the-icons-alltheicon "terminal" :height 1.0 :v-adjust 0.0 :face 'all-the-icons-purple)
+                                          treemacs-all-the-icons-tab)
+                            :extensions ("gradlew.bat")
+                            :fallback 'same-as-icon)
+      )
+    )
   (treemacs-load-theme "all-the-icons")
   )
 

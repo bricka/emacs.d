@@ -203,6 +203,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "C-v" #'helpful-variable)
   :config
   (general-define-key
+   :keymaps 'helpful-mode-map
    :states 'normal
    "q" #'quit-window)
   )
@@ -282,12 +283,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (unbind-key "C-i" evil-motion-state-map)
 
   (evil-mode 1)
-  (let ((maps '(
-                archive-mode-map
-                messages-buffer-mode-map
-                )))
-    (dolist (map maps)
-      (evil-add-hjkl-bindings map 'emacs)))
+  (evil-add-hjkl-bindings archive-mode-map 'emacs)
+  (evil-add-hjkl-bindings messages-buffer-mode-map 'emacs)
 
   (add-to-list 'evil-emacs-state-modes 'flycheck-error-list-mode)
   (add-to-list 'evil-emacs-state-modes 'display-time-world-mode)
@@ -569,6 +566,10 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (general-define-key
    "M-x" 'counsel-M-x
    "C-x C-f" 'counsel-find-file
+   )
+  (general-define-key
+   :keymaps 'ivy-minibuffer-map
+   "S-SPC" nil ; maps by default to `ivy-restrict-to-matches'
    )
   (setq ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
   (setq

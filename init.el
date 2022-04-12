@@ -49,6 +49,7 @@
  read-process-output-max (* 1024 1024) ;; 1mb
  clean-buffer-list-delay-general 2
  confirm-kill-emacs #'yes-or-no-p
+ native-comp-async-report-warnings-errors 'silent
  )
 
 (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))
@@ -88,10 +89,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
     (cond ((eq system-type 'darwin) (my/set-face-attribute 'default frame :font "Menlo 15"))
           (t (my/set-face-attribute 'default frame :font "DejaVu Sans Mono 15")))
     (my/set-face-attribute 'variable-pitch frame :font "DejaVu Serif 15")
-    (if (featurep 'cairo)
-        (set-fontset-font t 'symbol "Noto Color Emoji" nil 'prepend)
-      (warn "Emacs not configured with Cairo: cannot use color emojis")
-      )
     )
   )
 
@@ -943,12 +940,13 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
  dired-omit-files (concat dired-omit-files "\\|^\\...+$")
  dired-listing-switches "-alh"
  dired-create-destination-dirs 'ask
+ dired-kill-when-opening-new-dired-buffer t
  )
 
 (add-hook 'dired-mode-hook 'dired-omit-mode)
 
 (defun dired-open-current-directory ()
-  "Open dired in the directory of this file."
+  "Run `dired' in the directory of this file."
   (interactive)
   (dired (file-name-directory (buffer-file-name))))
 

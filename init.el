@@ -332,58 +332,58 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :general
   (:states 'insert
    :keymaps 'org-mode-map
-   "<return>" 'evil-org-return
+   "<return>" #'evil-org-return
    )
   (:states 'normal
    :keymaps 'org-mode-map
    ;; Motion
-   "^" 'evil-org-beginning-of-line
-   "$" 'evil-org-end-of-line
+   "^" #'evil-org-beginning-of-line
+   "$" #'evil-org-end-of-line
 
    ;; Inserting
-   "A" 'evil-org-append-line
-   "I" 'evil-org-insert-line
-   "o" 'evil-org-open-below
-   "O" 'evil-org-open-above
+   "A" #'evil-org-append-line
+   "I" #'evil-org-insert-line
+   "o" #'evil-org-open-below
+   "O" #'evil-org-open-above
 
    ;; Move
-   "C-K" 'org-metaup
-   "C-J" 'org-metadown
+   "C-K" #'org-metaup
+   "C-J" #'org-metadown
 
    ;; Delete
-   "d" 'evil-org-delete
-   "x" 'evil-org-delete-char
+   "d" #'evil-org-delete
+   "x" #'evil-org-delete-char
 
    ;; Follow
-   "<return>" 'org-open-at-point
+   "<return>" #'org-open-at-point
    )
   (:states '(normal visual)
    :keymaps 'org-mode-map
-   "<" 'evil-org-<
-   ">" 'evil-org->
+   "<" #'evil-org-<
+   ">" #'evil-org->
    )
 
   ;; Text Objects
   (:states '(visual operator)
    :keymaps 'org-mode-map
-   "ae" 'evil-org-an-object
-   "ie" 'evil-org-inner-object
+   "ae" #'evil-org-an-object
+   "ie" #'evil-org-inner-object
    )
 
   (:states 'motion
    :keymaps 'org-agenda-mode-map
-   "<tab>" 'org-agenda-goto
-   "<return>" 'org-agenda-switch-to
-   "," 'org-agenda-schedule
-   "j" 'org-agenda-next-line
-   "k" 'org-agenda-previous-line
-   "H" 'org-agenda-do-date-earlier
-   "L" 'org-agenda-do-date-later
-   "t" 'org-agenda-todo
-   "u" 'org-agenda-undo
-   "[" 'org-agenda-earlier
-   "]" 'org-agenda-later
-   ">" 'org-agenda-goto-date
+   "<tab>" #'org-agenda-goto
+   "<return>" #'org-agenda-switch-to
+   "," #'org-agenda-schedule
+   "j" #'org-agenda-next-line
+   "k" #'org-agenda-previous-line
+   "H" #'org-agenda-do-date-earlier
+   "L" #'org-agenda-do-date-later
+   "t" #'org-agenda-todo
+   "u" #'org-agenda-undo
+   "[" #'org-agenda-earlier
+   "]" #'org-agenda-later
+   ">" #'org-agenda-goto-date
    )
   :config
   ;; Some keys that are more complex to map
@@ -411,16 +411,16 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :general
   (:states 'normal
    :prefix my-leader-key
-   "gb" 'magit-branch
-   "gB" 'magit-blame
-   "gc" 'magit-commit
-   "gd" 'magit-diff
-   "gp" 'magit-push
-   "gr" 'magit-rebase
-   "gs" 'magit-status
+   "gb" #'magit-branch
+   "gB" #'magit-blame
+   "gc" #'magit-commit
+   "gd" #'magit-diff
+   "gp" #'magit-push
+   "gr" #'magit-rebase
+   "gs" #'magit-status
 
-   "gll" 'magit-log
-   "glf" 'magit-log-buffer-file
+   "gll" #'magit-log
+   "glf" #'magit-log-buffer-file
    )
   :config
   (setq vc-handled-backends (delq 'Git vc-handled-backends)) ; Disable VC for Git
@@ -435,8 +435,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (general-define-key
    :states 'normal
    :prefix my-leader-key
-   "ghn" 'git-gutter:next-hunk
-   "ghp" 'git-gutter:previous-hunk
+   "ghn" #'git-gutter:next-hunk
+   "ghp" #'git-gutter:previous-hunk
    )
   (global-git-gutter-mode t)
   )
@@ -445,7 +445,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :general
   (:states '(normal visual)
    :prefix my-leader-key
-   "gp" 'browse-at-remote
+   "gp" #'browse-at-remote
    )
   :config
   (setq browse-at-remote-prefer-symbolic nil)
@@ -1489,10 +1489,10 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 (general-define-key
  :prefix my-leader-key
  :states 'normal
- "w-" 'split-window-below
- "w/" 'split-window-right
- "w=" 'balance-windows
- "wn" 'make-frame
+ "w-" #'split-window-below
+ "w/" #'split-window-right
+ "w=" #'balance-windows
+ "wn" #'make-frame
  )
 
 (defun evil-ex-define-cmd-local
@@ -1580,8 +1580,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (add-hook 'elfeed-show-mode-hook 'visual-line-mode)
   (general-define-key
    :keymaps 'elfeed-search-mode-map
-   "F" 'my/elfeed-filter-to-feed
-   "L" 'elfeed-goodies/toggle-logs
+   "F" #'my/elfeed-filter-to-feed
+   "L" #'elfeed-goodies/toggle-logs
    )
   )
 

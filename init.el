@@ -506,16 +506,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (zoom-mode 1)
   )
 
-;; Whitespace
-(use-package origami
-  :hook (prog-mode . origami-mode)
-  :general
-  (:states 'normal
-   :keymaps 'origami-mode-map
-   "<tab>" 'origami-recursively-toggle-node
-   )
-  )
-
 ;; Commands
 (use-package run-command
   :defines run-command-experiments

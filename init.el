@@ -525,11 +525,10 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (general-define-key
    :states 'normal
    :prefix my-leader-key
-   "p'" 'visit-term-projectile-root
-   "pf" 'projectile-find-file
-   "pi" 'projectile-invalidate-cache
-   "pl" 'projectile-switch-project
-   "pK" 'projectile-kill-buffers
+   "pf" #'projectile-find-file
+   "pi" #'projectile-invalidate-cache
+   "pl" #'projectile-switch-project
+   "pK" #'projectile-kill-buffers
    )
   (setq
    projectile-use-git-grep t
@@ -545,14 +544,14 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (general-define-key
    :states 'normal
    :prefix my-leader-key
-   "bb" 'ivy-switch-buffer
-   "fR" 'counsel-recentf
-   "hf" 'counsel-describe-function
-   "hv" 'counsel-describe-variable
+   "bb" #'ivy-switch-buffer
+   "fR" #'counsel-recentf
+   "hf" #'counsel-describe-function
+   "hv" #'counsel-describe-variable
    )
   (general-define-key
-   "M-x" 'counsel-M-x
-   "C-x C-f" 'counsel-find-file
+   "M-x" #'counsel-M-x
+   "C-x C-f" #'counsel-find-file
    )
   (general-define-key
    :keymaps 'ivy-minibuffer-map
@@ -594,10 +593,10 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (general-define-key
    :states 'normal
    :prefix my-leader-key
-   "pb" 'counsel-projectile-switch-to-buffer
-   "pl" 'counsel-projectile-switch-project
-   "pf" 'counsel-projectile-find-file
-   "sp" 'counsel-projectile-rg
+   "pb" #'counsel-projectile-switch-to-buffer
+   "pl" #'counsel-projectile-switch-project
+   "pf" #'counsel-projectile-find-file
+   "sp" #'counsel-projectile-rg
    )
   (setq
    counsel-projectile-remove-current-project t
@@ -693,7 +692,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (:states 'normal
    :prefix my-leader-key
    :keymaps 'json-mode-map
-   "mb" 'json-pretty-print-buffer
+   "mb" #'json-pretty-print-buffer
    )
   )
 
@@ -790,10 +789,10 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
               web-mode-map
               )
    :prefix my-leader-key
-   "mE" 'lsp-treemacs-errors-list
-   "mi" 'lsp-ui-doc-glance
-   "mR" 'lsp-rename
-   "mx" 'lsp-execute-code-action
+   "mE" #'lsp-treemacs-errors-list
+   "mi" #'lsp-ui-doc-glance
+   "mR" #'lsp-rename
+   "mx" #'lsp-execute-code-action
    )
   :config
 

@@ -1480,10 +1480,9 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 (general-define-key
  :prefix my-leader-key
  :states 'normal
- "fd" 'my/delete-file-and-buffer
  "fe" #'my/visit-emacs-init
- "fm" 'my/move-buffer-file
- "fr" 'my/rename-file-and-buffer
+ "fm" #'my/move-buffer-file
+ "fr" #'my/rename-file-and-buffer
  )
 
 ;; Window Keys

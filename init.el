@@ -265,6 +265,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 ;; Undo
 (use-package undo-tree
   :config
+  (setq undo-tree-auto-save-history nil)
   (global-undo-tree-mode)
   )
 

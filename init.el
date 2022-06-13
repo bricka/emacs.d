@@ -1110,6 +1110,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (my/set-face-attribute 'org-block nil :family "monospace")
   (my/set-face-attribute 'org-meta-line nil :family "monospace")
   (my/set-face-attribute 'org-document-info-keyword nil :family "monospace")
+  (my/set-face-attribute 'org-table nil :family "monospace")
 
   ;; Checkbox Configuration
   ;; Taken from https://jft.home.blog/2019/07/17/use-unicode-symbol-to-display-org-mode-checkboxes/

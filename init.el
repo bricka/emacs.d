@@ -493,13 +493,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (setq shr-color-visible-luminance-min 80)
 )
 
-(use-package follow-the-sun
-  :straight (:host gitlab :repo "bricka/emacs-follow-the-sun")
-  :after modus-themes
-  :config
-  (follow-the-sun 'modus-operandi 'modus-vivendi)
-  )
-
 ;; Window
 (use-package zoom
   :config

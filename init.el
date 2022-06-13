@@ -1598,7 +1598,12 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 (use-package journalctl
   :straight (:host gitlab :repo "bricka/emacs-journalctl")
-  :commands journalctl journalctl-user
+  :general
+  (:prefix my-leader-key
+   :states 'normal
+   "jj" #'journalctl
+   "ju" #'journalctl-user
+   )
   :config
   (general-define-key
    :keymaps 'journalctl-mode-map

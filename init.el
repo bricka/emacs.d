@@ -1048,7 +1048,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 (defun my/org-expand-all ()
   "Expand an Org document for the things I like."
   (interactive)
-  (org-show-all '(blocks headings))
+  (org-fold-show-all '(blocks headings))
   )
 
 (use-package org

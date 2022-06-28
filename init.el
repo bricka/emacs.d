@@ -1154,6 +1154,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    org-hide-emphasis-markers nil
    org-return-follows-link t
    org-highlight-latex-and-related '(latex script)
+   org-list-indent-offset 1
    )
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.5))
 

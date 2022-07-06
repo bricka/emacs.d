@@ -1157,6 +1157,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    org-list-indent-offset 1
    )
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.5))
+  (setq org-list-demote-modify-bullet
+        '(("-" . "+") ("+" . "-")))
 
   (add-hook 'org-capture-mode-hook 'evil-insert-state)
 

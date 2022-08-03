@@ -3,6 +3,7 @@
 /bookmarks
 /.cache/
 /.cask/
+/code-review-error.log
 /.dap-breakpoints
 /code-review-db-file.sqlite
 /eclipse.jdt.ls/
@@ -11,6 +12,7 @@
 /emojis/
 /ensime/
 /forge-database.sqlite
+/lombok.jar
 /lsp-cache/
 /.lsp-session-v1
 /meghanada/

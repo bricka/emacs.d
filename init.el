@@ -195,9 +195,10 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "hk" #'helpful-key
    "hv" #'helpful-variable
    )
-  ("C-f" #'helpful-function
-   "C-k" #'helpful-key
-   "C-v" #'helpful-variable)
+  ("C-h f" #'helpful-function
+   "C-h k" #'helpful-key
+   "C-h v" #'helpful-variable
+   )
   :config
   (general-define-key
    :keymaps 'helpful-mode-map
@@ -545,6 +546,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (general-define-key
    "M-x" #'counsel-M-x
    "C-x C-f" #'counsel-find-file
+   "C-h f" #'counsel-describe-function
+   "C-h v" #'counsel-describe-variable
    )
   (general-define-key
    :keymaps 'ivy-minibuffer-map

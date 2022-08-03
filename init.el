@@ -6,6 +6,10 @@
 
 ;;; Code:
 
+(setq load-path
+      (append load-path
+              (directory-files (concat (expand-file-name user-emacs-directory) "packages") t directory-files-no-dot-files-regexp t)))
+
 (defvar bootstrap-version)
 (let ((bootstrap-file
        (expand-file-name "straight/repos/straight.el/bootstrap.el" user-emacs-directory))
@@ -1422,6 +1426,17 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :config
   (pdf-tools-install)
   )
+
+;; PEM
+(use-package x509-mode
+  :commands x509-dwim
+  :config
+  (general-define-key
+   :states 'normal
+   "q" #'quit-window
+   )
+  )
+(require 'pem-mode)
 
 ;; File Keys
 (defun my/visit-emacs-init ()

@@ -317,6 +317,15 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
           )
         )
   (evil-collection-init)
+
+  (with-eval-after-load 'pdf-tools
+    (evil-collection-pdf-setup)
+    (general-define-key
+     :keymaps 'pdf-view-mode-map
+     :states 'normal
+     "SPC" nil
+     )
+    )
   )
 
 (use-package evil-commentary
@@ -1425,6 +1434,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 (use-package pdf-tools
   :config
   (pdf-tools-install)
+  (evil-set-initial-state 'pdf-view-mode 'normal)
   )
 
 ;; PEM

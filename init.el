@@ -788,15 +788,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
          )
   :general
   (:states 'normal
-   :keymaps '(
-              java-mode-map
-              js-mode-map
-              rustic-mode-map
-              scala-mode-map
-              sh-mode-map
-              typescript-mode-map
-              web-mode-map
-              )
+   :keymaps 'lsp-mode-map
    :prefix my-leader-key
    "mE" #'lsp-treemacs-errors-list
    "mi" #'lsp-ui-doc-glance
@@ -847,15 +839,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :after lsp-mode
   :general
   (:states 'normal
-   :keymaps '(
-              java-mode-map
-              js-mode-map
-              rustic-mode-map
-              scala-mode-map
-              sh-mode-map
-              typescript-mode-map
-              web-mode-map
-              )
+   :keymaps 'lsp-mode-map
    :prefix my-leader-key
    "m/" #'lsp-ivy-workspace-symbol
    )

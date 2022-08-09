@@ -805,7 +805,10 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    )
   :config
 
-  (setq lsp-headerline-breadcrumb-enable nil)
+  (setq
+   lsp-headerline-breadcrumb-enable nil
+   lsp-lens-enable t
+   )
 
   ;; Enabling mode-specific Flycheck checkers with LSP
 
@@ -830,6 +833,31 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :config
   (setq
    lsp-java-implementations-code-lens-enabled t
+   )
+  )
+
+(use-package lsp-java-boot
+  :straight lsp-java
+  :after lsp-java
+  :config
+  (add-hook 'java-mode-hook #'lsp-java-boot-lens-mode)
+)
+
+(use-package lsp-ivy
+  :after lsp-mode
+  :general
+  (:states 'normal
+   :keymaps '(
+              java-mode-map
+              js-mode-map
+              rustic-mode-map
+              scala-mode-map
+              sh-mode-map
+              typescript-mode-map
+              web-mode-map
+              )
+   :prefix my-leader-key
+   "m/" #'lsp-ivy-workspace-symbol
    )
   )
 

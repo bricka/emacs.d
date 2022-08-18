@@ -960,6 +960,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
  dired-listing-switches "-alh"
  dired-create-destination-dirs 'ask
  dired-kill-when-opening-new-dired-buffer t
+ dired-dwim-target t
  )
 
 (add-hook 'dired-mode-hook 'dired-omit-mode)

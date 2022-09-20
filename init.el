@@ -243,6 +243,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (add-to-list 'all-the-icons-regexp-icon-alist '("^gradlew\\(.bat\\)?$" all-the-icons-alltheicon "terminal" :height 1.0 :v-adjust 0.0 :face all-the-icons-purple))
   (add-to-list 'all-the-icons-regexp-icon-alist '("^.gitlab-ci.yml$" all-the-icons-fileicon "gitlab" :height 1.0 :v-adjust 0.0 :face all-the-icons-orange))
   (add-to-list 'all-the-icons-regexp-icon-alist '("^openapi.ya?ml$" all-the-icons-fileicon "swagger" :height 1.0 :v-adjust 0.0 :face all-the-icons-green))
+  (add-to-list 'all-the-icons-regexp-icon-alist '("^openapi.json$" all-the-icons-fileicon "swagger" :height 1.0 :v-adjust 0.0 :face all-the-icons-green))
   )
 
 (use-package alert

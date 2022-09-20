@@ -881,6 +881,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "ev" 'flycheck-verify-setup
    )
   (setq flycheck-global-modes '(not org-mode text-mode))
+  (setq flycheck-emacs-lisp-load-path 'inherit)
   (global-flycheck-mode)
 
   (flycheck-add-mode 'javascript-eslint 'web-mode)

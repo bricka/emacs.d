@@ -232,6 +232,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
     :config
     (setq exec-path-from-shell-arguments nil)
     (add-to-list 'exec-path-from-shell-variables "EMACS_LOCAL_CONFIG_PATH")
+    (add-to-list 'exec-path-from-shell-variables "JAVA_HOME")
     (exec-path-from-shell-initialize)
     )
   )
@@ -778,6 +779,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 ;; LSP
 (use-package lsp-mode
   :hook (
+         (conf-javaprop-mode . lsp)
          (java-mode . lsp)
          (js-mode . lsp)
          (rustic-mode . lsp)
@@ -821,21 +823,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
   )
 
-(use-package lsp-java
-  :after lsp-mode
-  :config
-  (setq
-   lsp-java-implementations-code-lens-enabled t
-   )
-  )
-
-(use-package lsp-java-boot
-  :straight lsp-java
-  :after lsp-java
-  :config
-  (add-hook 'java-mode-hook #'lsp-java-boot-lens-mode)
-)
-
 (use-package lsp-ivy
   :after lsp-mode
   :general
@@ -857,13 +844,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :after treemacs
   :general
   (:states 'normal
-   :keymaps '(
-              java-mode-map
-              scala-mode-map
-              sh-mode-map
-              typescript-mode-map
-              web-mode-map
-              )
+   :keymaps 'lsp-mode-map
    :prefix my-leader-key
    "mr" `(
           ,(lambda () (interactive) (lsp-treemacs-references 1))
@@ -1340,6 +1321,37 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 ;; Java
 
+(use-package lsp-java
+  :after lsp-mode
+  :config
+  (setq
+   lsp-java-implementations-code-lens-enabled t
+   )
+  )
+
+(use-package lsp-java-boot
+  :straight lsp-java
+  :after lsp-java
+  :config
+  (defun my/enable-lsp-java-boot ()
+    "Enable `lsp-java-boot' for this buffer."
+    (setq-local lsp-java-boot-enabled t)
+    )
+  (setq lsp-java-boot-enabled nil)
+  (add-hook 'java-mode-hook #'my/enable-lsp-java-boot)
+  (add-hook 'conf-javaprop-mode-hook #'my/enable-lsp-java-boot)
+  (add-hook 'java-mode-hook #'lsp-java-boot-lens-mode)
+  (add-hook 'conf-javaprop-mode-hook #'lsp-java-boot-lens-mode)
+)
+
+(use-package lsp-java-lombok
+  :straight (:host github :repo "bricka/lsp-java-lombok" :branch "vmargs-list-and-expand")
+  :after lsp-java
+  :config
+  (setq lsp-java-lombok/enabled t)
+  (lsp-java-lombok/init)
+  )
+
 (defun my/java-indent-setup ()
   "Define preferred indentation style."
   (progn
@@ -1426,6 +1438,19 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 
 (add-to-list 'run-command-recipes #'run-command-recipe-package-json)
+
+(defun run-command-recipe-gradle ()
+  "Recipes for scripts that use Gradle."
+  (when-let* ((project-dir (locate-dominating-file default-directory "gradlew"))
+              (maybe-gradlew (concat project-dir "gradlew"))
+              (gradlew (when (file-exists-p maybe-gradlew) maybe-gradlew)))
+    (mapcar (lambda (task)
+              (list :command-name task
+                    :command-line (concat gradlew " " task)))
+            '("build"))
+    ))
+
+(add-to-list 'run-command-recipes #'run-command-recipe-gradle)
 
 ;; CSV
 (use-package csv-mode)

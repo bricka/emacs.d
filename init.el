@@ -1286,6 +1286,12 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    :keymaps 'graphviz-mode-map
    "mp" 'graphviz-dot-preview
    )
+  :config
+  (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot))
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((dot . t)))
+
   )
 
 ;; Python

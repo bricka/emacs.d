@@ -1124,17 +1124,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (my/set-face-attribute 'org-document-info-keyword nil :family "monospace")
   (my/set-face-attribute 'org-table nil :family "monospace")
 
-  ;; Checkbox Configuration
-  ;; Taken from https://jft.home.blog/2019/07/17/use-unicode-symbol-to-display-org-mode-checkboxes/
-  (defface org-checkbox-done-text
-    '((t (:inherit 'font-lock-comment-face :strike-through t)))
-    "Face for the text part of a checked org-mode checkbox.")
-  (font-lock-add-keywords
-   'org-mode
-   `(("^[ \t]*\\(?:[-+*]\\|[0-9]+[).]\\)[ \t]+\\(\\(?:\\[@\\(?:start:\\)?[0-9]+\\][ \t]*\\)?\\[\\(?:X\\|\\([0-9]+\\)/\\2\\)\\][^\n]*\n\\)"
-      1 'org-checkbox-done-text prepend))
-   'append)
-
   ;; "Local Variables" Configuration
   (defface org-local-variables-headlines
     '((t (:inherit shadow :slant italic :weight ultra-light :height 100)))
@@ -1149,14 +1138,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
       )
      (font-lock-ensure)
      )
-
-  (defun my/set-org-prettify-symbols ()
-    "Set the `prettify-symbols-mode' symbols for org checkboxes."
-    (add-to-list 'prettify-symbols-alist '("[ ]" . "☐"))
-    (add-to-list 'prettify-symbols-alist '("[X]" . "☑"))
-    )
-  (add-hook 'org-mode-hook #'my/set-org-prettify-symbols)
-  (add-hook 'org-mode-hook #'prettify-symbols-mode 90)
 
   (setq
    org-directory "~/org"
@@ -1224,16 +1205,18 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (setq org-clock-idle-time 10)
   )
 
-(use-package org-superstar
-  :after org
-  :hook (org-mode . org-superstar-mode)
-  :defines org-superstar-item-bullet-alist
+(use-package org-modern
+  :hook (org-mode . org-modern-mode)
   :config
-  (my/set-face-attribute 'org-superstar-item nil :family "monospace")
-  (my/set-face-attribute 'org-superstar-header-bullet nil :family "monospace")
-  (setq org-superstar-item-bullet-alist '(
-                                          (?- . ?➤)
-                                          ))
+  (setq org-modern-list
+        '((?- . "➤")
+          (?+ . "◦")))
+  (setq org-modern-star ["◉" "○" "◈" "◇" "◉" "○" "◈" "◇"])
+  )
+
+(use-package org-modern-indent
+  :straight (:host github :repo "jdtsmith/org-modern-indent")
+  :hook (org-indent-mode . org-modern-indent-mode)
   )
 
 (use-package gnuplot)

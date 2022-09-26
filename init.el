@@ -886,7 +886,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (global-flycheck-mode)
 
   (flycheck-add-mode 'javascript-eslint 'web-mode)
-  (flycheck-add-mode 'typescript-tslint 'web-mode)
   )
 
 ;; Shell

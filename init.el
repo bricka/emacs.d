@@ -803,6 +803,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (setq
    lsp-headerline-breadcrumb-enable nil
    lsp-lens-enable t
+   lsp-keep-workspace-alive nil
    )
 
   ;; Enabling mode-specific Flycheck checkers with LSP

@@ -1233,6 +1233,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (my/set-face-attribute 'org-superstar-header-bullet nil :family "monospace")
   (setq org-superstar-item-bullet-alist '(
                                           (?- . ?➤)
+                                          (?+ . "◦")
                                           ))
   )
 

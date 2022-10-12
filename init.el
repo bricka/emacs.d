@@ -1071,35 +1071,35 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (:states 'normal
    :prefix my-leader-key
    :keymaps 'org-mode-map
-   "m." 'org-time-stamp
-   "m," 'org-schedule
-   "m-" 'org-cycle-list-bullet
-   "m/" 'org-sparse-tree
-   "ma" 'org-archive-subtree
-   "mc" 'org-cycle
-   "mC" 'org-global-cycle
-   "md" 'org-deadline
-   "me" 'org-export-dispatch
-   "mE" 'my/org-expand-all
-   "mn" 'org-narrow-to-subtree
-   "mp" 'org-priority
-   "mr" 'org-reveal
-   "ms" 'counsel-org-goto
-   "mt" 'org-todo
+   "m." #'org-time-stamp
+   "m," #'org-schedule
+   "m-" #'org-cycle-list-bullet
+   "m/" #'org-sparse-tree
+   "ma" #'org-archive-subtree
+   "mc" #'org-cycle
+   "mC" #'org-global-cycle
+   "md" #'org-deadline
+   "me" #'org-export-dispatch
+   "mE" #'my/org-expand-all
+   "mn" #'org-narrow-to-subtree
+   "mp" #'org-priority
+   "mr" #'org-reveal
+   "ms" #'counsel-org-goto
+   "mt" #'org-todo
 
    "mT" '(:ignore t :wk "Tables")
-   "mT*" 'org-table-recalculate
-   "mTt" 'org-table-iterate
-   "mTI" 'org-table-iterate-buffer-tables
+   "mT*" #'org-table-recalculate
+   "mTt" #'org-table-iterate
+   "mTI" #'org-table-iterate-buffer-tables
 
    "mTd" '(:ignore t :wk "Delete")
-   "mTdr" 'org-table-kill-row
+   "mTdr" #'org-table-kill-row
    )
   (:states '(normal visual)
    :prefix my-leader-key
    :keymaps 'org-mode-map
-   "m*" 'org-toggle-heading
-   "mx" 'org-toggle-checkbox
+   "m*" #'org-toggle-heading
+   "mx" #'org-toggle-checkbox
    )
   :config
   (add-hook 'org-mode-hook 'flyspell-mode)
@@ -1285,7 +1285,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (:states 'normal
    :prefix my-leader-key
    :keymaps 'plantuml-mode-map
-   "mp" 'my/plantuml-preview-new-window
+   "mp" #'my/plantuml-preview-new-window
    )
   :config
   (setq plantuml-default-exec-mode 'jar)
@@ -1299,7 +1299,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (:states 'normal
    :prefix my-leader-key
    :keymaps 'graphviz-mode-map
-   "mp" 'graphviz-dot-preview
+   "mp" #'graphviz-dot-preview
    )
   :config
   (add-to-list 'org-src-lang-modes '("dot" . graphviz-dot))
@@ -1381,7 +1381,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (:states 'normal
    :prefix my-leader-key
    :keymaps 'scala-mode-map
-   "mst" 'lsp-metals-toggle-show-inferred-type
+   "mst" #'lsp-metals-toggle-show-inferred-type
    )
   :config
   (setq
@@ -1396,7 +1396,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (:states 'normal
    :prefix my-leader-key
    :keymaps 'rustic-mode-map
-   "mt" 'rustic-cargo-test)
+   "mt" #'rustic-cargo-test)
   :config
   (setq
    lsp-rust-analyzer-cargo-watch-command "clippy"

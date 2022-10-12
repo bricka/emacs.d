@@ -1053,12 +1053,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   "Enables word-wrapping for org mode."
   (visual-line-mode))
 
-(defun my-daily-agenda ()
-  "Open up daily agenda."
-  (interactive)
-  (org-agenda-list nil nil 'day)
-  )
-
 (defun my/org-expand-all ()
   "Expand an Org document for the things I like."
   (interactive)
@@ -1070,9 +1064,9 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :general
   (:states 'normal
    :prefix my-leader-key
-   "a" 'my-daily-agenda
-   "A" 'org-agenda
-   "c" 'org-capture
+   "a" #'org-agenda-list
+   "A" #'org-agenda
+   "c" #'org-capture
    )
   (:states 'normal
    :prefix my-leader-key
@@ -1213,6 +1207,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    org-deadline-warning-days 3
    org-agenda-start-on-weekday nil
    org-agenda-window-setup 'other-window
+   org-agenda-span 'day
    )
 
   (setq org-agenda-time-grid '((daily today require-timed)

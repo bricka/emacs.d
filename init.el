@@ -1059,6 +1059,14 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (org-fold-show-all '(blocks headings))
   )
 
+(defun my/cycle-list-or-to-list ()
+  "If a headline, `org-toggle-item'.  Else `org-cycle-list-bullet'."
+  (interactive)
+  (if (org-at-heading-p)
+      (org-toggle-item 0)
+    (org-cycle-list-bullet))
+  )
+
 (use-package org
   :mode ("\\.org\\'" . org-mode)
   :general
@@ -1073,7 +1081,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    :keymaps 'org-mode-map
    "m." #'org-time-stamp
    "m," #'org-schedule
-   "m-" #'org-cycle-list-bullet
    "m/" #'org-sparse-tree
    "ma" #'org-archive-subtree
    "mc" #'org-cycle
@@ -1099,6 +1106,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    :prefix my-leader-key
    :keymaps 'org-mode-map
    "m*" #'org-toggle-heading
+   "m-" #'my/cycle-list-or-to-list
    "mx" #'org-toggle-checkbox
    )
   :config

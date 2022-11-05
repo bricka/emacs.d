@@ -13,14 +13,13 @@
          (level (org-element-property :level headline))
          (start-time (plist-get info 'time-so-far))
          (raw-effort (org-element-property :EFFORT headline))
-         (effort (when raw-effort (org-duration-to-minutes raw-effort))))
+         (effort (if raw-effort (org-duration-to-minutes raw-effort) 0)))
     (cond
      ((= level 1)
-      (when effort
-        (plist-put info 'time-so-far (+ start-time effort)))
+      (plist-put info 'time-so-far (+ start-time effort))
       (format "<tr class=\"table-section\"><th colspan=\"5\">%s</th>%s</tr>" headline-text (or contents "")))
      ((= level 2)
-      (let* ((end-time (+ start-time (or effort 0))))
+      (let* ((end-time (+ start-time effort)))
         (plist-put info 'time-so-far end-time)
         (format "<tr><td>%s&nbsp;-&nbsp;%s</td><td>%s</td>%s</tr>"
                 (org-duration-from-minutes start-time)

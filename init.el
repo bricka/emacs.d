@@ -511,12 +511,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (setq shr-color-visible-luminance-min 80)
 )
 
-;; Window
-(use-package zoom
-  :config
-  (zoom-mode 1)
-  )
-
 ;; Commands
 (use-package run-command
   :defines run-command-experiments

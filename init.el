@@ -1417,7 +1417,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   )
 
 (use-package prettier-js
-  :hook (typescript-mode . prettier-js-mode)
+  :hook ((typescript-mode . prettier-js-mode)
+         (js-mode . prettier-js-mode))
   )
 
 (defun run-command-recipe-package-json--get-scripts (package-json-file)

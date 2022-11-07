@@ -708,9 +708,12 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :mode (("README\\.md\\'" . gfm-mode)
          ("\\.md\\'" . markdown-mode)
          ("\\.markdown\\'" . markdown-mode))
-  :init (setq markdown-command "multimarkdown")
+  :defines markdown-command
   :config
-  (setq markdown-fontify-code-blocks-natively t)
+  (setq
+   markdown-command "multimarkdown"
+   markdown-fontify-code-blocks-natively t
+   )
   )
 
 (use-package edit-indirect

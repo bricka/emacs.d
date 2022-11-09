@@ -1598,37 +1598,35 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 ;; Pomodoro
 
-(use-package pomidor
-  :general
-  ("<f12>" #'pomidor)
-  :config
-  (defun my/pomidor-mode-line ()
-    "Calculate what string should appear in the modeline."
-    (if (not (pomidor-running-p))
-        nil
-      (cond
-       ((pomidor-overwork-p) (propertize "🍅 TAKE BREAK" 'face 'success))
-       ((pomidor-break-over-p) (propertize "🍅 BREAK OVER" 'face 'warning))
-       ((pomidor-break-duration)
-        (propertize
-         (format-time-string
-          "🍅 %M:%S" (time-subtract
-                      (seconds-to-time pomidor-break-seconds)
-                      (pomidor-break-duration)))
-         'face 'success))
-       (t (format-time-string "🍅 %M:%S" (pomidor-total-duration)))
-       )
-      ))
-  (setq
-   pomidor-sound-tick nil
-   pomidor-sound-tack nil
-   )
-  (add-to-list
-   'global-mode-string
-   '(:eval (my/pomidor-mode-line))
-   t)
-  (add-to-list 'evil-emacs-state-modes 'pomidor-mode)
-  )
+;; (use-package pomidor
+;;   :config
+;;   (defun my/pomidor-mode-line ()
+;;     "Calculate what string should appear in the modeline."
+;;     (if (not (pomidor-running-p))
+;;         nil
+;;       (cond
+;;        ((pomidor-overwork-p) (propertize "🍅 TAKE BREAK" 'face 'success))
+;;        ((pomidor-break-over-p) (propertize "🍅 BREAK OVER" 'face 'warning))
+;;        ((pomidor-break-duration)
+;;         (propertize
+;;          (format-time-string
+;;           "🍅 %M:%S" (time-subtract
+;;                       (seconds-to-time pomidor-break-seconds)
+;;                       (pomidor-break-duration)))
+;;          'face 'success))
+;;        (t (format-time-string "🍅 %M:%S" (pomidor-total-duration)))
+;;        )
+;;       ))
+;;   (setq
+;;    pomidor-sound-tick nil
+;;    pomidor-sound-tack nil
+;;    )
+;;   (add-to-list
+;;    'global-mode-string
+;;    '(:eval (my/pomidor-mode-line))
+;;    t)
+;;   (add-to-list 'evil-emacs-state-modes 'pomidor-mode)
+;;   )
 
 ;; Elfeed
 

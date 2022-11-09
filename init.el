@@ -1689,6 +1689,23 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (setq deadgrep-project-root-function #'projectile-project-root)
   )
 
+(use-package ledger-mode
+  :mode "\\.ledger\\'"
+  :config
+  ;; (setq ledger-binary-path "hledger")
+  (add-hook 'ledger-mode-hook #'company-mode)
+  (general-define-key
+   :states 'normal
+   "[" #'ledger-navigate-prev-xact-or-directive
+   "]" #'ledger-navigate-next-xact-or-directive
+   )
+  )
+
+;; Cannot enabled flycheck-hledger, because ledger-mode seems to not work with "hledger" for me
+;; (use-package flycheck-hledger
+;;   :after (flycheck ledger-mode)
+;;   )
+
 ;; Local Configuration
 (defvar local-config-location
   (let ((val (getenv "EMACS_LOCAL_CONFIG_PATH")))

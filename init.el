@@ -778,6 +778,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
          (conf-javaprop-mode . lsp)
          (java-mode . lsp)
          (js-mode . lsp)
+         (kotlin-mode . lsp)
          (rustic-mode . lsp)
          (scala-mode . lsp)
          (sh-mode . lsp)

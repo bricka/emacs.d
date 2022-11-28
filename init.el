@@ -1694,14 +1694,21 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   )
 
 (use-package ledger-mode
-  :mode "\\.ledger\\'"
+  :mode "\\.ledger\\'" "\\.timedot"
   :config
   ;; (setq ledger-binary-path "hledger")
   (add-hook 'ledger-mode-hook #'company-mode)
   (general-define-key
+   :keymaps 'ledger-mode-map
    :states 'normal
    "[" #'ledger-navigate-prev-xact-or-directive
    "]" #'ledger-navigate-next-xact-or-directive
+   )
+  (general-define-key
+   :prefix my-leader-key
+   :keymaps 'ledger-mode-map
+   :states 'normal
+   "mr" #'ledger-report
    )
   )
 

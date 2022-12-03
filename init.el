@@ -775,7 +775,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
          (conf-javaprop-mode . lsp)
          (java-mode . lsp)
          (js-mode . lsp)
-         (kotlin-mode . lsp)
+         (kotlin-ts-mode . lsp)
          (rustic-mode . lsp)
          (scala-mode . lsp)
          (sh-mode . lsp)
@@ -1473,7 +1473,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   )
 
 ;; Kotlin
-(use-package kotlin-mode
+(use-package kotlin-ts-mode
+  :straight (:host gitlab :repo "bricka/emacs-kotlin-ts-mode")
   :mode "\\.kt\\'" "\\.kts\\'"
   )
 

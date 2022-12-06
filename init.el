@@ -311,7 +311,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
         '(
           deadgrep
           dired
-          elfeed
           image
           magit
           xref
@@ -1631,44 +1630,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 ;;    t)
 ;;   (add-to-list 'evil-emacs-state-modes 'pomidor-mode)
 ;;   )
-
-;; Elfeed
-
-(use-package elfeed
-  :commands elfeed
-  :defines elfeed-feeds elfeed-search-filter
-  :config
-  (defun my/elfeed-filter-to-feed (entry)
-    "Add the feed of the ENTRY to the filter."
-    (interactive (list (elfeed-search-selected :ignore-region)))
-    (let* ((feed (elfeed-entry-feed entry))
-           (feed-title (elfeed-feed-title feed))
-           (escaped-title (s-replace " " "[[:space:]]" feed-title)))
-      (elfeed-search-set-filter (format "%s =^%s$" elfeed-search-filter escaped-title))
-      )
-    )
-
-  (setq elfeed-feeds '(("theoldreader+https://user@theoldreader.com" :use-authinfo t)))
-  (add-hook 'elfeed-show-mode-hook 'visual-line-mode)
-  (general-define-key
-   :keymaps 'elfeed-search-mode-map
-   "F" #'my/elfeed-filter-to-feed
-   "L" #'elfeed-goodies/toggle-logs
-   )
-  )
-
-(use-package elfeed-protocol
-  :straight (:fork t :branch "theoldreader")
-  :after elfeed
-  :config
-  (elfeed-protocol-enable)
-  )
-
-(use-package elfeed-goodies
-  :after elfeed
-  :config
-  (elfeed-goodies/setup)
-  )
 
 (use-package journalctl
   :straight (:host gitlab :repo "bricka/emacs-journalctl")

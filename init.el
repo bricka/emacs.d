@@ -1476,7 +1476,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 ;; Kotlin
 (use-package kotlin-mode
-  :mode "\\.kt\\'"
+  :straight (:fork t)
+  :mode "\\.kt\\'" "\\.kts\\'"
   )
 
 ;; PDF

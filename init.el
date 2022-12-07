@@ -1413,7 +1413,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   )
 
 (use-package add-node-modules-path
-  :hook typescript-mode prettier-js-mode
+  :hook (typescript-mode . add-node-modules-path)
   )
 
 (use-package prettier-js

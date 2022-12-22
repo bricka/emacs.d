@@ -114,12 +114,12 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 (my/set-indentation 2)
 
 (defun my/disable-auto-fill-mode ()
-  "Ideally used as a hook to disable 'auto-fill-mode'."
+  "Ideally used as a hook to disable `auto-fill-mode'."
   (auto-fill-mode -1)
   )
 
 (defun my/disable-auto-save-mode ()
-  "Ideally used as a hook to disable 'auto-save-mode'."
+  "Ideally used as a hook to disable `auto-save-mode'."
   (auto-save-mode -1)
   )
 

@@ -268,7 +268,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    auto-insert t
    auto-insert-alist nil
    )
-  (add-hook 'find-file-hook 'auto-insert)
+  (add-hook 'find-file-hook #'auto-insert)
   )
 
 ;; Undo
@@ -762,7 +762,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    company-idle-delay 0.0
    company-dabbrev-downcase nil
    )
-  (add-hook 'prog-mode-hook 'company-mode)
+  (add-hook 'prog-mode-hook #'company-mode)
   )
 
 ;; Rainbow Mode
@@ -945,7 +945,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
  dired-dwim-target t
  )
 
-(add-hook 'dired-mode-hook 'dired-omit-mode)
+(add-hook 'dired-mode-hook #'dired-omit-mode)
 
 (defun dired-open-current-directory ()
   "Run `dired' in the directory of this file."
@@ -970,18 +970,18 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 (use-package diredfl
   :config
   (setq diredfl-ignore-compressed-flag nil)
-  (add-hook 'dired-mode-hook 'diredfl-mode)
+  (add-hook 'dired-mode-hook #'diredfl-mode)
   )
 
 (use-package all-the-icons-dired
   :config
-  (add-hook 'dired-mode-hook 'all-the-icons-dired-mode)
+  (add-hook 'dired-mode-hook #'all-the-icons-dired-mode)
   )
 
 ;; Images
 (use-package eimp
   :config
-  (add-hook 'image-mode-hook 'eimp-mode)
+  (add-hook 'image-mode-hook #'eimp-mode)
   )
 
 ;; ELisp
@@ -1109,8 +1109,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "mx" #'org-toggle-checkbox
    )
   :config
-  (add-hook 'org-mode-hook 'flyspell-mode)
-  (add-hook 'org-mode-hook 'variable-pitch-mode)
+  (add-hook 'org-mode-hook #'flyspell-mode)
+  (add-hook 'org-mode-hook #'variable-pitch-mode)
 
   (put 'org-ascii-text-width 'safe-local-variable #'numberp)
   (setq org-ascii-text-width 120)
@@ -1175,9 +1175,9 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (setq org-list-demote-modify-bullet
         '(("-" . "+") ("+" . "-")))
 
-  (add-hook 'org-capture-mode-hook 'evil-insert-state)
+  (add-hook 'org-capture-mode-hook #'evil-insert-state)
 
-  (add-hook 'org-mode-hook 'my/enable-org-mode-wordwrap)
+  (add-hook 'org-mode-hook #'my/enable-org-mode-wordwrap)
 
   ;; Refile
   (setq
@@ -1321,8 +1321,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 (use-package anaconda-mode
   :hook python-mode
   :config
-  (add-hook 'python-mode-hook 'eldoc-mode)
-  (add-hook 'python-mode-hook 'anaconda-eldoc-mode)
+  (add-hook 'python-mode-hook #'eldoc-mode)
+  (add-hook 'python-mode-hook #'anaconda-eldoc-mode)
   )
 
 (use-package company-anaconda
@@ -1370,7 +1370,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
     (c-set-offset 'arglist-intro '+)
     (c-set-offset 'arglist-close 0)
     ))
-(add-hook 'java-mode-hook 'my/java-indent-setup)
+(add-hook 'java-mode-hook #'my/java-indent-setup)
 
 ; Gradle files are written in Groovy
 (use-package groovy-mode
@@ -1587,10 +1587,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 (use-package edit-server
   :config
   (edit-server-start)
-  (add-hook 'edit-server-edit-mode-hook 'my/enable-evil-mode-for-edit-with-emacs)
-
-  (add-to-list 'edit-server-url-major-mode-alist '("wikifiniens" . mediawiki-mode))
-  )
+  (add-hook 'edit-server-edit-mode-hook #'my/enable-evil-mode-for-edit-with-emacs))
 
 ;; Time
 (use-package time

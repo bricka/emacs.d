@@ -740,11 +740,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :mode "\\`Dockerfile\\'"
   )
 
-(use-package docker-tramp
-  :custom
-  (docker-tramp-use-names t "Use container names for accessing containers")
-  )
-
 (add-to-list 'auto-mode-alist '("\/\\.env" . conf-mode))
 
 ;; Which Key

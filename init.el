@@ -225,6 +225,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :hook (prog-mode . rainbow-delimiters-mode)
   )
 
+(setq prettify-symbols-unprettify-at-point 'right-edge)
+
 ;; PATH from Shell
 
 (when (memq window-system '(mac ns x))
@@ -999,6 +1001,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
  :keymaps 'emacs-lisp-mode-map
  "mxr" 'eval-region
  )
+
+(add-hook 'emacs-lisp-mode-hook #'prettify-symbols-mode)
 
 (use-package dash
   :config

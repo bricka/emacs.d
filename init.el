@@ -997,7 +997,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
  "mxr" 'eval-region
  )
 
-(add-hook 'emacs-lisp-mode-hook #'prettify-symbols-mode)
+(add-hook 'emacs-lisp-mode-hook (lambda () (prettify-symbols-mode 1)))
 
 (use-package dash
   :config

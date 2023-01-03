@@ -326,6 +326,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
           flycheck
           image
           magit
+          term
           xref
           xwidget
           )

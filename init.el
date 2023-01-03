@@ -535,16 +535,22 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    :prefix my-leader-key
    "!" 'run-command
    )
-  (setq run-command-experiments '(vterm-run-method))
   )
 
 ;; Projectile
+(defun my/projectile-run-ansi-term ()
+  (interactive)
+  (let ((default-directory (projectile-project-root)))
+    (my/ansi-term-shell (projectile-project-name))
+    )
+  )
 (use-package projectile
   :config
   ;; Not using general to avoid deferring
   (general-define-key
    :states 'normal
    :prefix my-leader-key
+   "p'" #'my/projectile-run-ansi-term
    "pf" #'projectile-find-file
    "pi" #'projectile-invalidate-cache
    "pl" #'projectile-switch-project
@@ -920,10 +926,21 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   )
 
 ;; Shell
+(defun my/handle-term-exit (&optional _process-name _msg)
+  (kill-buffer (current-buffer)))
+
+(advice-add 'term-handle-exit :after #'my/handle-term-exit)
+
+(defun my/ansi-term-shell (&optional buffer-name)
+  (interactive)
+  (split-window-sensibly)
+  (ansi-term shell-file-name (concat "term[" buffer-name "]"))
+  )
+
 (general-define-key
    :states 'normal
    :prefix my-leader-key
-   "'" (lambda () (ansi-term shell-file-name))
+   "'" #'my/ansi-term-shell
  )
 
 ;; Dired

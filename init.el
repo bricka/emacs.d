@@ -313,6 +313,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
         '(
           deadgrep
           dired
+          flycheck
           image
           magit
           xref
@@ -875,6 +876,14 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "ep" 'flycheck-previous-error
    "ev" 'flycheck-verify-setup
    )
+
+  (general-define-key
+   :states 'normal
+   :keymaps 'flycheck-error-list-mode-map
+   "j" #'flycheck-error-list-next-error
+   "k" #'flycheck-error-list-previous-error
+   )
+
   (setq flycheck-global-modes '(not org-mode text-mode))
   (setq flycheck-emacs-lisp-load-path 'inherit)
   (global-flycheck-mode)

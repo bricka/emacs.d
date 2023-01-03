@@ -326,6 +326,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
           flycheck
           image
           magit
+          term
           xref
           xwidget
           )
@@ -535,16 +536,23 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    :prefix my-leader-key
    "!" 'run-command
    )
-  (setq run-command-experiments '(vterm-run-method))
   )
 
 ;; Projectile
+(defun my/projectile-run-ansi-term ()
+  "Run `ansi-term' for this project."
+  (interactive)
+  (let ((default-directory (projectile-project-root)))
+    (my/ansi-term-shell (projectile-project-name))
+    )
+  )
 (use-package projectile
   :config
   ;; Not using general to avoid deferring
   (general-define-key
    :states 'normal
    :prefix my-leader-key
+   "p'" #'my/projectile-run-ansi-term
    "pf" #'projectile-find-file
    "pi" #'projectile-invalidate-cache
    "pl" #'projectile-switch-project
@@ -920,50 +928,42 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   )
 
 ;; Shell
-(defun my/open-projectile-vterm ()
-  "Set up another window, then run `projectile-run-vterm'."
-  (interactive)
-  (split-window-sensibly)
-  (other-window 1)
-  (projectile-run-vterm)
-  )
-
-(defun my/open-vterm-ssh (host user)
-  "Open vterm and SSH to HOST as USER."
-  (vterm-other-window)
-  (vterm-send-string (concat "ssh -l " user " " host "\n"))
-  )
-
-(defun my/open-vterm ()
-  "Open vterm, SSHing if current directory is remote."
-  (interactive)
-  (let ((host (file-remote-p default-directory 'host))
-        (user (file-remote-p default-directory 'user)))
-    (if host
-        (my/open-vterm-ssh host user)
-      (vterm-other-window)))
-  )
-
-(use-package vterm
-  :custom
-  (vterm-min-window-width 1000 "Make the vterm not wrap lines")
+(use-package term
+  :straight (:type built-in)
   :config
+  (defun my/handle-term-exit (&optional _process-name _msg)
+    (kill-buffer (current-buffer)))
+  (advice-add 'term-handle-exit :after #'my/handle-term-exit)
+
+  (defun my/term-send-esc ()
+    "Send a raw escape character to the terminal."
+    (interactive)
+    (term-send-raw-string "\x1b"))
+
+  (general-define-key
+   :keymaps 'term-raw-map
+   "C-v" #'term-paste
+   "C-<escape>" #'my/term-send-esc)
+
   (general-define-key
    :states 'normal
    :prefix my-leader-key
-   "'" #'my/open-vterm
-   "p'" #'my/open-projectile-vterm
-   )
-  (general-define-key
-   :keymaps 'vterm-mode-map
-   "C-w C-w" #'evil-window-next
-   "C-w o" #'delete-other-windows
-   "C-w C-o" #'delete-other-windows
-   )
-  (add-to-list 'evil-emacs-state-modes 'vterm-mode)
-
-  (add-hook 'vterm-mode-hook (lambda () (toggle-truncate-lines -1)))
+   "'" #'my/ansi-term-shell)
   )
+
+(defun my/ansi-term-shell (&optional buffer-name)
+  "Launch a shell with `ansi-term' based on the given BUFFER-NAME."
+  (interactive)
+  (let* ((base-buffer-name (if buffer-name (concat "term[" buffer-name "]") "term"))
+         (full-buffer-name (concat "*" base-buffer-name "*"))
+         (existing-buffer (get-buffer full-buffer-name)))
+    (split-window-sensibly)
+    (other-window 1)
+    (if existing-buffer
+        (switch-to-buffer existing-buffer)
+      (ansi-term shell-file-name base-buffer-name)
+    )
+  ))
 
 ;; Dired
 

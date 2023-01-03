@@ -1407,6 +1407,12 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    )
   )
 
+;; TaskJuggler
+(use-package taskjuggler-mode
+  :straight (:host gitlab :repo "bricka/emacs-taskjuggler-mode")
+  :mode "\\.tjp"
+  )
+
 ;; TypeScript
 
 (use-package typescript-mode

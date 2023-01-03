@@ -1463,8 +1463,9 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
               (gradlew (when (file-exists-p maybe-gradlew) maybe-gradlew)))
     (mapcar (lambda (task)
               (list :command-name task
+                    :working-dir project-dir
                     :command-line (concat gradlew " " task)))
-            '("build"))
+            '("build" "bootRun"))
     ))
 
 (add-to-list 'run-command-recipes #'run-command-recipe-gradle)

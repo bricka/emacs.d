@@ -810,13 +810,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
         (funcall fn checker property)))
 
   (advice-add 'flycheck-checker-get :around 'my/flycheck-checker-get)
-
-  ;; (add-hook 'lsp-managed-mode-hook
-  ;;           (lambda ()
-  ;;             (cond ((derived-mode-p 'typescript-mode)
-  ;;                    (setq my/flycheck-local-cache '((lsp . ((next-checkers . (javascript-eslint)))))))
-  ;;                   )))
-
   )
 
 (use-package lsp-ivy
@@ -1486,6 +1479,20 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 (use-package kotlin-ts-mode
   :straight (:host gitlab :repo "bricka/emacs-kotlin-ts-mode")
   :mode "\\.kt\\'" "\\.kts\\'"
+  )
+
+(use-package flycheck-kotlin
+  :after kotlin-ts-mode flycheck lsp-mode
+  :config
+  (flycheck-kotlin-setup)
+
+  ;; Remove after https://github.com/whirm/flycheck-kotlin/pull/4
+  (flycheck-add-mode 'kotlin-ktlint #'kotlin-ts-mode)
+
+  (add-hook 'lsp-managed-mode-hook
+            (lambda ()
+              (when (derived-mode-p 'kotlin-ts-mode)
+                (setq my/flycheck-local-cache '((lsp . ((next-checkers . (kotlin-ktlint)))))))))
   )
 
 ;; PDF

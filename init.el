@@ -1688,7 +1688,11 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    :keymaps 'ledger-mode-map
    :states 'normal
    "mr" #'ledger-report
+   "mo" #'ledger-occur
+   "mcb" #'ledger-mode-clean-buffer
    )
+
+  (add-hook 'ledger-mode-hook (lambda () (setq show-trailing-whitespace t)))
   )
 
 ;; Cannot enabled flycheck-hledger, because ledger-mode seems to not work with "hledger" for me

@@ -137,7 +137,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   "Normal leader key for keybindings."
   )
 
-(when (= system-type 'darwin)
+(when (eq system-type 'darwin)
   (setq mac-right-option-modifier 'none))
 
 (defun my/kill-other-buffers ()

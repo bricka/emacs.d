@@ -774,6 +774,15 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   )
 
 ;; LSP
+
+;; Enabling mode-specific Flycheck checkers with LSP
+;; https://github.com/flycheck/flycheck/issues/1762
+(defvar-local my/flycheck-local-cache nil)
+
+(defun my/flycheck-checker-get (fn checker property)
+  (or (alist-get property (alist-get checker my/flycheck-local-cache))
+      (funcall fn checker property)))
+
 (use-package lsp-mode
   :hook (
          (conf-javaprop-mode . lsp)
@@ -803,16 +812,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    lsp-lens-enable t
    lsp-keep-workspace-alive nil
    )
-
-  ;; Enabling mode-specific Flycheck checkers with LSP
-
-  (defvar-local my/flycheck-local-cache nil)
-
-  (defun my/flycheck-checker-get (fn checker property)
-    (or (alist-get property (alist-get checker my/flycheck-local-cache))
-        (funcall fn checker property)))
-
-  (advice-add 'flycheck-checker-get :around 'my/flycheck-checker-get)
   )
 
 (use-package lsp-ivy
@@ -885,6 +884,10 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (global-flycheck-mode)
 
   (flycheck-add-mode 'javascript-eslint 'web-mode)
+
+  ;; Enabling mode-specific Flycheck checkers with LSP
+  ;; https://github.com/flycheck/flycheck/issues/1762
+  (advice-add 'flycheck-checker-get :around 'my/flycheck-checker-get)
   )
 
 ;; Shell

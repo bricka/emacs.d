@@ -1195,6 +1195,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    org-html-validation-link nil
    org-html-postamble nil
    org-export-with-toc nil
+   org-table-export-default-format "orgtbl-to-csv"
    )
 
   (put

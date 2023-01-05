@@ -1374,7 +1374,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 ; Gradle files are written in Groovy
 (use-package groovy-mode
-  :mode "\\.gradle")
+  :mode "\\.gradle\\'")
 
 ;; Scala
 

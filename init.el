@@ -793,11 +793,13 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
          (conf-javaprop-mode . lsp)
          (java-mode . lsp)
          (js-mode . lsp)
+         (kotlin-mode . lsp)
          (kotlin-ts-mode . lsp)
          (rustic-mode . lsp)
          (scala-mode . lsp)
          (sh-mode . lsp)
          (typescript-mode . lsp)
+         (typescript-ts-mode . lsp)
          (web-mode . lsp)
          (yaml-mode . lsp)
          )
@@ -1432,12 +1434,13 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   )
 
 (use-package add-node-modules-path
-  :hook (typescript-mode . add-node-modules-path)
+  :hook ((typescript-mode . add-node-modules-path)
+         (typescript-ts-mode . add-node-modules-path)
+         (js-mode . add-node-modules-path))
   )
 
 (use-package prettier-js
-  :hook ((typescript-mode . prettier-js-mode)
-         (js-mode . prettier-js-mode))
+  :hook typescript-mode typescript-ts-mode js-mode
   )
 
 (defun run-command-recipe-package-json--get-scripts (package-json-file)

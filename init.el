@@ -122,6 +122,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (auto-save-mode -1)
   )
 
+(use-package ht)
+
 (use-package editorconfig
   :config
   (editorconfig-mode 1)
@@ -1447,9 +1449,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (with-temp-buffer
     (insert-file-contents package-json-file)
     (when-let ((script-hash (gethash "scripts" (json-parse-buffer))))
-      (let (scripts '())
-        (maphash (lambda (key _value) (push key scripts)) script-hash)
-        scripts))))
+      (ht-keys script-hash))))
 
 (defun run-command-recipe-package-json ()
   "Recipes for scripts in package.json."

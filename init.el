@@ -540,6 +540,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 ;; Projectile
 (defun my/projectile-run-ansi-term ()
+  "Run `ansi-term' for this project."
   (interactive)
   (let ((default-directory (projectile-project-root)))
     (my/ansi-term-shell (projectile-project-name))
@@ -932,11 +933,24 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 (advice-add 'term-handle-exit :after #'my/handle-term-exit)
 
+(general-define-key
+ :keymaps 'term-raw-map
+ "C-v" #'term-paste
+ )
+
 (defun my/ansi-term-shell (&optional buffer-name)
+  "Launch a shell with `ansi-term' based on the given BUFFER-NAME."
   (interactive)
-  (split-window-sensibly)
-  (ansi-term shell-file-name (concat "term[" buffer-name "]"))
-  )
+  (let* ((base-buffer-name (if buffer-name (concat "term[" buffer-name "]") "term"))
+         (full-buffer-name (concat "*" base-buffer-name "*"))
+         (existing-buffer (get-buffer full-buffer-name)))
+    (split-window-sensibly)
+    (other-window 1)
+    (if existing-buffer
+        (switch-to-buffer existing-buffer)
+      (ansi-term shell-file-name base-buffer-name)
+    )
+  ))
 
 (general-define-key
    :states 'normal

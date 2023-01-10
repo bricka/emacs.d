@@ -250,6 +250,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (add-to-list 'all-the-icons-regexp-icon-alist '("^.gitlab-ci.yml$" all-the-icons-fileicon "gitlab" :height 1.0 :v-adjust 0.0 :face all-the-icons-orange))
   (add-to-list 'all-the-icons-regexp-icon-alist '("^openapi.ya?ml$" all-the-icons-fileicon "swagger" :height 1.0 :v-adjust 0.0 :face all-the-icons-green))
   (add-to-list 'all-the-icons-regexp-icon-alist '("^openapi.json$" all-the-icons-fileicon "swagger" :height 1.0 :v-adjust 0.0 :face all-the-icons-green))
+  (add-to-list 'all-the-icons-regexp-icon-alist '("^COPYING$" all-the-icons-octicon "law" :height 1.0 :v-adjust 0.0 :face all-the-icons-yellow))
+  (add-to-list 'all-the-icons-regexp-icon-alist '("^Cargo.\\(toml\\|lock\\)$" all-the-icons-fileicon "config-rust" :height 1.0 :v-adjust 0.0 :face all-the-icons-yellow))
   )
 
 (use-package alert

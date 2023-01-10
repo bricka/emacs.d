@@ -254,8 +254,11 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 (use-package alert
   :config
+  (setq alert-default-style
+        (if (eq system-type 'darwin)
+            'osx-notifier
+          'libnotify))
   (setq
-   alert-default-style 'libnotify
    alert-fade-time 20
    alert-persist-idle-time 60
    )

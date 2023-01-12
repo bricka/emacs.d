@@ -443,7 +443,12 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "gb" #'magit-branch
    "gB" #'magit-blame
    "gc" #'magit-commit
-   "gd" #'magit-diff
+   "gd" '(:ignore t :which-key "Diff")
+   "gdd" #'magit-diff
+   "gdu" `(
+           ,(lambda () (interactive) (magit-diff-range "@{upstream}"))
+           :wk "upstream"
+           )
    "gp" #'magit-push
    "gr" #'magit-rebase
    "gs" #'magit-status

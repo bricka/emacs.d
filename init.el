@@ -244,6 +244,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   )
 
 (use-package all-the-icons
+  :straight (:fork t :branch "ts-modes")
   :config
   (add-to-list 'all-the-icons-extension-icon-alist '("ics" all-the-icons-octicon "calendar" :face all-the-icons-silver))
   (add-to-list 'all-the-icons-extension-icon-alist '("deb" all-the-icons-octicon "package" :face all-the-icons-silver))

@@ -741,9 +741,24 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   )
 
 ;; LaTeX
-(use-package latex-preview-pane
+(use-package tex
+  :straight auctex
   :config
-  (latex-preview-pane-enable)
+  (general-define-key
+   :states 'normal
+   :keymaps 'LaTeX-mode-map
+   :prefix my-leader-key
+   "mp" #'preview-document
+   )
+  (setq TeX-parse-self t
+        TeX-auto-save t
+        TeX-view-program-selection '((output-pdf "PDF Tools")))
+  (setq-default TeX-engine 'xetex)
+  (setq TeX-electric-math '("$" . "$"))
+
+  (add-hook 'TeX-mode-hook #'prettify-symbols-mode)
+  (add-hook 'TeX-mode-hook #'flyspell-mode)
+  (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
   )
 
 ;; Neon

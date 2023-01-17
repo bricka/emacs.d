@@ -1685,22 +1685,22 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 ;;   (add-to-list 'evil-emacs-state-modes 'pomidor-mode)
 ;;   )
 
-(use-package journalctl
-  :straight (:host gitlab :repo "bricka/emacs-journalctl")
-  :general
-  (:prefix my-leader-key
-   :states 'normal
-   "jj" #'journalctl
-   "ju" #'journalctl-user
-   )
-  :config
-  (general-define-key
-   :keymaps 'journalctl-mode-map
-   :states 'normal
-   "gr" #'journalctl-refresh
-   "q" #'quit-window
-   "ZZ" #'quit-window)
-  )
+(when (eq system-type 'gnu/linux)
+  (use-package journalctl
+    :straight (:host gitlab :repo "bricka/emacs-journalctl")
+    :general
+    (:prefix my-leader-key
+     :states 'normal
+     "jj" #'journalctl
+     "ju" #'journalctl-user)
+    :config
+    (general-define-key
+     :keymaps 'journalctl-mode-map
+     :states 'normal
+     "gr" #'journalctl-refresh
+     "q" #'quit-window
+     "ZZ" #'quit-window)
+    ))
 
 (use-package deadgrep
   :config

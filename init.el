@@ -928,15 +928,28 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   )
 
 ;; Shell
-(defun my/handle-term-exit (&optional _process-name _msg)
-  (kill-buffer (current-buffer)))
+(use-package term
+  :straight (:type built-in)
+  :config
+  (defun my/handle-term-exit (&optional _process-name _msg)
+    (kill-buffer (current-buffer)))
+  (advice-add 'term-handle-exit :after #'my/handle-term-exit)
 
-(advice-add 'term-handle-exit :after #'my/handle-term-exit)
+  (defun my/term-send-esc ()
+    "Send a raw escape character to the terminal."
+    (interactive)
+    (term-send-raw-string "\x1b"))
 
-(general-define-key
- :keymaps 'term-raw-map
- "C-v" #'term-paste
- )
+  (general-define-key
+   :keymaps 'term-raw-map
+   "C-v" #'term-paste
+   "C-<escape>" #'my/term-send-esc)
+
+  (general-define-key
+   :states 'normal
+   :prefix my-leader-key
+   "'" #'my/ansi-term-shell)
+  )
 
 (defun my/ansi-term-shell (&optional buffer-name)
   "Launch a shell with `ansi-term' based on the given BUFFER-NAME."
@@ -951,12 +964,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
       (ansi-term shell-file-name base-buffer-name)
     )
   ))
-
-(general-define-key
-   :states 'normal
-   :prefix my-leader-key
-   "'" #'my/ansi-term-shell
- )
 
 ;; Dired
 

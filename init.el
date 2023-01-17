@@ -1254,7 +1254,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
                                (1000 1200 1400 1600)
                                "......"
                                "----------------"))
-  (setq org-agenda-current-time-string "⮜┈┈┈┈┈┈┈ now")
+  (setq org-agenda-current-time-string "ᗕ┈┈┈┈┈┈┈ now")
   (setq org-agenda-dim-blocked-tasks nil)
 
   ;; Clocking

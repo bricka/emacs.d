@@ -1041,6 +1041,12 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (global-dash-fontify-mode)
   )
 
+(use-package flycheck-package
+  :after flycheck
+  :config
+  (flycheck-package-setup)
+  )
+
 ;; Plain Text
 (general-define-key
  :prefix my-leader-key

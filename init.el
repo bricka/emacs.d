@@ -708,6 +708,15 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :after treemacs magit
   )
 
+;; Compilation
+(use-package compile
+  :straight (:type built-in)
+  :config
+  (setq compilation-scroll-output 'first-error)
+  (require 'ansi-color)
+  (add-hook 'compilation-filter-hook (lambda () (ansi-color-apply-on-region compilation-filter-start (point))))
+  )
+
 ;; Web Mode
 (use-package web-mode
   :mode ("\\.html\\'" "\\.mustache\\'" "\\.hbs")

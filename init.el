@@ -1542,9 +1542,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :config
   (flycheck-kotlin-setup)
 
-  ;; Remove after https://github.com/whirm/flycheck-kotlin/pull/4
-  (flycheck-add-mode 'kotlin-ktlint #'kotlin-ts-mode)
-
   (add-hook 'lsp-managed-mode-hook
             (lambda ()
               (when (derived-mode-p 'kotlin-ts-mode)

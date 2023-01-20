@@ -554,6 +554,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    :states 'normal
    :prefix my-leader-key
    "p'" #'my/projectile-run-ansi-term
+   "pc" #'projectile-compile-project
    "pf" #'projectile-find-file
    "pi" #'projectile-invalidate-cache
    "pl" #'projectile-switch-project
@@ -716,7 +717,11 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (setq compilation-scroll-output 'first-error)
   (require 'ansi-color)
   (add-hook 'compilation-filter-hook (lambda () (ansi-color-apply-on-region compilation-filter-start (point))))
-  )
+
+  ;; Add error regexp for tsc
+  (add-to-list
+   'compilation-error-regexp-alist
+   '(("^\\([[:alnum:]_/ .]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\) - error" 1 2 3))))
 
 ;; Web Mode
 (use-package web-mode

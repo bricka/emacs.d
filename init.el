@@ -321,6 +321,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :config
   (setq evil-collection-mode-list
         '(
+          compile
           deadgrep
           dired
           flycheck

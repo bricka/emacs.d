@@ -459,22 +459,20 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "glf" #'magit-log-buffer-file
    )
   :config
-  (setq vc-handled-backends (delq 'Git vc-handled-backends)) ; Disable VC for Git
   ;; magit-extras expects this variable to exist, but for whatever reason, it doesn't for me.
   (defvar project-switch-commands nil)
   )
 
-(use-package git-gutter
-  :blackout
+(use-package diff-hl
   :config
-  ;; Not using :general to avoid deferring
   (general-define-key
    :states 'normal
    :prefix my-leader-key
-   "ghn" #'git-gutter:next-hunk
-   "ghp" #'git-gutter:previous-hunk
-   )
-  (global-git-gutter-mode t)
+   "ghn" #'diff-hl-next-hunk
+   "ghp" #'diff-hl-previous-hunk)
+  (global-diff-hl-mode)
+  (add-hook 'diff-hl-mode-hook #'diff-hl-flydiff-mode)
+  (add-hook 'dired-mode-hook #'diff-hl-dired-mode-unless-remote)
   )
 
 (use-package browse-at-remote

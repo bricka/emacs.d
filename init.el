@@ -1019,6 +1019,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (add-hook 'image-mode-hook #'eimp-mode)
   )
 
+(add-hook 'image-mode-hook #'auto-revert-mode)
+
 ;; ELisp
 (general-define-key
  :prefix my-leader-key

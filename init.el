@@ -564,6 +564,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    )
 
   (projectile-mode 1)
+  (add-to-list 'safe-local-variable-values '(projectile-project-compilation-cmd . "./gradlew build"))
+  (add-to-list 'safe-local-variable-values '(projectile-project-compilation-cmd . "npm run build"))
   )
 
 ;; Ivy

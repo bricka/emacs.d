@@ -483,7 +483,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    )
   :config
   (setq browse-at-remote-prefer-symbolic nil)
-  (add-to-list 'browse-at-remote-remote-type-regexps (cons "^gitlab\\." "gitlab"))
+  (add-to-list 'browse-at-remote-remote-type-regexps '(:host "^gitlab\\." :type "gitlab"))
   )
 
 (use-package transient)

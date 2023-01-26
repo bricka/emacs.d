@@ -1760,19 +1760,16 @@ Value is taken from EMACS_LOCAL_CONFIG_PATH environment variable."
   )
 
 (when (and local-config-location (file-exists-p local-config-location))
-    (defun my/visit-local-config ()
-      "Visit the local configuration file."
-      (interactive)
-      (find-file local-config-location)
-      )
-    (general-define-key
-     :states 'normal
-     :prefix my-leader-key
-     "fl" #'my/visit-local-config
-     )
-    (let ((straight-current-profile 'local))
-      (load-file local-config-location)
-      ))
+  (defun my/visit-local-config ()
+    "Visit the local configuration file."
+    (interactive)
+    (find-file local-config-location))
+  (general-define-key
+   :states 'normal
+   :prefix my-leader-key
+   "fl" #'my/visit-local-config)
+  (let ((straight-current-profile 'local))
+    (load-file local-config-location)))
 
 (server-start)
 

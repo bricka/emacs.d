@@ -711,17 +711,17 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   )
 
 ;; Compilation
+(defun my/compile-ansi-color ()
+  "Apply ANSI color to a line in compile-mode."
+  (ansi-color-apply-on-region compilation-filter-start (point)))
+
 (use-package compile
   :straight (:type built-in)
   :config
   (setq compilation-scroll-output 'first-error)
   (require 'ansi-color)
-  (add-hook 'compilation-filter-hook (lambda () (ansi-color-apply-on-region compilation-filter-start (point))))
-
-  ;; Add error regexp for tsc
-  (add-to-list
-   'compilation-error-regexp-alist
-   '(("^\\([[:alnum:]_/ .]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\) - error" 1 2 3))))
+  (add-hook 'compilation-filter-hook #'my/compile-ansi-color)
+  (add-to-list 'safe-local-variable-values '(compilation-read-command . nil)))
 
 ;; Web Mode
 (use-package web-mode

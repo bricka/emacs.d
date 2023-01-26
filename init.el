@@ -846,16 +846,15 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
          (web-mode . lsp)
          (yaml-mode . lsp)
          )
-  :general
-  (:states 'normal
+  :config
+  (general-define-key
+   :states 'normal
    :keymaps 'lsp-mode-map
    :prefix my-leader-key
    "mE" #'lsp-treemacs-errors-list
    "mi" #'lsp-ui-doc-glance
    "mR" #'lsp-rename
-   "mx" #'lsp-execute-code-action
-   )
-  :config
+   "mx" #'lsp-execute-code-action)
 
   (setq
    lsp-headerline-breadcrumb-enable nil

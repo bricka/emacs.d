@@ -1330,12 +1330,12 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
         (holiday-fixed 8 15 "Mariae Himmelfahrt")
         (holiday-fixed 11 1 "Allerheiligen")))
 
+;; Plant UML
 (defun my/plantuml-preview-new-window ()
   "Preview the PlantUML in a new window."
   (interactive)
   (plantuml-preview 4))
 
-;; Plant UML
 (use-package plantuml-mode
   :mode "\\.plantuml\\'"
   :general
@@ -1348,6 +1348,11 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (setq plantuml-default-exec-mode 'jar)
   (setq plantuml-output-type "png")
   )
+
+;; Mermaid
+(use-package mermaid-mode
+  :straight (:fork t :branch "fix-indentation")
+  :mode "\\.mmd\\'")
 
 ;; Graphviz
 (use-package graphviz-dot-mode

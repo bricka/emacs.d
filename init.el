@@ -1351,7 +1351,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 ;; Mermaid
 (use-package mermaid-mode
-  :straight (:fork t :branch "fix-indentation")
   :mode "\\.mmd\\'")
 
 ;; Graphviz

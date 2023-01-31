@@ -233,7 +233,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 ;; PATH from Shell
 
-(when (memq window-system '(mac ns x))
+(when (memq system-type '(darwin gnu/linux))
   (use-package exec-path-from-shell
     :config
     (setq exec-path-from-shell-arguments nil)

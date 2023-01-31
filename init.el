@@ -712,6 +712,24 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :after treemacs magit
   )
 
+;; Man pages
+
+;; On Mac OS X, a lot of man pages are built in a WoMan-incompatible
+;; way. So we want to use "man" instead. However, the default Mac OS X
+;; "man" program does not use a cache, which makes the command take a
+;; long time. So we need to install "man-db" from Homebrew and use its
+;; "man" command instead.
+;;
+;; If a command doesn't appear, try refreshing the cache by running
+;; "mandb".
+(when (eq system-type 'darwin)
+  (setq manual-program "gman"
+        Man-notify-method 'aggressive)
+  (general-define-key
+   :states 'motion
+   "K" #'man
+   ))
+
 ;; Compilation
 (defun my/compile-ansi-color ()
   "Apply ANSI color to a line in compile-mode."

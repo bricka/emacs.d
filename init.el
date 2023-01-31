@@ -1663,13 +1663,19 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 ;; Time
 (use-package time
+  :commands world-clock
   :config
   (setq
    zoneinfo-style-world-list '(("Europe/Berlin" "München"))
    display-time-format "%Y-%m-%d %H:%M"
    display-time-default-load-average nil
    )
-  )
+
+  (general-define-key
+   :keymaps 'world-clock-mode-map
+   :states 'normal
+   "q" #'quit-window
+   ))
 
 ;; Pomodoro
 

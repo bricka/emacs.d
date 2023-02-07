@@ -437,6 +437,12 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (evil-exchange-install)
   )
 
+;; Kill Ring
+(use-package browse-kill-ring
+  :commands browse-kill-ring
+  :config
+  (setq browse-kill-ring-highlight-current-entry t))
+
 ;; Git Configuration
 (use-package magit
   :general

@@ -1488,6 +1488,10 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :mode "\\.tjp"
   )
 
+(use-package flycheck-taskjuggler
+  :straight (:host gitlab :repo "bricka/emacs-flycheck-taskjuggler")
+  :after taskjuggler-mode)
+
 ;; TypeScript
 
 (use-package typescript-mode

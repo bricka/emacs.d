@@ -1609,57 +1609,22 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (find-file "~/.emacs.d/init.el"))
 
 
-;; These are taken from Steve Yegge's .emacs:
+;; Inspired from Steve Yegge's .emacs:
 ;; https://sites.google.com/site/steveyegge2/my-dot-emacs-file
-(defun my/rename-file-and-buffer (new-name)
- "Renames both current buffer and file it's visiting to NEW-NAME." (interactive "sNew name: ")
- (let ((name (buffer-name))
-	(filename (buffer-file-name)))
- (if (not filename)
-	(message "Buffer '%s' is not visiting a file!" name)
- (if (get-buffer new-name)
-	 (message "A buffer named '%s' already exists!" new-name)
-   (progn
-     (rename-file filename new-name 1)
-     (rename-buffer new-name)
-     (set-visited-file-name new-name)
-     (set-buffer-modified-p nil))))))
-
-(defun my/move-buffer-file (dir)
- "Move both current buffer and file it's visiting to DIR." (interactive "DNew directory: ")
- (let* ((name (buffer-name))
-	 (filename (buffer-file-name))
-	 (dir
-    (if (string-match dir "\\(?:/\\|\\\\)$")
-        (substring dir 0 -1) dir))
-   (newname (concat dir "/" name)))
-
- (if (not filename)
-	(message "Buffer '%s' is not visiting a file!" name)
-  (progn
-    (copy-file filename newname 1)
-    (delete-file filename)
-    (set-visited-file-name newname)
-    (set-buffer-modified-p nil)
-    t))))
-
-(defun my/delete-file-and-buffer ()
-  "Kill the current buffer and deletes the file it is visiting."
-  (interactive)
-  (let ((filename (buffer-file-name)))
-    (when filename
-      (cond ((vc-backend filename) (vc-delete-file filename))
-            (t (progn
-                 (delete-file filename)
-                 (message "Deleted file %s" filename)
-                 (kill-buffer)))))))
+(defun my/move-buffer-file (dest)
+  "Move current file to DEST."
+  (interactive "FNew location: ")
+  (let* ((current-name (buffer-file-name)))
+    (if (not current-name)
+        (message "Buffer '%s' is not visiting a file!" current-name)
+      (rename-file current-name dest 1)
+      (set-visited-file-name dest :no-query :along-with-file))))
 
 (general-define-key
  :prefix my-leader-key
  :states 'normal
  "fe" #'my/visit-emacs-init
  "fm" #'my/move-buffer-file
- "fr" #'my/rename-file-and-buffer
  )
 
 ;; Window Keys

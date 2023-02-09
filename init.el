@@ -977,6 +977,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
   (general-define-key
    :keymaps 'term-raw-map
+   :states 'insert
    "C-v" #'term-paste
    "C-<escape>" #'my/term-send-esc)
 

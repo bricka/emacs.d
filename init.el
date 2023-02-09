@@ -745,7 +745,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 (use-package compile
   :straight (:type built-in)
   :config
-  (setq compilation-scroll-output 'first-error)
+  (setq compilation-scroll-output 'first-error
+        compilation-max-output-line-length nil)
   (require 'ansi-color)
   (add-hook 'compilation-filter-hook #'my/compile-ansi-color)
   (add-to-list 'safe-local-variable-values '(compilation-read-command . nil)))

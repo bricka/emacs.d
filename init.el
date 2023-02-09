@@ -1445,10 +1445,9 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 (defun my/java-indent-setup ()
   "Define preferred indentation style."
-  (progn
-    (c-set-offset 'arglist-intro '+)
-    (c-set-offset 'arglist-close 0)
-    ))
+  (c-set-offset 'arglist-intro '+)
+  (c-set-offset 'arglist-close 0)
+  )
 (add-hook 'java-mode-hook #'my/java-indent-setup)
 
 ; Gradle files are written in Groovy
@@ -1646,9 +1645,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 (defun my/enable-evil-mode-for-edit-with-emacs ()
   "Make Evil mode work with edit-server-edit-mode."
-  (progn
-    (evil-ex-define-cmd-local "wq" 'edit-server-save)
-    (evil-ex-define-cmd-local "w[rite]" 'edit-server-save)))
+  (evil-ex-define-cmd-local "wq" 'edit-server-save)
+  (evil-ex-define-cmd-local "w[rite]" 'edit-server-save))
 
 (use-package edit-server
   :config

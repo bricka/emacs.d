@@ -465,9 +465,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "gll" #'magit-log
    "glf" #'magit-log-buffer-file
    )
-  :config
-  ;; magit-extras expects this variable to exist, but for whatever reason, it doesn't for me.
-  (defvar project-switch-commands nil)
   )
 
 (use-package diff-hl

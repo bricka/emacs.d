@@ -1163,6 +1163,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "md" #'org-deadline
    "me" #'org-export-dispatch
    "mE" #'my/org-expand-all
+   "mI" #'org-redisplay-inline-images
    "mn" #'org-narrow-to-subtree
    "mp" #'org-priority
    "mr" #'org-reveal

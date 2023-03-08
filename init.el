@@ -327,6 +327,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
           compile
           deadgrep
           dired
+          docker
           flycheck
           image
           magit
@@ -820,6 +821,9 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 (use-package dockerfile-mode
   :mode "\\`Dockerfile\\'"
   )
+
+(use-package docker
+  :commands docker)
 
 (add-to-list 'auto-mode-alist '("\/\\.env" . conf-mode))
 

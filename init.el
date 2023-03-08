@@ -1566,7 +1566,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 ;; Kotlin
 (use-package kotlin-ts-mode
-  :straight (:host gitlab :repo "bricka/emacs-kotlin-ts-mode")
   :mode "\\.kt\\'" "\\.kts\\'"
   )
 

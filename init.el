@@ -1335,7 +1335,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 (setq holiday-general-holidays
       '((holiday-fixed 1 1 "Neujahr")
-        (holiday-fixed 5 1 "1. Mai")
+        (holiday-fixed 5 1 "Maifeiertag")
         (holiday-fixed 10 3 "Tag der Deutschen Einheit")))
 
 ;; Feiertage für Bayern
@@ -1343,7 +1343,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
       '((holiday-fixed 12 25 "1. Weihnachtstag")
         (holiday-fixed 12 26 "2. Weihnachtstag")
         (holiday-fixed 1 6 "Heilige Drei Könige")
-        (holiday-easter-etc -48 "Rosenmontag")
         (holiday-easter-etc  -2 "Karfreitag")
         (holiday-easter-etc   0 "Ostersonntag")
         (holiday-easter-etc  +1 "Ostermontag")

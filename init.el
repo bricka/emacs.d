@@ -1148,7 +1148,10 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "A" #'org-agenda
    "c" #'org-capture
    )
-  (:states 'normal
+  :config
+  ;; Keybindings in Org files
+  (general-define-key
+   :states 'normal
    :prefix my-leader-key
    :keymaps 'org-mode-map
    "m." #'org-time-stamp
@@ -1174,14 +1177,15 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "mTd" '(:ignore t :wk "Delete")
    "mTdr" #'org-table-kill-row
    )
-  (:states '(normal visual)
+  (general-define-key
+   :states '(normal visual)
    :prefix my-leader-key
    :keymaps 'org-mode-map
    "m*" #'org-toggle-heading
    "m-" #'my/cycle-list-or-to-list
    "mx" #'org-toggle-checkbox
    )
-  :config
+
   (add-hook 'org-mode-hook #'flyspell-mode)
   (add-hook 'org-mode-hook #'variable-pitch-mode)
 

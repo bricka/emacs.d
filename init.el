@@ -874,6 +874,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
          (rustic-mode . lsp)
          (scala-mode . lsp)
          (sh-mode . lsp)
+         (tsx-ts-mode . lsp)
          (typescript-mode . lsp)
          (typescript-ts-mode . lsp)
          (web-mode . lsp)
@@ -1509,9 +1510,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 ;; TypeScript
 
-(use-package typescript-mode
-  :mode "\\.tsx?\\'"
-  )
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 
 (use-package add-node-modules-path
   :hook ((typescript-mode . add-node-modules-path)

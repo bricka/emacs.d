@@ -764,14 +764,11 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   )
 
 ;; JSON
-(use-package json-mode
-  :mode ("\\.json" "\\.babelrc\\'" "\\.eslintrc\\'")
-  :general
-  (:states 'normal
-   :prefix my-leader-key
-   :keymaps 'json-mode-map
-   "mb" #'json-pretty-print-buffer
-   )
+(use-package jsonian
+  :straight (:host github :repo "iwahbe/jsonian")
+  :mode (("\\.json" . jsonian-mode)
+         ("\\.babelrc" . jsonian-mode)
+         (".eslintrc" . jsonian-mode))
   )
 
 ;; Markdown

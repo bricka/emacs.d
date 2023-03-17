@@ -331,7 +331,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
           flycheck
           image
           magit
-          term
+          vterm
           xref
           xwidget
           )
@@ -549,23 +549,23 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    :prefix my-leader-key
    "!" 'run-command
    )
+  (setq run-command-default-runner #'run-command-runner-vterm)
   )
 
 ;; Projectile
-(defun my/projectile-run-ansi-term ()
-  "Run `ansi-term' for this project."
+(defun my/projectile-run-vterm ()
+  "Run `vterm' for this project."
   (interactive)
-  (let ((default-directory (projectile-project-root)))
-    (my/ansi-term-shell (projectile-project-name))
-    )
-  )
+  (split-window-sensibly)
+  (projectile-run-vterm))
+
 (use-package projectile
   :config
   ;; Not using general to avoid deferring
   (general-define-key
    :states 'normal
    :prefix my-leader-key
-   "p'" #'my/projectile-run-ansi-term
+   "p'" #'my/projectile-run-vterm
    "pc" #'projectile-compile-project
    "pf" #'projectile-find-file
    "pi" #'projectile-invalidate-cache
@@ -969,43 +969,29 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   )
 
 ;; Shell
-(use-package term
-  :straight (:type built-in)
+(defun my/leave-vterm-copy-mode ()
+  (vterm-copy-mode -1))
+
+(use-package vterm
+  :general
   :config
-  (defun my/handle-term-exit (&optional _process-name _msg)
-    (kill-buffer (current-buffer)))
-  (advice-add 'term-handle-exit :after #'my/handle-term-exit)
-
-  (defun my/term-send-esc ()
-    "Send a raw escape character to the terminal."
-    (interactive)
-    (term-send-raw-string "\x1b"))
-
-  (general-define-key
-   :keymaps 'term-raw-map
-   :states 'insert
-   "C-v" #'term-paste
-   "C-<escape>" #'my/term-send-esc)
-
   (general-define-key
    :states 'normal
    :prefix my-leader-key
-   "'" #'my/ansi-term-shell)
+   "'" #'vterm-other-window
+   )
+  (general-define-key
+   :keymaps 'vterm-mode-map
+   :states 'insert
+   "C-<escape>" #'vterm-send-escape
+   "C-w C-w" #'evil-window-next
+   )
+  (add-hook
+   'vterm-mode-hook
+   (lambda ()
+     (add-hook 'evil-normal-state-entry-hook #'vterm-copy-mode nil :local)
+     (add-hook 'evil-normal-state-exit-hook #'my/leave-vterm-copy-mode nil :local)))
   )
-
-(defun my/ansi-term-shell (&optional buffer-name)
-  "Launch a shell with `ansi-term' based on the given BUFFER-NAME."
-  (interactive)
-  (let* ((base-buffer-name (if buffer-name (concat "term[" buffer-name "]") "term"))
-         (full-buffer-name (concat "*" base-buffer-name "*"))
-         (existing-buffer (get-buffer full-buffer-name)))
-    (split-window-sensibly)
-    (other-window 1)
-    (if existing-buffer
-        (switch-to-buffer existing-buffer)
-      (ansi-term shell-file-name base-buffer-name)
-    )
-  ))
 
 ;; Dired
 

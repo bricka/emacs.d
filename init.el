@@ -536,7 +536,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
   (defun my/run-face-hooks ()
     "Run my custom face hooks stored in `face-hooks'."
-    (run-hooks face-hooks))
+    (run-hooks 'face-hooks))
   (advice-add 'modus-themes-toggle :after #'my/run-face-hooks)
 )
 

@@ -1548,8 +1548,9 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
     (mapcar (lambda (task)
               (list :command-name task
                     :working-dir project-dir
-                    :command-line (concat gradlew " " task)))
-            '("build" "bootRun"))
+                    :command-line (concat gradlew " " task)
+                    :runner 'run-command-runner-compile))
+            '("build" "bootRun" "check" "clean" "test"))
     ))
 
 (add-to-list 'run-command-recipes #'run-command-recipe-gradle)

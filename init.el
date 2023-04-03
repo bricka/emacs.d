@@ -1300,6 +1300,10 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
   ;; Clocking
   (setq org-clock-idle-time 10)
+
+  ;; Source code
+  (add-to-list 'org-src-lang-modes '("json" . jsonian))
+  (add-to-list 'org-src-lang-modes '("kotlin" . kotlin-ts))
   )
 
 (use-package org-superstar

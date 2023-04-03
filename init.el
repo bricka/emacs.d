@@ -764,11 +764,26 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   )
 
 ;; JSON
+(defun my/pretty-print-json-buffer ()
+  "Pretty print the JSON in the current buffer."
+  (interactive)
+  (if (not (executable-find "json_pp"))
+      (error "json_pp is not in PATH")
+    (call-process-region nil nil "json_pp" t t nil "-json_opt" "space_after,indent,utf8")))
+
 (use-package jsonian
   :straight (:host github :repo "iwahbe/jsonian")
   :mode (("\\.json" . jsonian-mode)
          ("\\.babelrc" . jsonian-mode)
          (".eslintrc" . jsonian-mode))
+  :config
+  (jsonian-enable-flycheck)
+  (general-define-key
+   :keymaps 'jsonian-mode-map
+   :states 'normal
+   :prefix my-leader-key
+   "mB" #'my/pretty-print-json-buffer
+   )
   )
 
 ;; Markdown

@@ -1396,7 +1396,13 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 ;; Mermaid
 (use-package mermaid-mode
-  :mode "\\.mmd\\'")
+  :mode "\\.mmd\\'"
+  :config
+  ;; I still want to have `rainbow-delimiters-mode' enabled for most
+  ;; programming modes, but it doesn't make sense for Mermaid Mode,
+  ;; since parens are used as arrow heads
+  (add-hook 'mermaid-mode-hook #'(lambda () (rainbow-delimiters-mode -1)))
+  )
 
 ;; Graphviz
 (use-package graphviz-dot-mode

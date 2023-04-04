@@ -752,9 +752,12 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :config
   (setq compilation-scroll-output 'first-error
         compilation-max-output-line-length nil)
-  (require 'ansi-color)
-  (add-hook 'compilation-filter-hook #'my/compile-ansi-color)
   (add-to-list 'safe-local-variable-values '(compilation-read-command . nil)))
+
+(use-package fancy-compilation
+  :config
+  (setq fancy-compilation-override-colors nil)
+  (fancy-compilation-mode))
 
 ;; Web Mode
 (use-package web-mode

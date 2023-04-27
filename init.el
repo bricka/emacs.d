@@ -1596,15 +1596,24 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :mode "\\.kt\\'" "\\.kts\\'"
   )
 
-(use-package flycheck-kotlin
-  :after kotlin-ts-mode flycheck lsp-mode
-  :config
-  (flycheck-kotlin-setup)
+(flycheck-def-config-file-var flycheck-editorconfig ktlint ".editorconfig")
 
-  (add-hook 'lsp-managed-mode-hook
-            (lambda ()
-              (when (derived-mode-p 'kotlin-ts-mode)
-                (setq my/flycheck-local-cache '((lsp . ((next-checkers . (kotlin-ktlint)))))))))
+(flycheck-define-checker ktlint
+  "A checker using ktlint."
+  :command ("ktlint" source (config-file "--editorconfig" flycheck-editorconfig))
+  ;; :command ("ktlint" source)
+  :error-patterns
+  ((error line-start (file-name) ":" line ":" column ": " (message) "(" (id (one-or-more (in alpha ":" "-"))) ")" line-end))
+  :modes (kotlin-mode kotlin-ts-mode)
+  )
+
+(add-to-list 'flycheck-checkers 'ktlint)
+
+(with-eval-after-load 'lsp-mode
+    (add-hook 'lsp-managed-mode-hook
+              (lambda ()
+                (when (derived-mode-p 'kotlin-ts-mode)
+                  (setq my/flycheck-local-cache '((lsp . ((next-checkers . (ktlint)))))))))
   )
 
 ;; PDF

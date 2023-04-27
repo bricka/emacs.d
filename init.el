@@ -671,7 +671,11 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (general-define-key
    :states 'normal
    :prefix my-leader-key
-   "T" 'treemacs
+   "T" '(:ignore t :wk "Treemacs")
+   "TT" #'treemacs
+   "T]" #'treemacs-next-workspace
+   "T[" `(,(lambda () (interactive) (treemacs-next-workspace 1))
+          :wk "treemacs-prev-workspace")
    )
   (setq
    treemacs-wrap-around nil

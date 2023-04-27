@@ -1569,20 +1569,53 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 (add-to-list 'run-command-recipes #'run-command-recipe-package-json)
 
+(defvar my/gradle-projects nil
+  "The Gradle subprojects in this repo.")
+(put 'my/gradle-projects 'safe-local-variable #'listp)
+
+(defvar my/spring-boot-p nil
+  "This repo uses Spring Boot.")
+(put 'my/spring-boot-p 'safe-local-variable #'booleanp)
+
 (defun run-command-recipe-gradle ()
   "Recipes for scripts that use Gradle."
   (when-let* ((project-dir (locate-dominating-file default-directory "gradlew"))
               (maybe-gradlew (concat project-dir "gradlew"))
               (gradlew (when (file-exists-p maybe-gradlew) maybe-gradlew)))
-    (mapcar (lambda (task)
-              (list :command-name task
-                    :working-dir project-dir
-                    :command-line (concat gradlew " " task)
-                    :runner 'run-command-runner-compile))
-            '("build" "bootRun" "check" "clean" "test"))
-    ))
+    (append
+     (mapcar (lambda (task)
+               (list :command-name task
+                     :working-dir project-dir
+                     :command-line (concat gradlew " " task)
+                     :runner #'run-command-runner-compile))
+             `("build" ,(if my/spring-boot-p "bootRun" "run") "check" "clean" "test"))
+     (when my/gradle-projects
+       (-flatten-n
+        1
+        (mapcar
+         (lambda (project)
+           (mapcar
+            (lambda (task)
+              (let ((full-task (concat ":" project ":" task)))
+                (list
+                 :command-name full-task
+                 :working-dir project-dir
+                 :command-line (concat gradlew " " full-task)
+                 :runner #'run-command-runner-compile)))
+            `("build" ,(if my/spring-boot-p "bootRun" "run") "check" "test"))) my/gradle-projects))
+       ))))
 
 (add-to-list 'run-command-recipes #'run-command-recipe-gradle)
+
+(defun run-command-recipe-docker-compose ()
+  "Recipes for Docker Compose files."
+  (when (equal (file-name-nondirectory buffer-file-name) "docker-compose.yml")
+    (list
+     (list :command-name "up"
+           :command-line "docker-compose up -d"))
+    ))
+
+(add-to-list 'run-command-recipes #'run-command-recipe-docker-compose)
 
 ;; CSV
 (use-package csv-mode)

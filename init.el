@@ -410,6 +410,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "<tab>" #'org-agenda-goto
    "<return>" #'org-agenda-switch-to
    "," #'org-agenda-schedule
+   "B" #'org-agenda-bulk-action
    "j" #'org-agenda-next-line
    "k" #'org-agenda-previous-line
    "H" #'org-agenda-do-date-earlier

@@ -508,7 +508,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 ;; Mode line
 (use-package doom-modeline
-  :after all-the-icons
   :defines doom-modeline-buffer-encoding doom-modeline-buffer-file-name-style doom-modeline-checker-simple-format doom-modeline-minor-modes doom-modeline-mu4e doom-modeline-icon
   :config
   (add-hook 'server-after-make-frame-hook #'doom-modeline-refresh-font-width-cache)

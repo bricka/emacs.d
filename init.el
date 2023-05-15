@@ -1769,43 +1769,46 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 (add-to-list 'run-command-recipes #'run-command-recipe-package-json)
 
-(defvar my/gradle-projects nil
-  "The Gradle subprojects in this repo.")
-(put 'my/gradle-projects 'safe-local-variable #'listp)
-
 (defvar my/spring-boot-p nil
   "This repo uses Spring Boot.")
 (put 'my/spring-boot-p 'safe-local-variable #'booleanp)
 
-(defun run-command-recipe-gradle ()
-  "Recipes for scripts that use Gradle."
-  (when-let* ((project-dir (locate-dominating-file default-directory "gradlew"))
-              (maybe-gradlew (concat project-dir "gradlew"))
-              (gradlew (when (file-exists-p maybe-gradlew) maybe-gradlew)))
-    (append
-     (mapcar (lambda (task)
-               (list :command-name task
-                     :working-dir project-dir
-                     :command-line (concat gradlew " " task)
-                     :runner #'run-command-runner-compile))
-             `("build" ,(if my/spring-boot-p "bootRun" "run") "check" "clean" "test"))
-     (when my/gradle-projects
-       (-flatten-n
-        1
-        (mapcar
-         (lambda (project)
-           (mapcar
-            (lambda (task)
-              (let ((full-task (concat ":" project ":" task)))
-                (list
-                 :command-name full-task
-                 :working-dir project-dir
-                 :command-line (concat gradlew " " full-task)
-                 :runner #'run-command-runner-compile)))
-            `("build" ,(if my/spring-boot-p "bootRun" "run") "check" "test"))) my/gradle-projects))
-       ))))
-
-(add-to-list 'run-command-recipes #'run-command-recipe-gradle)
+(use-package run-command-gradle
+  :straight (:host gitlab :repo "bricka/emacs-run-command-gradle")
+  :config
+  (setq run-command-gradle-tasks
+        (list
+         (make-run-command-gradle-task
+          :task "build"
+          :compile-p t
+          :project-local-p t
+          )
+         (make-run-command-gradle-task
+          :task "check"
+          :compile-p t
+          :project-local-p t
+          )
+         (make-run-command-gradle-task
+          :task "clean")
+         (make-run-command-gradle-task
+          :task "test"
+          :compile-p t
+          :project-local-p t)
+         (make-run-command-gradle-task
+          :task "run"
+          :project-local-p t
+          :predicate (lambda () (null my/spring-boot-p)))
+         (make-run-command-gradle-task
+          :task "bootRun"
+          :project-local-p t
+          :predicate (lambda () my/spring-boot-p))
+         (make-run-command-gradle-task
+          :task "bootRun"
+          :project-local-p t
+          :predicate (lambda () my/spring-boot-p)
+          :name-comment "local"
+          :arguments "--args='--spring.profiles.active=local'")
+         )))
 
 (defun run-command-recipe-docker-compose ()
   "Recipes for Docker Compose files."

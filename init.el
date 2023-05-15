@@ -678,6 +678,11 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "T[" `(,(lambda () (interactive) (treemacs-next-workspace 1))
           :wk "treemacs-prev-workspace")
    )
+  (general-define-key
+   :states 'motion
+   :keymaps 'treemacs-mode-map
+   "]]" #'treemacs-next-workspace
+   )
   (setq
    treemacs-wrap-around nil
    )

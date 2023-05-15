@@ -1543,6 +1543,12 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
                                           ))
   )
 
+(use-package org-pdftools
+  :after org
+  :config
+  (org-pdftools-setup-link)
+  )
+
 (use-package gnuplot)
 
 (use-package htmlize)

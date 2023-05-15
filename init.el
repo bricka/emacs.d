@@ -246,19 +246,24 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
     )
   )
 
-(use-package all-the-icons
-  :straight (:fork t :branch "ts-modes")
+(use-package nerd-icons
   :config
-  (add-to-list 'all-the-icons-extension-icon-alist '("ics" all-the-icons-octicon "calendar" :face all-the-icons-silver))
-  (add-to-list 'all-the-icons-extension-icon-alist '("deb" all-the-icons-octicon "package" :face all-the-icons-silver))
-  (add-to-list 'all-the-icons-extension-icon-alist '("ods" all-the-icons-fileicon "excel" :face all-the-icons-green))
-  (add-to-list 'all-the-icons-regexp-icon-alist '("^gradlew\\(.bat\\)?$" all-the-icons-alltheicon "terminal" :height 1.0 :v-adjust 0.0 :face all-the-icons-purple))
-  (add-to-list 'all-the-icons-regexp-icon-alist '("^.gitlab-ci.yml$" all-the-icons-fileicon "gitlab" :height 1.0 :v-adjust 0.0 :face all-the-icons-orange))
-  (add-to-list 'all-the-icons-regexp-icon-alist '("^openapi.ya?ml$" all-the-icons-fileicon "swagger" :height 1.0 :v-adjust 0.0 :face all-the-icons-green))
-  (add-to-list 'all-the-icons-regexp-icon-alist '("^openapi.json$" all-the-icons-fileicon "swagger" :height 1.0 :v-adjust 0.0 :face all-the-icons-green))
-  (add-to-list 'all-the-icons-regexp-icon-alist '("^COPYING\\|LICENSE$" all-the-icons-octicon "law" :height 1.0 :v-adjust 0.0 :face all-the-icons-yellow))
-  (add-to-list 'all-the-icons-regexp-icon-alist '("^Cargo.\\(toml\\|lock\\)$" all-the-icons-fileicon "config-rust" :height 1.0 :v-adjust 0.0 :face all-the-icons-yellow))
-  (add-to-list 'all-the-icons-regexp-icon-alist '("^\\(.gitignore\\|.gitconfig\\)$" all-the-icons-alltheicon "git" :height 1.0 :v-adjust 0.0 :face all-the-icons-lred))
+  (dolist (ext '("npmignore" "npmrc"))
+    (add-to-list 'nerd-icons-extension-icon-alist `(,ext nerd-icons-sucicon "nf-seti-npm" :face nerd-icons-dred))
+    (add-to-list 'nerd-icons-regexp-icon-alist `(,(concat "^\\." ext "$") nerd-icons-sucicon "nf-seti-npm" :face nerd-icons-dred))
+    )
+
+  (add-to-list 'nerd-icons-extension-icon-alist '("properties" nerd-icons-codicon "nf-cod-settings" :face nerd-icons-dyellow))
+  (add-to-list 'nerd-icons-extension-icon-alist '("json" nerd-icons-mdicon "nf-md-code_json" :face nerd-icons-yellow))
+  (add-to-list 'nerd-icons-extension-icon-alist '("proto" nerd-icons-octicon "nf-oct-container" :face nerd-icons-dblue))
+
+  (add-to-list 'nerd-icons-regexp-icon-alist '("\\.gradle.kts$" nerd-icons-sucicon "nf-seti-gradle" :face nerd-icons-silver))
+  (add-to-list 'nerd-icons-regexp-icon-alist '("^tsconfig.*\\.json$" nerd-icons-blue-alt "nf-seti-tsconfig" :face nerd-icons-blue-alt))
+  (add-to-list 'nerd-icons-regexp-icon-alist '("^gradlew$" nerd-icons-devicon "nf-dev-terminal" :face nerd-icons-purple))
+  (add-to-list 'nerd-icons-regexp-icon-alist '("^COPYING\\|LICENSE$" nerd-icons-codicon "nf-cod-law" :face nerd-icons-silver))
+  (add-to-list 'nerd-icons-regexp-icon-alist '("^\\.gitlab-ci.yml$" nerd-icons-mdicon "nf-md-gitlab" :face nerd-icons-orange))
+  (add-to-list 'nerd-icons-regexp-icon-alist '("^Makefile$" nerd-icons-devicon "nf-dev-gnu" :face nerd-icons-dorange))
+  (add-to-list 'nerd-icons-regexp-icon-alist '("^\\.clang-format$" nerd-icons-sucicon "nf-seti-stylelint" :face nerd-icons-orange))
   )
 
 (use-package alert
@@ -621,17 +626,29 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
   )
 
-(use-package all-the-icons-ivy-rich
-  :after ivy-rich counsel-projectile
+;; (use-package all-the-icons-ivy-rich
+;;   :after ivy-rich counsel-projectile
+;;   :config
+;;   ;; Only display project names
+;;   (ivy-rich-set-columns
+;;    'counsel-projectile-find-file
+;;    '((all-the-icons-ivy-rich-file-icon)
+;;      (all-the-icons-ivy-rich-project-name)
+;;      ))
+
+;;   (all-the-icons-ivy-rich-mode 1)
+;;   (ivy-rich-mode 1)
+;;   )
+
+(use-package nerd-icons-ivy-rich
+  :after ivy-rich nerd-icons
   :config
-  ;; Only display project names
   (ivy-rich-set-columns
    'counsel-projectile-find-file
-   '((all-the-icons-ivy-rich-file-icon)
-     (all-the-icons-ivy-rich-project-name)
+   '((nerd-icons-ivy-rich-file-icon)
+     (nerd-icons-ivy-rich-project-name)
      ))
-
-  (all-the-icons-ivy-rich-mode 1)
+  (nerd-icons-ivy-rich-mode 1)
   (ivy-rich-mode 1)
   )
 
@@ -700,231 +717,72 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 (use-package treemacs-projectile
   :after treemacs projectile)
 
-(use-package treemacs-all-the-icons
-  :after treemacs
+(defmacro my/create-treemacs-nerd-icon (func icon face extensions)
+  "Expands to the correct form for `treemacs-create-icon' to add a custom icon."
+  `(treemacs-create-icon :icon (format "  %s%s" (,func ,icon :face ,face :v-adjust -0.05 :height 1.0) treemacs-nerd-icons-tab)
+                         :extensions ,extensions
+                         :fallback 'same-as-icon))
+
+(use-package treemacs-nerd-icons
   :config
-  (treemacs-modify-theme "all-the-icons"
+  (treemacs-modify-theme "nerd-icons"
     :config
     (progn
-      (treemacs-create-icon :icon (format "  %s%s"
-                                          (all-the-icons-fileicon "gitlab" :height 1.0 :v-adjust 0.0 :face 'all-the-icons-orange)
-                                          treemacs-all-the-icons-tab)
-                            :extensions (".gitlab-ci.yml")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "  %s%s"
-                                          (all-the-icons-fileicon "swagger" :height 1.0 :v-adjust 0.0 :face 'all-the-icons-green)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("openapi.yaml")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "  %s%s"
-                                          (all-the-icons-alltheicon "terminal" :height 1.0 :v-adjust 0.0 :face 'all-the-icons-purple)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("gradlew")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "  %s%s"
-                                          (all-the-icons-alltheicon "terminal" :height 1.0 :v-adjust 0.0 :face 'all-the-icons-purple)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("gradlew.bat")
-                            :fallback 'same-as-icon)
-      ;; Taken from https://github.com/Alexander-Miller/treemacs/issues/1016
+      (my/create-treemacs-nerd-icon nerd-icons-sucicon "nf-seti-gradle" 'nerd-icons-silver ("build.gradle.kts" "settings.gradle.kts"))
+      (my/create-treemacs-nerd-icon nerd-icons-sucicon "nf-seti-npm" 'nerd-icons-red ("package.json"))
+      (my/create-treemacs-nerd-icon nerd-icons-sucicon "nf-seti-tsconfig" 'nerd-icons-blue-alt ("tsconfig.json"))
+      (my/create-treemacs-nerd-icon nerd-icons-sucicon "nf-seti-tsconfig" 'nerd-icons-blue-alt ("tsconfig.dev.json"))
+      (my/create-treemacs-nerd-icon nerd-icons-sucicon "nf-seti-yarn" 'nerd-icons-blue-alt ("yarn.lock"))
+      (my/create-treemacs-nerd-icon nerd-icons-mdicon "nf-md-code_json" 'nerd-icons-yellow ("json"))
+      (my/create-treemacs-nerd-icon nerd-icons-mdicon "nf-md-gitlab" 'nerd-icons-orange (".gitlab-ci.yml"))
+      (my/create-treemacs-nerd-icon nerd-icons-devicon "nf-dev-gnu" 'nerd-icons-dorange ("Makefile"))
+      (my/create-treemacs-nerd-icon nerd-icons-devicon "nf-dev-terminal" 'nerd-icons-purple ("gradlew"))
+      (my/create-treemacs-nerd-icon nerd-icons-sucicon "nf-seti-stylelint" 'nerd-icons-orange (".clang-format"))
+
       (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-right" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
+                                          (nerd-icons-octicon "nf-oct-chevron_right" :face 'treemacs-nerd-icons-file-face)
+                                          treemacs-nerd-icons-tab
+                                          (nerd-icons-octicon "nf-oct-file_directory" :face 'treemacs-nerd-icons-file-face)
+                                          treemacs-nerd-icons-tab)
                             :extensions ("src-closed")
                             :fallback 'same-as-icon)
       (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-down" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
+                                          (nerd-icons-octicon "nf-oct-chevron_down" :face 'treemacs-nerd-icons-file-face)
+                                          treemacs-nerd-icons-tab
+                                          (nerd-icons-octicon "nf-oct-file_directory" :face 'treemacs-nerd-icons-file-face)
+                                          treemacs-nerd-icons-tab)
                             :extensions ("src-open")
                             :fallback 'same-as-icon)
       (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-right" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("test-closed")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-down" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("test-open")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-right" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("bin-closed")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-down" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("bin-open")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-right" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face) treemacs-all-the-icons-tab)
+                                          (nerd-icons-octicon "nf-oct-chevron_right" :face 'treemacs-nerd-icons-file-face)
+                                          treemacs-nerd-icons-tab
+                                          (nerd-icons-octicon "nf-oct-file_directory" :face 'treemacs-nerd-icons-file-face)
+                                          treemacs-nerd-icons-tab)
                             :extensions ("build-closed")
                             :fallback 'same-as-icon)
       (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-down" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
+                                          (nerd-icons-octicon "nf-oct-chevron_down" :face 'treemacs-nerd-icons-file-face)
+                                          treemacs-nerd-icons-tab
+                                          (nerd-icons-octicon "nf-oct-file_directory" :face 'treemacs-nerd-icons-file-face)
+                                          treemacs-nerd-icons-tab)
                             :extensions ("build-open")
                             :fallback 'same-as-icon)
       (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-right" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("git-closed")
+                                          (nerd-icons-octicon "nf-oct-chevron_right" :face 'treemacs-nerd-icons-file-face)
+                                          treemacs-nerd-icons-tab
+                                          (nerd-icons-octicon "nf-oct-file_directory" :face 'treemacs-nerd-icons-file-face)
+                                          treemacs-nerd-icons-tab)
+                            :extensions ("test-closed")
                             :fallback 'same-as-icon)
       (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-down" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("git-open")
+                                          (nerd-icons-octicon "nf-oct-chevron_down" :face 'treemacs-nerd-icons-file-face)
+                                          treemacs-nerd-icons-tab
+                                          (nerd-icons-octicon "nf-oct-file_directory" :face 'treemacs-nerd-icons-file-face)
+                                          treemacs-nerd-icons-tab)
+                            :extensions ("test-open")
                             :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-right" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("github-closed")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-down" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("github-open")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-right" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("public-closed")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-down" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("public-open")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-right" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("private-closed")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-down" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("private-open")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-right" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("temp-closed")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-right" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("tmp-closed")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-down" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("temp-open")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-down" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("tmp-open")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-right" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("readme-closed")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-right" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("docs-closed")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-down" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("readme-open")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-down" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("docs-open")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-right" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("screenshots-closed")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-right" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("icons-closed")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-down" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("screenshots-open")
-                            :fallback 'same-as-icon)
-      (treemacs-create-icon :icon (format "%s%s%s%s"
-                                          (all-the-icons-octicon "chevron-down" :height 0.75 :v-adjust 0.1 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab
-                                          (all-the-icons-octicon "file-directory" :v-adjust 0 :face 'treemacs-all-the-icons-file-face)
-                                          treemacs-all-the-icons-tab)
-                            :extensions ("icons-open")
-                            :fallback 'same-as-icon)
-    ))
-  (treemacs-load-theme "all-the-icons")
-  )
+      ))
+  (treemacs-load-theme "nerd-icons"))
 
 (use-package treemacs-magit
   :after treemacs magit
@@ -1257,10 +1115,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (add-hook 'dired-mode-hook #'diredfl-mode)
   )
 
-(use-package all-the-icons-dired
-  :config
-  (add-hook 'dired-mode-hook #'all-the-icons-dired-mode)
-  )
+(use-package nerd-icons-dired
+  :hook (dired-mode . nerd-icons-dired-mode))
 
 ;; Images
 (use-package eimp

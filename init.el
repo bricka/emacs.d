@@ -54,6 +54,7 @@
  clean-buffer-list-delay-general 2
  confirm-kill-emacs #'yes-or-no-p
  native-comp-async-report-warnings-errors 'silent
+ split-width-threshold 200
  )
 
 (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))

@@ -1675,7 +1675,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 (defun run-command-recipe-docker-compose ()
   "Recipes for Docker Compose files."
-  (when (equal (file-name-nondirectory buffer-file-name) "docker-compose.yml")
+  (when (equal (file-name-nondirectory (or buffer-file-name "")) "docker-compose.yml")
     (list
      (list :command-name "up"
            :command-line "docker-compose up -d"))

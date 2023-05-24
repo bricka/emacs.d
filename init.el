@@ -1884,6 +1884,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 (use-package ledger-mode
   :mode "\\.ledger\\'" "\\.timedot"
   :config
+  (setq ledger-report-resize-window nil)
   ;; (setq ledger-binary-path "hledger")
   (add-hook 'ledger-mode-hook #'company-mode)
   (general-define-key

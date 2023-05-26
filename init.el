@@ -549,7 +549,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 ;; Commands
 (use-package run-command
-  :defines run-command-experiments
   :config
   (general-define-key
    :states 'normal

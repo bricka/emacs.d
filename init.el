@@ -780,6 +780,20 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
                                           treemacs-nerd-icons-tab)
                             :extensions ("test-open")
                             :fallback 'same-as-icon)
+      (treemacs-create-icon :icon (format "%s%s%s%s"
+                                          (nerd-icons-octicon "nf-oct-chevron_right" :face 'treemacs-nerd-icons-file-face)
+                                          treemacs-nerd-icons-tab
+                                          (nerd-icons-octicon "nf-oct-file_directory" :face 'treemacs-nerd-icons-file-face)
+                                          treemacs-nerd-icons-tab)
+                            :extensions ("tmp-closed")
+                            :fallback 'same-as-icon)
+      (treemacs-create-icon :icon (format "%s%s%s%s"
+                                          (nerd-icons-octicon "nf-oct-chevron_down" :face 'treemacs-nerd-icons-file-face)
+                                          treemacs-nerd-icons-tab
+                                          (nerd-icons-octicon "nf-oct-file_directory" :face 'treemacs-nerd-icons-file-face)
+                                          treemacs-nerd-icons-tab)
+                            :extensions ("tmp-open")
+                            :fallback 'same-as-icon)
       ))
   (treemacs-load-theme "nerd-icons"))
 

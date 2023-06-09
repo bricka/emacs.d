@@ -891,7 +891,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (setq TeX-electric-math '("$" . "$"))
 
   (add-hook 'TeX-mode-hook #'prettify-symbols-mode)
-  (add-hook 'TeX-mode-hook #'flyspell-mode)
   (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
   )
 
@@ -1177,10 +1176,21 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   )
 
 ;; Spell Checking
-(setq ispell-dictionary "english")
-(use-package flyspell
-  :blackout
-  :hook (org-mode . flyspell-mode)
+(defun my/jinx-correct-buffer ()
+  "Run `jinx-correct' on the full buffer."
+  (interactive)
+  (jinx-correct :all))
+
+(use-package jinx
+  :hook ((org-mode . jinx-mode)
+         (TeX-mode . jinx-mode))
+  :general
+  ("M-$" #'jinx-correct)
+  (:states 'normal
+   "z=" #'jinx-correct
+   "z+" #'my/jinx-correct-buffer)
+  :config
+  (setq jinx-languages "en_US de_DE")
   )
 
 ;; LESS
@@ -1261,7 +1271,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "mx" #'org-toggle-checkbox
    )
 
-  (add-hook 'org-mode-hook #'flyspell-mode)
   (add-hook 'org-mode-hook #'variable-pitch-mode)
 
   (put 'org-ascii-text-width 'safe-local-variable #'numberp)

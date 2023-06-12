@@ -280,6 +280,11 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 ;; Auto Insert
 
+(defun my/package-name-for-file ()
+  "Determine the package name for this Kotlin or Java file."
+  (let ((without-prefix (replace-regexp-in-string "^.*\\(main\\|test\\)/\\(kotlin\\|java\\)/" "" (file-name-directory (buffer-file-name)))))
+    (file-name-base (string-replace "/" "." without-prefix))))
+
 (use-package autoinsert
   :config
   (setq
@@ -289,6 +294,16 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    auto-insert-alist nil
    )
   (add-hook 'find-file-hook #'auto-insert)
+
+  (add-to-list
+   'auto-insert-alist
+   '((kotlin-ts-mode . "Kotlin source file")
+     nil
+     "package "
+     (my/package-name-for-file)
+     "\n\n"
+     "class " (file-name-base (buffer-file-name))
+     ))
   )
 
 ;; Undo

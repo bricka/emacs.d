@@ -1716,6 +1716,10 @@ Like `treemacs-next-workspace' with a prefix arg."
           :arguments "--args='--spring.profiles.active=local'")
          )))
 
+;; Gradle compilation error/warn matchers
+(add-to-list 'compilation-error-regexp-alist '("^e: file://\\([^:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\)" 1 2 3 2))
+(add-to-list 'compilation-error-regexp-alist '("^w: file://\\([^:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\)" 1 2 3 1))
+
 (defun run-command-recipe-docker-compose ()
   "Recipes for Docker Compose files."
   (when (equal (file-name-nondirectory (or buffer-file-name "")) "docker-compose.yml")

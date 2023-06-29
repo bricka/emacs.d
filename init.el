@@ -570,7 +570,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    :prefix my-leader-key
    "!" 'run-command
    )
-  (setq run-command-default-runner #'run-command-runner-vterm)
+  (setq run-command-default-runner #'run-command-runner-compile)
   )
 
 ;; Projectile

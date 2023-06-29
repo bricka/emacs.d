@@ -701,14 +701,20 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 (use-package treemacs
   :config
+  (defun my/treemacs-prev-workspace ()
+    "Select the previous workspace.
+
+Like `treemacs-next-workspace' with a prefix arg."
+    (interactive)
+    (treemacs-next-workspace 1))
+
   (general-define-key
    :states 'normal
    :prefix my-leader-key
    "T" '(:ignore t :wk "Treemacs")
    "TT" #'treemacs
    "T]" #'treemacs-next-workspace
-   "T[" `(,(lambda () (interactive) (treemacs-next-workspace 1))
-          :wk "treemacs-prev-workspace")
+   "T[" #'my/treemacs-prev-workspace
    )
   (general-define-key
    :states 'motion

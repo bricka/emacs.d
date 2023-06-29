@@ -1797,7 +1797,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :config
   (general-define-key
    :states 'normal
-   :keymaps x509-mode-map
+   :keymaps 'x509-mode-map
    "q" #'quit-window
    )
   )

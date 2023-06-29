@@ -1735,6 +1735,13 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 ;; Kotlin
 (use-package kotlin-ts-mode
   :mode "\\.kt\\'" "\\.kts\\'"
+  :config
+  (general-define-key
+   :states 'normal
+   :keymaps 'kotlin-ts-mode-map
+   :prefix my-leader-key
+   "mtc" #'kotlin-ts-mode-run-current-test-class
+   "mtf" #'kotlin-ts-mode-run-current-test-function)
   )
 
 (flycheck-def-config-file-var flycheck-editorconfig ktlint ".editorconfig")

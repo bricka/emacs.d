@@ -1506,13 +1506,15 @@ Like `treemacs-next-workspace' with a prefix arg."
   )
 
 ;; Mermaid
-(use-package mermaid-mode
+(use-package mermaid-ts-mode
+  :straight (:host gitlab :repo "bricka/emacs-mermaid-ts-mode")
   :mode "\\.mmd\\'"
   :config
   ;; I still want to have `rainbow-delimiters-mode' enabled for most
   ;; programming modes, but it doesn't make sense for Mermaid Mode,
   ;; since parens are used as arrow heads
-  (add-hook 'mermaid-mode-hook #'(lambda () (rainbow-delimiters-mode -1)))
+  (add-hook 'mermaid-ts-mode-hook #'(lambda () (rainbow-delimiters-mode -1)))
+  (add-to-list 'org-src-lang-modes '("mermaid" . mermaid-ts))
   )
 
 ;; Graphviz
@@ -1529,7 +1531,6 @@ Like `treemacs-next-workspace' with a prefix arg."
   (org-babel-do-load-languages
    'org-babel-load-languages
    '((dot . t)))
-
   )
 
 ;; Python

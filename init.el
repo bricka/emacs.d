@@ -160,6 +160,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "d" #'dired-open-current-directory
 
    "b" '(:ignore t :wk "Buffers")
+   "bb" #'switch-to-buffer
    "bd" #'kill-this-buffer
    "bD" #'my/kill-other-buffers
    "br" #'revert-buffer
@@ -593,111 +594,38 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "pl" #'projectile-switch-project
    "pK" #'projectile-kill-buffers
    )
-  (setq
-   projectile-use-git-grep t
-   projectile-completion-system 'ivy
-   )
+  (setq projectile-use-git-grep t)
 
   (projectile-mode 1)
   (add-to-list 'safe-local-variable-values '(projectile-project-compilation-cmd . "./gradlew build"))
   (add-to-list 'safe-local-variable-values '(projectile-project-compilation-cmd . "npm run build"))
   )
 
-;; Ivy
-(use-package counsel
+;; Minibuffer Completion
+
+(setq read-file-name-completion-ignore-case t
+      read-buffer-completion-ignore-case t)
+
+(use-package orderless
   :config
-  (general-define-key
-   :states 'normal
-   :prefix my-leader-key
-   "bb" #'ivy-switch-buffer
-   "fR" #'counsel-recentf
-   "hf" #'counsel-describe-function
-   "hv" #'counsel-describe-variable
-   )
-  (general-define-key
-   "M-x" #'counsel-M-x
-   "C-x C-f" #'counsel-find-file
-   "C-h f" #'counsel-describe-function
-   "C-h v" #'counsel-describe-variable
-   )
-  (general-define-key
-   :keymaps 'ivy-minibuffer-map
-   "S-SPC" nil ; maps by default to `ivy-restrict-to-matches'
-   )
-  (setq ivy-re-builders-alist '((t . ivy--regex-ignore-order)))
-  (setq
-   ivy-count-format "(%d/%d) "
-   ivy-use-selectable-prompt t)
-  (ivy-mode 1)
-  (setq counsel-describe-function-function #'helpful-callable)
-  (setq counsel-describe-variable-function #'helpful-variable)
-  )
+  (setq completion-styles '(orderless basic)
+        completion-category-defaults nil))
 
-(use-package ivy-rich
-  :after counsel
+(use-package vertico
   :config
-  (setq ivy-rich-parse-remote-buffer nil)
-  (setcdr (assq t ivy-format-functions-alist) #'ivy-format-function-line)
-  )
+  (vertico-mode))
 
-;; (use-package all-the-icons-ivy-rich
-;;   :after ivy-rich counsel-projectile
-;;   :config
-;;   ;; Only display project names
-;;   (ivy-rich-set-columns
-;;    'counsel-projectile-find-file
-;;    '((all-the-icons-ivy-rich-file-icon)
-;;      (all-the-icons-ivy-rich-project-name)
-;;      ))
-
-;;   (all-the-icons-ivy-rich-mode 1)
-;;   (ivy-rich-mode 1)
-;;   )
-
-(use-package nerd-icons-ivy-rich
-  :after ivy-rich nerd-icons
+(use-package nerd-icons-completion
+  :after marginalia
+  :hook (marginalia-mode . nerd-icons-completion-marginalia-setup)
   :config
-  (ivy-rich-set-columns
-   'counsel-projectile-find-file
-   '((nerd-icons-ivy-rich-file-icon)
-     (nerd-icons-ivy-rich-project-name)
-     ))
-  (nerd-icons-ivy-rich-mode 1)
-  (ivy-rich-mode 1)
-  )
+  (nerd-icons-completion-mode))
 
-(use-package counsel-projectile
-  :after counsel projectile
+(use-package marginalia
   :config
-  (general-define-key
-   :states 'normal
-   :prefix my-leader-key
-   "pb" #'counsel-projectile-switch-to-buffer
-   "pl" #'counsel-projectile-switch-project
-   "pf" #'counsel-projectile-find-file
-   "sp" #'counsel-projectile-rg
-   )
-  (setq
-   counsel-projectile-remove-current-project t
-   )
-  ;; When switching project, run `counsel-project-find-file' in the new project
-  (setq
-   counsel-projectile-switch-project-action
-   (lambda (name)
-     (let ((default-directory name))
-       (counsel-projectile-find-file)
-       )
-     )
-   )
-  )
+  (marginalia-mode))
 
-(use-package prescient)
-
-(use-package ivy-prescient
-  :after counsel prescient
-  :config
-  (ivy-prescient-mode)
-  )
+;; Treemacs
 
 (use-package treemacs
   :config
@@ -1014,16 +942,6 @@ Like `treemacs-next-workspace' with a prefix arg."
    )
   )
 
-(use-package lsp-ivy
-  :after lsp-mode
-  :general
-  (:states 'normal
-   :keymaps 'lsp-mode-map
-   :prefix my-leader-key
-   "m/" #'lsp-ivy-workspace-symbol
-   )
-  )
-
 (use-package lsp-ui
   :after lsp-mode
   :config
@@ -1286,7 +1204,7 @@ Like `treemacs-next-workspace' with a prefix arg."
    "mn" #'org-narrow-to-subtree
    "mp" #'org-priority
    "mr" #'org-reveal
-   "ms" #'counsel-org-goto
+   "ms" #'org-goto
    "mt" #'org-todo
 
    "mT" '(:ignore t :wk "Tables")

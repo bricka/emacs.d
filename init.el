@@ -574,31 +574,26 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (setq run-command-default-runner #'run-command-runner-compile)
   )
 
-;; Projectile
-(defun my/projectile-run-vterm ()
+;; Project Management
+(defun my/project-vterm ()
   "Run `vterm' for this project."
   (interactive)
   (split-window-sensibly)
-  (projectile-run-vterm))
+  (let ((default-directory (project-root (project-current))))
+    (vterm)))
 
-(use-package projectile
-  :config
-  ;; Not using general to avoid deferring
-  (general-define-key
-   :states 'normal
+(use-package project
+  :straight (:type built-in)
+  :general
+  (:states 'normal
    :prefix my-leader-key
-   "p'" #'my/projectile-run-vterm
-   "pc" #'projectile-compile-project
-   "pf" #'projectile-find-file
-   "pi" #'projectile-invalidate-cache
-   "pl" #'projectile-switch-project
-   "pK" #'projectile-kill-buffers
-   )
-  (setq projectile-use-git-grep t)
-
-  (projectile-mode 1)
-  (add-to-list 'safe-local-variable-values '(projectile-project-compilation-cmd . "./gradlew build"))
-  (add-to-list 'safe-local-variable-values '(projectile-project-compilation-cmd . "npm run build"))
+   "p'" #'my/project-vterm
+   "pd" #'project-dired
+   "pf" #'project-find-file
+   "pl" #'project-switch-project
+   "pK" #'project-kill-buffers)
+  :config
+  (setq project-switch-commands #'project-find-file)
   )
 
 ;; Minibuffer Completion
@@ -661,9 +656,6 @@ Like `treemacs-next-workspace' with a prefix arg."
 
 (use-package treemacs-evil
   :after treemacs evil)
-
-(use-package treemacs-projectile
-  :after treemacs projectile)
 
 (defmacro my/create-treemacs-nerd-icon (func icon face extensions)
   "Expands to the correct form for `treemacs-create-icon' to add a custom icon."
@@ -1848,10 +1840,7 @@ Like `treemacs-next-workspace' with a prefix arg."
      "ZZ" #'quit-window)
     ))
 
-(use-package deadgrep
-  :config
-  (setq deadgrep-project-root-function #'projectile-project-root)
-  )
+(use-package deadgrep)
 
 (use-package ledger-mode
   :mode "\\.ledger\\'" "\\.timedot"

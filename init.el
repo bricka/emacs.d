@@ -880,6 +880,7 @@ Like `treemacs-next-workspace' with a prefix arg."
 
 ;; Company Code Completion
 (use-package company
+  :hook ((prog-mode . company-mode))
   :blackout
   :config
   (setq
@@ -887,7 +888,6 @@ Like `treemacs-next-workspace' with a prefix arg."
    company-idle-delay 0.0
    company-dabbrev-downcase nil
    )
-  (add-hook 'prog-mode-hook #'company-mode)
   )
 
 ;; Rainbow Mode
@@ -1061,9 +1061,9 @@ Like `treemacs-next-workspace' with a prefix arg."
  )
 
 (use-package diredfl
+  :hook ((dired-mode . diredfl-mode))
   :config
   (setq diredfl-ignore-compressed-flag nil)
-  (add-hook 'dired-mode-hook #'diredfl-mode)
   )
 
 (use-package nerd-icons-dired
@@ -1071,8 +1071,7 @@ Like `treemacs-next-workspace' with a prefix arg."
 
 ;; Images
 (use-package eimp
-  :config
-  (add-hook 'image-mode-hook #'eimp-mode)
+  :hook ((image-mode . eimp-mode))
   )
 
 (add-hook 'image-mode-hook #'auto-revert-mode)
@@ -1560,13 +1559,13 @@ Like `treemacs-next-workspace' with a prefix arg."
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 
 (use-package add-node-modules-path
-  :hook ((typescript-mode . add-node-modules-path)
-         (typescript-ts-mode . add-node-modules-path)
-         (js-mode . add-node-modules-path))
+  :hook typescript-mode typescript-ts-mode js-mode
   )
 
 (use-package prettier-js
-  :hook typescript-mode typescript-ts-mode js-mode
+  :hook ((typescript-mode . prettier-js-mode)
+         (typescript-ts-mode . prettier-js-mode)
+         (js-mode . prettier-js-mode))
   )
 
 (defun run-command-recipe-package-json--get-scripts (package-json-file)

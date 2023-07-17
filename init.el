@@ -611,7 +611,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :config
   (general-define-key
    :keymaps 'vertico-map
-   "DEL" #'vertico-directory-delete-word
+   "C-DEL" #'vertico-directory-up
    "RET" #'vertico-directory-enter)
   (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
   (vertico-mode))

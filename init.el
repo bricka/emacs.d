@@ -608,12 +608,12 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 (use-package vertico
   :straight (vertico :includes vertico-directory :files (:defaults "extensions/vertico-directory.el"))
-  :hook ((rfn-eshadow-update-overlay . vertico-directory-tidy))
   :config
   (general-define-key
    :keymaps 'vertico-map
    "DEL" #'vertico-directory-delete-word
    "RET" #'vertico-directory-enter)
+  (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
   (vertico-mode))
 
 (use-package nerd-icons-completion

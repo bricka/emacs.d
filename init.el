@@ -965,6 +965,11 @@ Like `treemacs-next-workspace' with a prefix arg."
   (yas-global-mode 1)
   )
 
+;; Treesit
+(when (treesit-available-p)
+  (add-to-list 'treesit-language-source-alist '(kotlin . ("https://github.com/fwcd/tree-sitter-kotlin")))
+  (add-to-list 'treesit-language-source-alist '(mermaid . ("https://github.com/monaqa/tree-sitter-mermaid"))))
+
 ;; Flycheck
 
 (use-package flycheck

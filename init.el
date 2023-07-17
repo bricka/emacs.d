@@ -960,15 +960,6 @@ Like `treemacs-next-workspace' with a prefix arg."
    )
   )
 
-;; Tree Sitter
-(use-package tree-sitter
-  :config
-  (global-tree-sitter-mode)
-  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
-  )
-(use-package tree-sitter-langs
-  :after tree-sitter)
-
 (use-package yasnippet
   :config
   (yas-global-mode 1)

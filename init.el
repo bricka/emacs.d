@@ -6,6 +6,9 @@
 
 ;;; Code:
 
+(when (treesit-available-p)
+  (require 'treesit))
+
 (setq load-path
       (append load-path
               (directory-files (concat (expand-file-name user-emacs-directory) "packages") t directory-files-no-dot-files-regexp t)))
@@ -1169,6 +1172,10 @@ Like `treemacs-next-workspace' with a prefix arg."
     (org-cycle-list-bullet))
   )
 
+;; Latest versions of org are broken with regards to links:
+;; https://github.com/org-roam/org-roam/issues/2361
+;; Need to manually check out an older version:
+;; git co release_9.6.7
 (use-package org
   :mode ("\\.org\\'" . org-mode)
   :general
@@ -1310,6 +1317,7 @@ Like `treemacs-next-workspace' with a prefix arg."
    )
 
   (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
+  (add-to-list 'org-src-lang-modes '("mermaid" . mermaid-ts))
   (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
 
   (setq org-confirm-babel-evaluate
@@ -1425,7 +1433,6 @@ Like `treemacs-next-workspace' with a prefix arg."
   ;; programming modes, but it doesn't make sense for Mermaid Mode,
   ;; since parens are used as arrow heads
   (add-hook 'mermaid-ts-mode-hook #'(lambda () (rainbow-delimiters-mode -1)))
-  (add-to-list 'org-src-lang-modes '("mermaid" . mermaid-ts))
   )
 
 ;; Graphviz

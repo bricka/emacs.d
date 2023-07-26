@@ -9,6 +9,10 @@
 (when (treesit-available-p)
   (require 'treesit))
 
+;; URL
+(setq url-privacy-level 'paranoid)
+(url-setup-privacy-info)
+
 (setq load-path
       (append load-path
               (directory-files (concat (expand-file-name user-emacs-directory) "packages") t directory-files-no-dot-files-regexp t)))

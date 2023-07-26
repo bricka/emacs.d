@@ -582,7 +582,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   "Run `vterm' for this project."
   (interactive)
   (split-window-sensibly)
-  (let ((default-directory (project-root (project-current))))
+  (let ((default-directory (project-root (project-current)))
+        (vterm-buffer-name (format "*vterm[%s]*" (project-name (project-current)))))
     (vterm)))
 
 (use-package project

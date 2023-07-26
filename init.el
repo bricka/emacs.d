@@ -1700,7 +1700,7 @@ Like `treemacs-next-workspace' with a prefix arg."
            (with-temp-buffer
              (let ((out-buffer (current-buffer)))
                (set-buffer src-buffer)
-               (call-process-region nil nil "ktlint" nil out-buffer nil "--stdin" "--format" "-l" "none")
+               (call-process-region nil nil "ktlint" nil (list out-buffer nil) nil "--stdin" "--format" "-l" "none")
                (replace-buffer-contents out-buffer))))))
 
 (define-minor-mode ktlint-format-mode

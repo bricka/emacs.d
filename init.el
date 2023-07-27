@@ -1755,11 +1755,17 @@ Like `treemacs-next-workspace' with a prefix arg."
       (rename-file current-name dest 1)
       (set-visited-file-name dest :no-query :along-with-file))))
 
+(defun my/kill-file-path ()
+  "Copy the path of the current file."
+  (interactive)
+  (kill-new (buffer-file-name)))
+
 (general-define-key
  :prefix my-leader-key
  :states 'normal
  "fe" #'my/visit-emacs-init
  "fm" #'my/move-buffer-file
+ "fP" #'my/kill-file-path
  )
 
 ;; Window Keys

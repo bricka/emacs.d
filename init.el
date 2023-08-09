@@ -1646,11 +1646,13 @@ Like `treemacs-next-workspace' with a prefix arg."
 
 (defun run-command-recipe-docker-compose ()
   "Recipes for Docker Compose files."
-  (when (equal (file-name-nondirectory (or buffer-file-name "")) "docker-compose.yml")
-    (list
-     (list :command-name "up"
-           :command-line "docker-compose up -d"))
-    ))
+  (when-let ((file-path (buffer-file-name))
+             (file-name (file-name-nondirectory file-path)))
+    (let ((case-fold-search t))
+      (when (string-match "docker-compose\\.ya?ml" file-name)
+        (list
+         (list :command-name "up"
+               :command-line "docker-compose up -d"))))))
 
 (add-to-list 'run-command-recipes #'run-command-recipe-docker-compose)
 

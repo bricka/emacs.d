@@ -829,6 +829,10 @@ Like `treemacs-next-workspace' with a prefix arg."
          ("\\.markdown\\'" . markdown-mode))
   :defines markdown-command
   :config
+  (general-define-key
+   :states 'normal
+   :keymaps 'markdown-mode-map
+   "RET" #'markdown-follow-thing-at-point)
   (setq
    markdown-command "multimarkdown"
    markdown-fontify-code-blocks-natively t

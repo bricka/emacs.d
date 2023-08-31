@@ -1699,26 +1699,9 @@ Like `treemacs-next-workspace' with a prefix arg."
                 (when (derived-mode-p 'kotlin-ts-mode)
                   (setq my/flycheck-local-cache '((lsp . ((next-checkers . (ktlint))))))))))
 
-(defun ktlint-format-mode--run ()
-  "Run ktlint to format this buffer."
-  (save-mark-and-excursion
-    (let* ((src-buffer (current-buffer)))
-           (with-temp-buffer
-             (let ((out-buffer (current-buffer)))
-               (set-buffer src-buffer)
-               (call-process-region nil nil "ktlint" nil (list out-buffer nil) nil "--stdin" "--format" "-l" "none")
-               (replace-buffer-contents out-buffer))))))
-
-(define-minor-mode ktlint-format-mode
-  "A minor mode for Kotlin files that runs ktlint on save to format."
-  :lighter nil
-  (if ktlint-format-mode
-      (when (executable-find "ktlint")
-        (add-hook 'before-save-hook #'ktlint-format-mode--run nil t))
-    (remove-hook 'before-save-hook #'ktlint-format-mode--run t)
-    ))
-
-(add-hook 'kotlin-ts-mode-hook #'ktlint-format-mode)
+(use-package ktlint-format-mode
+  :straight (:host gitlab :repo "bricka/emacs-ktlint-format-mode")
+  :hook kotlin-mode kotlin-ts-mode)
 
 ;; PDF
 (use-package pdf-tools

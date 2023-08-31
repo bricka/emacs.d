@@ -925,6 +925,7 @@ Like `treemacs-next-workspace' with a prefix arg."
          (conf-javaprop-mode . lsp)
          (java-mode . lsp)
          (js-mode . lsp)
+         (js-ts-mode . lsp)
          (kotlin-mode . lsp)
          (kotlin-ts-mode . lsp)
          (rustic-mode . lsp)
@@ -979,9 +980,10 @@ Like `treemacs-next-workspace' with a prefix arg."
   )
 
 ;; Treesit
-(when (treesit-available-p)
+(with-eval-after-load 'treesit
   (add-to-list 'treesit-language-source-alist '(kotlin . ("https://github.com/fwcd/tree-sitter-kotlin")))
-  (add-to-list 'treesit-language-source-alist '(mermaid . ("https://github.com/monaqa/tree-sitter-mermaid"))))
+  (add-to-list 'treesit-language-source-alist '(mermaid . ("https://github.com/monaqa/tree-sitter-mermaid")))
+  (add-to-list 'treesit-language-source-alist '(javascript . ("https://github.com/tree-sitter/tree-sitter-javascript.git"))))
 
 ;; Flycheck
 
@@ -1568,15 +1570,17 @@ Like `treemacs-next-workspace' with a prefix arg."
 
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js-ts-mode))
 
 (use-package add-node-modules-path
-  :hook typescript-mode typescript-ts-mode js-mode
+  :hook typescript-mode typescript-ts-mode js-mode js-ts-mode
   )
 
 (use-package prettier-js
   :hook ((typescript-mode . prettier-js-mode)
          (typescript-ts-mode . prettier-js-mode)
-         (js-mode . prettier-js-mode))
+         (js-mode . prettier-js-mode)
+         (js-ts-mode . prettier-js-mode))
   )
 
 (defun run-command-recipe-package-json--get-scripts (package-json-file)

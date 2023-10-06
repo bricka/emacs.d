@@ -989,7 +989,9 @@ Like `treemacs-next-workspace' with a prefix arg."
 (with-eval-after-load 'treesit
   (add-to-list 'treesit-language-source-alist '(kotlin . ("https://github.com/fwcd/tree-sitter-kotlin")))
   (add-to-list 'treesit-language-source-alist '(mermaid . ("https://github.com/monaqa/tree-sitter-mermaid")))
-  (add-to-list 'treesit-language-source-alist '(javascript . ("https://github.com/tree-sitter/tree-sitter-javascript.git"))))
+  (add-to-list 'treesit-language-source-alist '(javascript . ("https://github.com/tree-sitter/tree-sitter-javascript.git")))
+  (add-to-list 'treesit-language-source-alist '(tsx . ("https://github.com/tree-sitter/tree-sitter-typescript.git" nil "tsx/src")))
+  (add-to-list 'treesit-language-source-alist '(typescript . ("https://github.com/tree-sitter/tree-sitter-typescript.git" nil "typescript/src"))))
 
 ;; Flycheck
 

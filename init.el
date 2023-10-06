@@ -210,13 +210,14 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   :general
   (:prefix my-leader-key
    :states 'normal
-   "hf" #'helpful-function
+   "hf" #'helpful-callable
    "hk" #'helpful-key
    "hv" #'helpful-variable
    )
   ("C-h f" #'helpful-function
    "C-h k" #'helpful-key
    "C-h v" #'helpful-variable
+   "C-h x" #'helpful-command
    )
   :config
   (general-define-key

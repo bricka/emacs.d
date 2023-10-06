@@ -1687,7 +1687,9 @@ Like `treemacs-next-workspace' with a prefix arg."
    :keymaps 'kotlin-ts-mode-map
    :prefix my-leader-key
    "mtc" #'kotlin-ts-mode-run-current-test-class
-   "mtf" #'kotlin-ts-mode-run-current-test-function)
+   "mtf" #'kotlin-ts-mode-run-current-test-function
+   "mgt" #'kotlin-ts-mode-goto-test-file
+   )
   )
 
 (flycheck-def-config-file-var flycheck-editorconfig ktlint ".editorconfig")

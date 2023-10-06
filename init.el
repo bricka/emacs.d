@@ -267,7 +267,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (add-to-list 'nerd-icons-extension-icon-alist '("proto" nerd-icons-octicon "nf-oct-container" :face nerd-icons-dblue))
 
   (add-to-list 'nerd-icons-regexp-icon-alist '("\\.gradle.kts$" nerd-icons-sucicon "nf-seti-gradle" :face nerd-icons-silver))
-  (add-to-list 'nerd-icons-regexp-icon-alist '("^tsconfig.*\\.json$" nerd-icons-blue-alt "nf-seti-tsconfig" :face nerd-icons-blue-alt))
+  (add-to-list 'nerd-icons-regexp-icon-alist '("^tsconfig.*\\.json$" nerd-icons-sucicon "nf-seti-tsconfig" :face nerd-icons-blue-alt))
   (add-to-list 'nerd-icons-regexp-icon-alist '("^gradlew$" nerd-icons-devicon "nf-dev-terminal" :face nerd-icons-purple))
   (add-to-list 'nerd-icons-regexp-icon-alist '("^COPYING\\|LICENSE$" nerd-icons-codicon "nf-cod-law" :face nerd-icons-silver))
   (add-to-list 'nerd-icons-regexp-icon-alist '("^\\.gitlab-ci.yml$" nerd-icons-mdicon "nf-md-gitlab" :face nerd-icons-orange))

@@ -1331,6 +1331,7 @@ Like `treemacs-next-workspace' with a prefix arg."
 
   (add-to-list 'org-src-lang-modes '("plantuml" . plantuml))
   (add-to-list 'org-src-lang-modes '("mermaid" . mermaid-ts))
+  (add-to-list 'org-src-lang-modes '("typescript" . typescript-ts))
   (org-babel-do-load-languages 'org-babel-load-languages '((plantuml . t)))
 
   (setq org-confirm-babel-evaluate

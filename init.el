@@ -572,6 +572,11 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (advice-add 'modus-themes-toggle :after #'my/run-face-hooks)
 )
 
+(use-package ef-themes
+  :config
+  (setq ef-themes-mixed-fonts t)
+  )
+
 ;; Commands
 (use-package run-command
   :config

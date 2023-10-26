@@ -1704,9 +1704,11 @@ Like `treemacs-next-workspace' with a prefix arg."
    :states 'normal
    :keymaps 'kotlin-ts-mode-map
    :prefix my-leader-key
+   "mg" '(:ignore t :wk "Goto")
+   "mgt" #'kotlin-ts-mode-goto-test-file
+   "mt" '(:ignore t :wk "Test")
    "mtc" #'kotlin-ts-mode-run-current-test-class
    "mtf" #'kotlin-ts-mode-run-current-test-function
-   "mgt" #'kotlin-ts-mode-goto-test-file
    )
   )
 

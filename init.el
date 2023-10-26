@@ -945,14 +945,23 @@ Like `treemacs-next-workspace' with a prefix arg."
          (yaml-mode . lsp)
          )
   :config
+  (defun my/lsp-workspace-restart-confirm ()
+    "Like `lsp-workspace-restart', but ask for confirmation first."
+    (interactive)
+    (when (yes-or-no-p "Do you want to restart the LSP workspace? ")
+      (call-interactively #'lsp-workspace-restart)))
+
   (general-define-key
    :states 'normal
    :keymaps 'lsp-mode-map
    :prefix my-leader-key
    "mE" #'lsp-treemacs-errors-list
    "mi" #'lsp-ui-doc-glance
+   "mI" #'lsp-inlay-hints-mode
    "mR" #'lsp-rename
-   "mx" #'lsp-execute-code-action)
+   "mx" #'lsp-execute-code-action
+   "mw" '(:ignore t :wk "Workspace")
+   "mwr" #'my/lsp-workspace-restart-confirm)
 
   (setq
    lsp-headerline-breadcrumb-enable nil

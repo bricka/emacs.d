@@ -47,8 +47,6 @@
 ;; Straightforward config
 (setq-default
  indent-tabs-mode nil
- require-final-newline t
- make-backup-files nil
  )
 (setq
  scroll-step 1
@@ -62,6 +60,9 @@
  confirm-kill-emacs #'yes-or-no-p
  native-comp-async-report-warnings-errors 'silent
  split-width-threshold 200
+ sentence-end-double-space nil
+ require-final-newline t
+ make-backup-files nil
  )
 
 (add-hook 'prog-mode-hook (lambda () (setq show-trailing-whitespace t)))

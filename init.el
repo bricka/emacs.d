@@ -1680,7 +1680,7 @@ Like `treemacs-next-workspace' with a prefix arg."
       (when (string-match "docker-compose\\.ya?ml" file-name)
         (list
          (list :command-name "up"
-               :command-line "docker-compose up -d"))))))
+               :command-line "docker-compose up -d --remove-orphans"))))))
 
 (add-to-list 'run-command-recipes #'run-command-recipe-docker-compose)
 

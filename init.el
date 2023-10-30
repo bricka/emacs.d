@@ -1080,15 +1080,15 @@ Like `treemacs-next-workspace' with a prefix arg."
  :prefix my-leader-key
  :states 'normal
  :keymaps 'dired-mode-map
- "br" 'revert-buffer
- "mo" 'dired-omit-mode
+ "br" #'revert-buffer
+ "mo" #'dired-omit-mode
  )
 
 (general-define-key
  :states 'normal
  :keymaps 'dired-mode-map
- "o" 'dired-find-file-other-window
- "s" 'dired-sort-toggle-or-edit
+ "o" #'dired-find-file-other-window
+ "s" #'dired-sort-toggle-or-edit
  )
 
 (use-package diredfl
@@ -1112,17 +1112,17 @@ Like `treemacs-next-workspace' with a prefix arg."
  :prefix my-leader-key
  :states 'normal
  :keymaps 'emacs-lisp-mode-map
- "mn" 'narrow-to-defun
+ "mn" #'narrow-to-defun
  "mx" '(:ignore t :wk "Eval")
- "mxb" 'eval-buffer
- "mxd" 'eval-defun
- "mxe" 'eval-expression
+ "mxb" #'eval-buffer
+ "mxd" #'eval-defun
+ "mxe" #'eval-expression
  )
 (general-define-key
  :prefix my-leader-key
  :states 'normal
  :keymaps 'emacs-lisp-mode-map
- "mxr" 'eval-region
+ "mxr" #'eval-region
  )
 
 (add-hook 'emacs-lisp-mode-hook (lambda () (prettify-symbols-mode 1)))
@@ -1143,9 +1143,9 @@ Like `treemacs-next-workspace' with a prefix arg."
  :prefix my-leader-key
  :states 'normal
  :keymaps 'text-mode-map
- "mTj" 'table-justify
- "mTs" 'table-span-cell
- "mTS" 'table-split-cell
+ "mTj" #'table-justify
+ "mTs" #'table-span-cell
+ "mTS" #'table-split-cell
  )
 
 (use-package string-inflection
@@ -1153,8 +1153,8 @@ Like `treemacs-next-workspace' with a prefix arg."
   (:states 'normal
    :prefix my-leader-key
    "t" '(:ignore t :wk "Text")
-   "t_" 'string-inflection-underscore
-   "tC" 'string-inflection-camelcase
+   "t_" #'string-inflection-underscore
+   "tC" #'string-inflection-camelcase
    )
   )
 

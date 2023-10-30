@@ -619,8 +619,12 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 (use-package orderless
   :config
+  ;; We need this in order to work with Tramp:
+  ;; https://github.com/minad/vertico#tramp-hostname-and-username-completion
+  ;; Hopefully it can be removed with Emacs 30.
   (setq completion-styles '(orderless basic)
-        completion-category-defaults nil))
+      completion-category-defaults nil
+      completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package vertico
   :straight (vertico :includes vertico-directory :files (:defaults "extensions/vertico-directory.el"))

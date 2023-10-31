@@ -896,24 +896,26 @@ Like `treemacs-next-workspace' with a prefix arg."
   )
 
 ;; LaTeX
-(use-package tex
-  :straight auctex
-  :config
-  (general-define-key
-   :states 'normal
-   :keymaps 'LaTeX-mode-map
-   :prefix my-leader-key
-   "mp" #'preview-document
-   )
-  (setq TeX-parse-self t
-        TeX-auto-save t
-        TeX-view-program-selection '((output-pdf "PDF Tools")))
-  (setq-default TeX-engine 'xetex)
-  (setq TeX-electric-math '("$" . "$"))
+;; (use-package tex
+;;   :elpaca (auctex :pre-build (("./autogen.sh")
+;;                               ("./configure" "--with-texmf-dir=$(dirname $(kpsexpand '$TEXMFHOME'))" "--with-lispdir=.")
+;;                               ("make")))
+;;   :config
+;;   (general-define-key
+;;    :states 'normal
+;;    :keymaps 'LaTeX-mode-map
+;;    :prefix my-leader-key
+;;    "mp" #'preview-document
+;;    )
+;;   (setq TeX-parse-self t
+;;         TeX-auto-save t
+;;         TeX-view-program-selection '((output-pdf "PDF Tools")))
+;;   (setq-default TeX-engine 'xetex)
+;;   (setq TeX-electric-math '("$" . "$"))
 
-  (add-hook 'TeX-mode-hook #'prettify-symbols-mode)
-  (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
-  )
+;;   (add-hook 'TeX-mode-hook #'prettify-symbols-mode)
+;;   (add-hook 'TeX-after-compilation-finished-functions #'TeX-revert-document-buffer)
+;;   )
 
 ;; Neon
 (use-package neon-mode

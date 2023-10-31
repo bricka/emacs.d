@@ -1752,18 +1752,19 @@ Like `treemacs-next-workspace' with a prefix arg."
    )
   )
 
-(flycheck-def-config-file-var flycheck-editorconfig ktlint ".editorconfig")
+(with-eval-after-load 'flycheck
+  (flycheck-def-config-file-var flycheck-editorconfig ktlint ".editorconfig")
 
-(flycheck-define-checker ktlint
-  "A checker using ktlint."
-  :command ("ktlint" source (config-file "--editorconfig" flycheck-editorconfig))
-  ;; :command ("ktlint" source)
-  :error-patterns
-  ((error line-start (file-name) ":" line ":" column ": " (message) "(" (id (one-or-more (in alpha ":" "-"))) ")" line-end))
-  :modes (kotlin-mode kotlin-ts-mode)
-  )
+  (flycheck-define-checker ktlint
+    "A checker using ktlint."
+    :command ("ktlint" source (config-file "--editorconfig" flycheck-editorconfig))
+    ;; :command ("ktlint" source)
+    :error-patterns
+    ((error line-start (file-name) ":" line ":" column ": " (message) "(" (id (one-or-more (in alpha ":" "-"))) ")" line-end))
+    :modes (kotlin-mode kotlin-ts-mode)
+    )
 
-(add-to-list 'flycheck-checkers 'ktlint)
+  (add-to-list 'flycheck-checkers 'ktlint))
 
 (with-eval-after-load 'lsp-mode
     (add-hook 'lsp-managed-mode-hook

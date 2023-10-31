@@ -156,6 +156,10 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (auto-save-mode -1)
   )
 
+(use-package dash
+  :config
+  (global-dash-fontify-mode))
+
 (use-package ht)
 
 (use-package editorconfig
@@ -1159,11 +1163,6 @@ Like `treemacs-next-workspace' with a prefix arg."
  )
 
 (add-hook 'emacs-lisp-mode-hook (lambda () (prettify-symbols-mode 1)))
-
-(use-package dash
-  :config
-  (global-dash-fontify-mode)
-  )
 
 (use-package flycheck-package
   :after flycheck

@@ -1795,7 +1795,9 @@ Like `treemacs-next-workspace' with a prefix arg."
    "q" #'quit-window
    )
   )
-(require 'pem-mode)
+(use-package pem-mode
+  :elpaca nil
+  :after x509-mode)
 
 ;; File Keys
 (defun my/visit-emacs-init ()

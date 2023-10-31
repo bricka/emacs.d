@@ -1641,30 +1641,31 @@ Like `treemacs-next-workspace' with a prefix arg."
          (js-ts-mode . prettier-js-mode))
   )
 
-(defun run-command-recipe-package-json--get-scripts (package-json-file)
-  "Extract NPM scripts from PACKAGE-JSON-FILE."
-  (with-temp-buffer
-    (insert-file-contents package-json-file)
-    (when-let ((script-hash (gethash "scripts" (json-parse-buffer))))
-      (ht-keys script-hash))))
+(with-eval-after-load 'run-command
+  (defun run-command-recipe-package-json--get-scripts (package-json-file)
+    "Extract NPM scripts from PACKAGE-JSON-FILE."
+    (with-temp-buffer
+      (insert-file-contents package-json-file)
+      (when-let ((script-hash (gethash "scripts" (json-parse-buffer))))
+        (ht-keys script-hash))))
 
-(defun run-command-recipe-package-json ()
-  "Recipes for scripts in package.json."
-  (when-let* ((project-dir
-               (locate-dominating-file default-directory "package.json"))
-              (scripts
-               (run-command-recipe-package-json--get-scripts (concat project-dir "package.json")))
-              (script-runner
-               (if (file-exists-p (concat project-dir "yarn.lock")) "yarn" "npm")))
-    (mapcar (lambda (script)
-              (list :command-name script
-                    :command-line (concat script-runner " run " script)
-                    :display script
-                    :working-dir project-dir))
-            scripts)))
+  (defun run-command-recipe-package-json ()
+    "Recipes for scripts in package.json."
+    (when-let* ((project-dir
+                 (locate-dominating-file default-directory "package.json"))
+                (scripts
+                 (run-command-recipe-package-json--get-scripts (concat project-dir "package.json")))
+                (script-runner
+                 (if (file-exists-p (concat project-dir "yarn.lock")) "yarn" "npm")))
+      (mapcar (lambda (script)
+                (list :command-name script
+                      :command-line (concat script-runner " run " script)
+                      :display script
+                      :working-dir project-dir))
+              scripts)))
 
 
-(add-to-list 'run-command-recipes #'run-command-recipe-package-json)
+  (add-to-list 'run-command-recipes #'run-command-recipe-package-json))
 
 (defvar my/spring-boot-p nil
   "This repo uses Spring Boot.")
@@ -1711,17 +1712,18 @@ Like `treemacs-next-workspace' with a prefix arg."
 (add-to-list 'compilation-error-regexp-alist '("^e: file://\\([^:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\)" 1 2 3 2))
 (add-to-list 'compilation-error-regexp-alist '("^w: file://\\([^:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\)" 1 2 3 1))
 
-(defun run-command-recipe-docker-compose ()
-  "Recipes for Docker Compose files."
-  (when-let ((file-path (buffer-file-name))
-             (file-name (file-name-nondirectory file-path)))
-    (let ((case-fold-search t))
-      (when (string-match "docker-compose\\.ya?ml" file-name)
-        (list
-         (list :command-name "up"
-               :command-line "docker-compose up -d --remove-orphans"))))))
+(with-eval-after-load 'run-command
+  (defun run-command-recipe-docker-compose ()
+    "Recipes for Docker Compose files."
+    (when-let ((file-path (buffer-file-name))
+               (file-name (file-name-nondirectory file-path)))
+      (let ((case-fold-search t))
+        (when (string-match "docker-compose\\.ya?ml" file-name)
+          (list
+           (list :command-name "up"
+                 :command-line "docker-compose up -d --remove-orphans"))))))
 
-(add-to-list 'run-command-recipes #'run-command-recipe-docker-compose)
+  (add-to-list 'run-command-recipes #'run-command-recipe-docker-compose))
 
 ;; CSV
 (use-package csv-mode)

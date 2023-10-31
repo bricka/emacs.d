@@ -654,14 +654,19 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
       completion-category-overrides '((file (styles basic partial-completion)))))
 
 (use-package vertico
-  :straight (vertico :includes vertico-directory :files (:defaults "extensions/vertico-directory.el"))
+  :elpaca (:files (:defaults "extensions/vertico-directory.el"))
+  :config
+  (vertico-mode))
+
+(use-package vertico-directory
+  :elpaca nil
+  :after vertico
   :config
   (general-define-key
    :keymaps 'vertico-map
    "C--" #'vertico-directory-up
    "RET" #'vertico-directory-enter)
-  (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy)
-  (vertico-mode))
+  (add-hook 'rfn-eshadow-update-overlay-hook #'vertico-directory-tidy))
 
 (use-package nerd-icons-completion
   :after marginalia

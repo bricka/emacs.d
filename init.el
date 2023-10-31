@@ -1546,7 +1546,7 @@ Like `treemacs-next-workspace' with a prefix arg."
   )
 
 (use-package lsp-java-boot
-  :straight lsp-java
+  :elpaca nil
   :after lsp-java
   :config
   (defun my/enable-lsp-java-boot ()

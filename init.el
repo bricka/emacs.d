@@ -222,6 +222,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "q" #'quit-window)
   )
 
+(elpaca-wait)
+
 (use-package discover-my-major
   :general
   (:prefix my-leader-key
@@ -260,6 +262,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (blackout 'eldoc-mode)
   (blackout 'undo-tree-mode)
   )
+
+(elpaca-wait)
 
 (use-package rainbow-delimiters
   :hook (prog-mode . rainbow-delimiters-mode)
@@ -319,6 +323,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
     (file-name-base (string-replace "/" "." without-prefix))))
 
 (use-package autoinsert
+  :elpaca nil
   :config
   (setq
    auto-insert-query nil
@@ -580,7 +585,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 ;; Theme
 (use-package modus-themes
-  :straight (:branch "main")
   :config
   (setq modus-themes-headings
         '((t . (rainbow))))
@@ -622,7 +626,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
     (vterm)))
 
 (use-package project
-  :straight (:type built-in)
+  :elpaca nil
   :general
   (:states 'normal
    :prefix my-leader-key
@@ -815,7 +819,7 @@ Like `treemacs-next-workspace' with a prefix arg."
   (ansi-color-apply-on-region compilation-filter-start (point)))
 
 (use-package compile
-  :straight (:type built-in)
+  :elpaca nil
   :config
   (setq compilation-scroll-output 'first-error
         compilation-max-output-line-length nil)
@@ -842,7 +846,7 @@ Like `treemacs-next-workspace' with a prefix arg."
     (call-process-region nil nil "json_pp" t t nil "-json_opt" "space_after,indent,utf8")))
 
 (use-package jsonian
-  :straight (:host github :repo "iwahbe/jsonian")
+  :elpaca (:host github :repo "iwahbe/jsonian")
   :mode (("\\.json" . jsonian-mode)
          ("\\.babelrc" . jsonian-mode)
          (".eslintrc" . jsonian-mode))
@@ -1485,7 +1489,7 @@ Like `treemacs-next-workspace' with a prefix arg."
 
 ;; Mermaid
 (use-package mermaid-ts-mode
-  :straight (:host gitlab :repo "bricka/emacs-mermaid-ts-mode")
+  :elpaca (:host gitlab :repo "bricka/emacs-mermaid-ts-mode")
   :mode "\\.mmd\\'"
   :config
   ;; I still want to have `rainbow-delimiters-mode' enabled for most
@@ -1551,7 +1555,7 @@ Like `treemacs-next-workspace' with a prefix arg."
 )
 
 (use-package lsp-java-lombok
-  :straight (:host github :repo "bricka/lsp-java-lombok" :branch "vmargs-list-and-expand")
+  :elpaca (:host github :repo "bricka/lsp-java-lombok" :branch "vmargs-list-and-expand")
   :after lsp-java
   :config
   (setq lsp-java-lombok/enabled t)
@@ -1605,12 +1609,12 @@ Like `treemacs-next-workspace' with a prefix arg."
 
 ;; TaskJuggler
 (use-package taskjuggler-mode
-  :straight (:host gitlab :repo "bricka/emacs-taskjuggler-mode")
+  :elpaca (:host gitlab :repo "bricka/emacs-taskjuggler-mode")
   :mode "\\.tjp"
   )
 
 (use-package flycheck-taskjuggler
-  :straight (:host gitlab :repo "bricka/emacs-flycheck-taskjuggler")
+  :elpaca (:host gitlab :repo "bricka/emacs-flycheck-taskjuggler")
   :after taskjuggler-mode)
 
 ;; TypeScript
@@ -1662,7 +1666,7 @@ Like `treemacs-next-workspace' with a prefix arg."
 (put 'my/spring-boot-p 'safe-local-variable #'booleanp)
 
 (use-package run-command-gradle
-  :straight (:host gitlab :repo "bricka/emacs-run-command-gradle")
+  :elpaca (:host gitlab :repo "bricka/emacs-run-command-gradle")
   :config
   (setq run-command-gradle-tasks
         (list
@@ -1720,7 +1724,7 @@ Like `treemacs-next-workspace' with a prefix arg."
 ;; XML
 
 (use-package nxml-mode
-  :straight (:type built-in)
+  :elpaca nil
   :mode "\\.xml"
   :config
   (setq nxml-slash-auto-complete-flag t)
@@ -1762,7 +1766,7 @@ Like `treemacs-next-workspace' with a prefix arg."
                   (setq my/flycheck-local-cache '((lsp . ((next-checkers . (ktlint))))))))))
 
 (use-package ktlint-format-mode
-  :straight (:host gitlab :repo "bricka/emacs-ktlint-format-mode")
+  :elpaca (:host gitlab :repo "bricka/emacs-ktlint-format-mode")
   :hook kotlin-mode kotlin-ts-mode)
 
 ;; PDF
@@ -1844,6 +1848,7 @@ Like `treemacs-next-workspace' with a prefix arg."
 
 ;; Time
 (use-package time
+  :elpaca nil
   :commands world-clock
   :config
   (setq
@@ -1892,7 +1897,7 @@ Like `treemacs-next-workspace' with a prefix arg."
 
 (when (eq system-type 'gnu/linux)
   (use-package journalctl
-    :straight (:host gitlab :repo "bricka/emacs-journalctl")
+    :elpaca (:host gitlab :repo "bricka/emacs-journalctl")
     :general
     (:prefix my-leader-key
      :states 'normal
@@ -1946,6 +1951,7 @@ Like `treemacs-next-workspace' with a prefix arg."
 ;;   )
 
 ;; Local Configuration
+(elpaca-wait)
 (defvar local-config-location
   (let ((val (getenv "EMACS_LOCAL_CONFIG_PATH")))
     (and

@@ -1598,6 +1598,8 @@ Like `treemacs-next-workspace' with a prefix arg."
 
 (use-package add-node-modules-path
   :hook typescript-mode typescript-ts-mode js-mode js-ts-mode
+  :config
+  (setq add-node-modules-path-command '("echo \"$(npm root)/.bin\""))
   )
 
 (use-package prettier-js

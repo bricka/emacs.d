@@ -965,6 +965,7 @@ Like `treemacs-next-workspace' with a prefix arg."
    "mR" #'lsp-rename
    "mx" #'lsp-execute-code-action
    "mw" '(:ignore t :wk "Workspace")
+   "mwd" #'lsp-describe-session
    "mwr" #'my/lsp-workspace-restart-confirm)
 
   (setq

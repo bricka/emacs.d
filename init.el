@@ -1098,51 +1098,64 @@ Like `treemacs-next-workspace' with a prefix arg."
 
 ;; Dired
 
-(require 'dired-x)
-(setq-default dired-omit-files-p t)
-(setq
- dired-omit-files (concat dired-omit-files "\\|^\\...+$")
- dired-listing-switches "-alh"
- dired-create-destination-dirs 'ask
- dired-kill-when-opening-new-dired-buffer t
- dired-dwim-target t
- )
+(use-package dired
+  :elpaca nil
+  :config
+  (general-define-key
+   :states 'normal
+   :keymaps 'dired-mode-map
+   "br" #'revert-buffer
+   "o" #'dired-find-file-other-window
+   "s" #'dired-sort-toggle-or-edit
+   )
+  (setq
+   dired-listing-switches "-alh"
+   dired-create-destination-dirs 'ask
+   dired-kill-when-opening-new-dired-buffer t
+   dired-dwim-target t
+   )
+  )
 
-(add-hook 'dired-mode-hook #'dired-omit-mode)
+(use-package dired-x
+  :elpaca nil
+  :after dired
+  :config
+  (general-define-key
+   :prefix my-leader-key
+   :states 'normal
+   :keymaps 'dired-mode-map
+   "mo" #'dired-omit-mode
+   )
+  (setq-default dired-omit-files-p t)
+  (setq
+   dired-omit-files (concat dired-omit-files "\\|^\\...+$")
+   )
+
+  (add-hook 'dired-mode-hook #'dired-omit-mode)
+  )
 
 (defun dired-open-current-directory ()
   "Run `dired' in the directory of this file."
   (interactive)
   (dired (file-name-directory (buffer-file-name))))
 
-(general-define-key
- :prefix my-leader-key
- :states 'normal
- :keymaps 'dired-mode-map
- "br" #'revert-buffer
- "mo" #'dired-omit-mode
- )
-
-(general-define-key
- :states 'normal
- :keymaps 'dired-mode-map
- "o" #'dired-find-file-other-window
- "s" #'dired-sort-toggle-or-edit
- )
-
 (use-package diredfl
-  :hook ((dired-mode . diredfl-mode))
+  :hook dired-mode
   :config
   (setq diredfl-ignore-compressed-flag nil)
   )
 
 (use-package nerd-icons-dired
-  :hook (dired-mode . nerd-icons-dired-mode))
+  :hook dired-mode)
+
+;; When `dired' gets loaded, it seems to recreate this keybinding. So
+;; now that we've loaded it a bunch, let's now remove the keybinding.
+(elpaca nil
+  (general-unbind 'normal dired-mode-map "SPC"))
 
 ;; Images
 (use-package eimp
-  :hook ((image-mode . eimp-mode))
-  )
+  :hook image-mode)
 
 (add-hook 'image-mode-hook #'auto-revert-mode)
 

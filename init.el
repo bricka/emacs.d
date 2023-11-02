@@ -1643,16 +1643,13 @@ Like `treemacs-next-workspace' with a prefix arg."
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js-ts-mode))
 
 (use-package add-node-modules-path
-  :hook typescript-mode typescript-ts-mode js-mode js-ts-mode
+  :hook ((typescript-mode typescript-ts-mode js-mode js-ts-mode) . add-node-modules-path)
   :config
   (setq add-node-modules-path-command '("echo \"$(npm root)/.bin\""))
   )
 
 (use-package prettier-js
-  :hook ((typescript-mode . prettier-js-mode)
-         (typescript-ts-mode . prettier-js-mode)
-         (js-mode . prettier-js-mode)
-         (js-ts-mode . prettier-js-mode))
+  :hook typescript-mode typescript-ts-mode js-mode js-ts-mode
   )
 
 (with-eval-after-load 'run-command

@@ -837,7 +837,18 @@ Like `treemacs-next-workspace' with a prefix arg."
 (use-package fancy-compilation
   :config
   (setq fancy-compilation-override-colors nil)
-  (fancy-compilation-mode))
+  (fancy-compilation-mode)
+  )
+
+;; Org Babel errors are in compilation mode, but the output is
+;; inserted all at once. So we need to explicitly colorize the
+;; buffer.
+(elpaca nil
+  (defun my/org-babel-error-filter (&rest _)
+    (with-current-buffer org-babel-error-buffer-name
+      (ansi-color-apply-on-region (point-min) (point-max))))
+  (advice-add #'org-babel-eval-error-notify :after #'my/org-babel-error-filter)
+  )
 
 ;; Web Mode
 (use-package web-mode

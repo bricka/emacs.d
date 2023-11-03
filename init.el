@@ -584,7 +584,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
   (general-define-key
    :states 'normal
    :prefix my-leader-key
-   "!" 'run-command
+   "!" #'run-command
    )
   (setq run-command-default-runner #'run-command-runner-compile)
   )
@@ -675,7 +675,7 @@ Like `treemacs-next-workspace' with a prefix arg."
    )
   (defun my/is-node_modules (name _)
     (string-equal "node_modules" name))
-  (add-to-list 'treemacs-ignored-file-predicates 'my/is-node_modules)
+  (add-to-list 'treemacs-ignored-file-predicates #'my/is-node_modules)
   (treemacs-follow-mode)
   (treemacs-git-mode 'extended)
   )
@@ -918,7 +918,7 @@ Like `treemacs-next-workspace' with a prefix arg."
   :hook css-mode web-mode typescript-mode
 
   :config
-  (add-to-list 'rainbow-html-colors-major-mode-list 'less-css-mode)
+  (add-to-list 'rainbow-html-colors-major-mode-list #'less-css-mode)
   )
 
 ;; LSP
@@ -1016,21 +1016,21 @@ Like `treemacs-next-workspace' with a prefix arg."
   (general-define-key
    :states 'normal
    :prefix my-leader-key
-   "el" 'flycheck-list-errors
-   "en" 'flycheck-next-error
-   "ep" 'flycheck-previous-error
-   "ev" 'flycheck-verify-setup
+   "el" #'flycheck-list-errors
+   "en" #'flycheck-next-error
+   "ep" #'flycheck-previous-error
+   "ev" #'flycheck-verify-setup
    )
 
   (setq flycheck-global-modes '(not org-mode text-mode))
   (setq flycheck-emacs-lisp-load-path 'inherit)
   (global-flycheck-mode)
 
-  (flycheck-add-mode 'javascript-eslint 'web-mode)
+  (flycheck-add-mode 'javascript-eslint #'web-mode)
 
   ;; Enabling mode-specific Flycheck checkers with LSP
   ;; https://github.com/flycheck/flycheck/issues/1762
-  (advice-add 'flycheck-checker-get :around 'my/flycheck-checker-get)
+  (advice-add #'flycheck-checker-get :around #'my/flycheck-checker-get)
   )
 
 ;; Shell
@@ -1811,8 +1811,8 @@ Like `treemacs-next-workspace' with a prefix arg."
 
 (defun my/enable-evil-mode-for-edit-with-emacs ()
   "Make Evil mode work with edit-server-edit-mode."
-  (evil-ex-define-cmd-local "wq" 'edit-server-save)
-  (evil-ex-define-cmd-local "w[rite]" 'edit-server-save))
+  (evil-ex-define-cmd-local "wq" #'edit-server-save)
+  (evil-ex-define-cmd-local "w[rite]" #'edit-server-save))
 
 (use-package edit-server
   :config

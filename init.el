@@ -2004,8 +2004,7 @@ Value is taken from EMACS_LOCAL_CONFIG_PATH environment variable."
    :states 'normal
    :prefix my-leader-key
    "fl" #'my/visit-local-config)
-  (let ((straight-current-profile 'local))
-    (load-file local-config-location)))
+  (load-file local-config-location))
 
 (server-start)
 

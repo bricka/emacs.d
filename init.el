@@ -803,6 +803,13 @@ Like `treemacs-next-workspace' with a prefix arg."
   (setq fancy-compilation-override-colors nil)
   (fancy-compilation-mode))
 
+(with-eval-after-load 'fancy-compilation
+  (with-eval-after-load 'org
+    (defun my/org-babel-error-filter (&rest _)
+      (with-current-buffer org-babel-error-buffer-name
+        (ansi-color-apply-on-region (point-min) (point-max))))
+    (advice-add #'org-babel-eval-error-notify :after #'my/org-babel-error-filter)))
+
 ;; Web Mode
 (use-package web-mode
   :mode ("\\.html\\'" "\\.mustache\\'" "\\.hbs")

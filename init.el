@@ -1732,7 +1732,6 @@ Like `treemacs-next-workspace' with a prefix arg."
 (flycheck-define-checker ktlint
   "A checker using ktlint."
   :command ("ktlint" source (config-file "--editorconfig" flycheck-editorconfig))
-  ;; :command ("ktlint" source)
   :error-patterns
   ((error line-start (file-name) ":" line ":" column ": " (message) "(" (id (one-or-more (in alpha ":" "-"))) ")" line-end))
   :modes (kotlin-mode kotlin-ts-mode)

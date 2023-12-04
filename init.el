@@ -576,6 +576,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 (use-package ef-themes
   :config
   (setq ef-themes-mixed-fonts t)
+  (add-hook 'ef-themes-post-load-hook #'my/run-face-hooks)
   )
 
 ;; Commands

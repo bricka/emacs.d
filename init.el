@@ -361,6 +361,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
           dired
           docker
           flycheck
+          ibuffer
           image
           magit
           vterm

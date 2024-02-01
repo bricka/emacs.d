@@ -1404,7 +1404,6 @@ Like `treemacs-next-workspace' with a prefix arg."
   :defines org-superstar-item-bullet-alist
   :config
   (my/set-face-attribute 'org-superstar-item nil :family "monospace")
-  (my/set-face-attribute 'org-superstar-header-bullet nil :family "monospace")
   (setq org-superstar-item-bullet-alist '(
                                           (?- . ?➤)
                                           (?+ . "◦")

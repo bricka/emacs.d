@@ -1612,6 +1612,7 @@ Like `treemacs-next-workspace' with a prefix arg."
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.npmrc\\'" . conf-mode))
 
 (use-package add-node-modules-path
   :hook typescript-mode typescript-ts-mode js-mode js-ts-mode

@@ -503,7 +503,8 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "glf" #'magit-log-buffer-file
    )
   :config
-  (setq git-commit-summary-max-length 100)
+  (setq git-commit-summary-max-length 100
+        git-commit-major-mode #'markdown-mode)
   )
 
 (use-package diff-hl

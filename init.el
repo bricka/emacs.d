@@ -986,6 +986,10 @@ Like `treemacs-next-workspace' with a prefix arg."
   ;; Rust
   (setq lsp-rust-analyzer-display-parameter-hints t
         lsp-rust-analyzer-display-chaining-hints t)
+
+  ;; TypeScript
+  (setq lsp-javascript-display-parameter-name-hints "all"
+        lsp-javascript-display-variable-type-hints t)
   )
 
 (use-package lsp-ui

@@ -1661,38 +1661,11 @@ Like `treemacs-next-workspace' with a prefix arg."
   :straight (:host gitlab :repo "bricka/emacs-run-command-gradle")
   :config
   (setq run-command-gradle-tasks
-        (list
-         (make-run-command-gradle-task
-          :task "build"
-          :compile-p t
-          :project-local-p t
-          )
-         (make-run-command-gradle-task
-          :task "check"
-          :compile-p t
-          :project-local-p t
-          )
-         (make-run-command-gradle-task
-          :task "clean")
-         (make-run-command-gradle-task
-          :task "test"
-          :compile-p t
-          :project-local-p t)
-         (make-run-command-gradle-task
-          :task "run"
-          :project-local-p t
-          :predicate (lambda () (null my/spring-boot-p)))
-         (make-run-command-gradle-task
-          :task "bootRun"
-          :project-local-p t
-          :predicate (lambda () my/spring-boot-p))
-         (make-run-command-gradle-task
-          :task "bootRun"
-          :project-local-p t
-          :predicate (lambda () my/spring-boot-p)
-          :name-comment "local"
-          :arguments "--args='--spring.profiles.active=local'")
-         )))
+        '(((task . "build"))
+          ((task . "test")
+           (project-local-p . t))
+          ((task . "bootJar"))
+          ((task . "bootRun")))))
 
 ;; Gradle compilation error/warn matchers
 (add-to-list 'compilation-error-regexp-alist '("^e: file://\\([^:]+\\):\\([[:digit:]]+\\):\\([[:digit:]]+\\)" 1 2 3 2))

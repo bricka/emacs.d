@@ -850,10 +850,22 @@ Like `treemacs-next-workspace' with a prefix arg."
          ("\\.markdown\\'" . markdown-mode))
   :defines markdown-command
   :config
+  (defun my/evil-markdown-open-below ()
+    (interactive)
+    (cond
+     ((markdown-list-item-at-point-p)
+      (evil-insert-state)
+      (end-of-line)
+      (markdown-insert-list-item 1))
+     (t (evil-open-below 1))
+     ))
   (general-define-key
    :states 'normal
    :keymaps 'markdown-mode-map
-   "RET" #'markdown-follow-thing-at-point)
+   "RET" #'markdown-follow-thing-at-point
+   "o" #'my/evil-markdown-open-below
+   "C-K" #'markdown-move-up
+   "C-J" #'markdown-move-down)
   (setq
    markdown-command "multimarkdown"
    markdown-fontify-code-blocks-natively t

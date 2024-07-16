@@ -1270,7 +1270,7 @@ Like `treemacs-next-workspace' with a prefix arg."
    "mn" #'org-narrow-to-subtree
    "mp" #'org-priority
    "mr" #'org-reveal
-   "ms" #'org-goto
+   "ms" #'org-sort
    "mt" #'org-todo
 
    "mT" '(:ignore t :wk "Tables")

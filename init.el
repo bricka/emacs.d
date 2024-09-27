@@ -870,6 +870,7 @@ Like `treemacs-next-workspace' with a prefix arg."
   (setq
    markdown-command "multimarkdown"
    markdown-fontify-code-blocks-natively t
+   markdown-indent-on-enter 'indent-and-new-item
    )
   )
 

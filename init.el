@@ -1149,7 +1149,7 @@ Like `treemacs-next-workspace' with a prefix arg."
 (general-define-key
  :prefix my-leader-key
  :states 'normal
- :keymaps 'emacs-lisp-mode-map
+ :keymaps '(emacs-lisp-mode-map lisp-interaction-mode-map)
  "mn" #'narrow-to-defun
  "mx" '(:ignore t :wk "Eval")
  "mxb" #'eval-buffer

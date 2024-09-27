@@ -1671,10 +1671,6 @@ Like `treemacs-next-workspace' with a prefix arg."
 
 (add-to-list 'run-command-recipes #'run-command-recipe-package-json)
 
-(defvar my/spring-boot-p nil
-  "This repo uses Spring Boot.")
-(put 'my/spring-boot-p 'safe-local-variable #'booleanp)
-
 (use-package run-command-gradle
   :straight (:host gitlab :repo "bricka/emacs-run-command-gradle")
   :config

@@ -1039,7 +1039,13 @@ Like `treemacs-next-workspace' with a prefix arg."
   (add-to-list 'treesit-language-source-alist '(javascript . ("https://github.com/tree-sitter/tree-sitter-javascript.git")))
   (add-to-list 'treesit-language-source-alist '(tsx . ("https://github.com/tree-sitter/tree-sitter-typescript.git" nil "tsx/src")))
   (add-to-list 'treesit-language-source-alist '(typescript . ("https://github.com/tree-sitter/tree-sitter-typescript.git" nil "typescript/src")))
-  (add-to-list 'treesit-language-source-alist '(graphql . ("https://github.com/bkegley/tree-sitter-graphql"))))
+  (add-to-list 'treesit-language-source-alist '(graphql . ("https://github.com/bkegley/tree-sitter-graphql")))
+  (add-to-list 'treesit-language-source-alist '(taskjuggler . ("https://gitlab.com/bricka/tree-sitter-taskjuggler"))))
+
+(general-define-key
+ :states 'normal
+ :keymaps 'treesit--explorer-tree-mode-map
+ "q" #'quit-window)
 
 ;; Flycheck
 

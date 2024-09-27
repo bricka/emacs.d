@@ -138,6 +138,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 (use-package editorconfig
   :config
   (editorconfig-mode 1)
+  (add-to-list 'editorconfig-exclude-modes #'org)
   )
 
 ;; Parens

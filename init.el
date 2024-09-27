@@ -1103,6 +1103,12 @@ Like `treemacs-next-workspace' with a prefix arg."
 
 (add-hook 'dired-mode-hook #'dired-omit-mode)
 
+(when-let ((open-command (pcase system-type
+                           ('gnu/linux "xdg-open")
+                           ('darwin "open"))))
+  (setq dired-guess-shell-alist-default
+        `(("." ,open-command))))
+
 (defun dired-open-current-directory ()
   "Run `dired' in the directory of this file."
   (interactive)

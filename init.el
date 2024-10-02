@@ -172,6 +172,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "bb" #'switch-to-buffer
    "bd" #'kill-this-buffer
    "bD" #'my/kill-other-buffers
+   "bi" #'ibuffer
    "br" #'revert-buffer
 
    "e" '(:ignore t :wk "Errors")
@@ -614,6 +615,20 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "pK" #'project-kill-buffers)
   :config
   (setq project-switch-commands #'project-find-file)
+  )
+
+;; IBuffer
+(use-package nerd-icons-ibuffer
+  :hook (ibuffer-mode . nerd-icons-ibuffer-mode))
+
+(use-package ibuffer-project
+  :config
+  (add-hook
+   'ibuffer-hook
+   (lambda ()
+     (setq ibuffer-filter-groups (ibuffer-project-generate-filter-groups))
+     (unless (eq ibuffer-sorting-mode 'project-file-relative)
+       (ibuffer-do-sort-by-project-file-relative))))
   )
 
 ;; Minibuffer Completion

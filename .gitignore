@@ -11,10 +11,11 @@
 /eln-cache/
 /emojis/
 /ensime/
-/forge-database.sqlite
+/forge-database*.sqlite
 /lombok.jar
 /lsp-cache/
 /.lsp-session-v1
+/mastodon.plstore
 /meghanada/
 /network-security.data
 /.org-id-locations

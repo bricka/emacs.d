@@ -937,6 +937,8 @@ Like `treemacs-next-workspace' with a prefix arg."
 (use-package which-key
   :blackout
   :config
+  (setq which-key-sort-uppercase-first nil
+        which-key-sort-order 'which-key-key-order-alpha)
   (which-key-mode))
 
 ;; Company Code Completion

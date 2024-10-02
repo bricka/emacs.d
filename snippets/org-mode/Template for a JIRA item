@@ -2,11 +2,9 @@
 # name: Template for a JIRA item
 # key: JIRA
 # --
-
-$1
+As a $1, I want $2, so that I can $3.
 
 *Acceptance Criteria*
 - $0
 
-*Technical Notes*
-- 
+*Notes*

@@ -1722,6 +1722,17 @@ Like `treemacs-next-workspace' with a prefix arg."
 
 (add-to-list 'run-command-recipes #'run-command-recipe-docker-compose)
 
+(defun run-command-recipe-cargo ()
+  "Recipes for Rust projects."
+  (when (locate-dominating-file default-directory "Cargo.toml")
+    (list
+     (list :command-name "build"
+           :command-line "cargo build --color=always")
+     (list :command-name "test"
+           :command-line "cargo test --color=always"))))
+
+(add-to-list 'run-command-recipes #'run-command-recipe-cargo)
+
 ;; CSV
 (use-package csv-mode)
 

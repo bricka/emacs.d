@@ -1381,6 +1381,7 @@ Like `treemacs-next-workspace' with a prefix arg."
    org-return-follows-link t
    org-highlight-latex-and-related '(latex script)
    org-list-indent-offset 1
+   org-file-apps '((t . emacs))
    )
   (setq org-format-latex-options (plist-put org-format-latex-options :scale 2.5))
   (setq org-list-demote-modify-bullet

@@ -110,18 +110,10 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 (add-hook 'after-make-frame-functions #'my/configure-fonts-for-frame)
 
 ;; Indentation
-(defun my/set-indentation (indentation)
-  "Set the indentation level to INDENTATION."
-  (setq-default standard-indent indentation
-                tab-width indentation
-                web-mode-code-indent-offset indentation
-                typescript-indent-level indentation
-                js-indent-level indentation
-                plantuml-indent-level indentation
-                )
-  )
-
-(my/set-indentation 2)
+(use-package snap-indent
+  :hook (prog-mode . snap-indent-mode)
+  :config
+  (setq snap-indent-format '(untabify delete-trailing-whitespace)))
 
 (defun my/disable-auto-fill-mode ()
   "Ideally used as a hook to disable `auto-fill-mode'."

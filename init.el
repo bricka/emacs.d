@@ -1930,16 +1930,14 @@ Like `treemacs-next-workspace' with a prefix arg."
    :keymaps 'ledger-mode-map
    :states 'normal
    "[" #'ledger-navigate-prev-xact-or-directive
-   "]" #'ledger-navigate-next-xact-or-directive
-   )
+   "]" #'ledger-navigate-next-xact-or-directive)
   (general-define-key
    :prefix my-leader-key
    :keymaps 'ledger-mode-map
    :states 'normal
    "mr" #'ledger-report
    "mo" #'ledger-occur
-   "mcb" #'ledger-mode-clean-buffer
-   )
+   "mcb" #'ledger-mode-clean-buffer)
 
   (add-hook 'ledger-mode-hook (lambda () (setq show-trailing-whitespace t)))
 

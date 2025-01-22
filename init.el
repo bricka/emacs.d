@@ -135,7 +135,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 ;; Parens
 (show-paren-mode 1)
-(electric-pair-mode 1)
+(add-hook 'prog-mode-hook #'electric-pair-mode)
 
 ;; Key Bindings
 (defconst my-leader-key "SPC"

@@ -1797,9 +1797,9 @@ Like `treemacs-next-workspace' with a prefix arg."
 
 ;; File Keys
 (defun my/visit-emacs-init ()
-  "Visit ~/.emacs.d/init.el."
+  "Visit the init file stored in `user-init-file'."
   (interactive)
-  (find-file "~/.emacs.d/init.el"))
+  (find-file user-init-file))
 
 
 ;; Inspired from Steve Yegge's .emacs:

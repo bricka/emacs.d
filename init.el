@@ -308,6 +308,15 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
      "\n\n"
      "class " (file-name-base (buffer-file-name))
      ))
+
+  (add-to-list
+   'auto-insert-alist
+   '((php-mode . "PHP source file")
+     nil
+     "<?php"
+     "\n\n"
+     "declare(strict_types=1);"
+     "\n\n"))
   )
 
 ;; Undo

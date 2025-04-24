@@ -440,6 +440,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    "B" #'org-agenda-bulk-action
    "j" #'org-agenda-next-line
    "k" #'org-agenda-previous-line
+   "gr" #'org-agenda-redo
    "H" #'org-agenda-do-date-earlier
    "L" #'org-agenda-do-date-later
    "t" #'org-agenda-todo

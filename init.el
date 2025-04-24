@@ -596,6 +596,32 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
         (vterm-buffer-name (format "*vterm[%s]*" (project-name (project-current)))))
     (vterm)))
 
+(defun my/kill-other-project-buffers (&optional no-confirm)
+  "Kills all other project buffers, except for processes.
+
+If NO-CONFIRM is non-nil, the command will not ask the user for confirmation.
+
+This function is heavily inspired by `project-kill-buffers', and
+uses the `project--buffers-to-kill' internal function."
+  (interactive)
+  (let* ((pr (project-current t))
+         (all-project-buffers (project--buffers-to-kill pr))
+         (buffers-to-kill
+          (seq-filter
+           (lambda (buf)
+             (and (not (eq buf (current-buffer)))
+                  (not (get-buffer-process buf))))
+           all-project-buffers)
+          )
+         (query-user (lambda ()
+                       (yes-or-no-p
+                        (format "Kill %d buffers in %s? "
+                                (length buffers-to-kill)
+                                (project-root pr))))))
+    (cond (no-confirm (mapc #'kill-buffer buffers-to-kill))
+          ((null buffers-to-kill) (message "No buffers to kill"))
+          ((funcall query-user) (mapc #'kill-buffer buffers-to-kill)))))
+
 (use-package project
   :straight (:type built-in)
   :general
@@ -603,6 +629,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
    :prefix my-leader-key
    "p'" #'my/project-vterm
    "pd" #'project-dired
+   "pD" #'my/kill-other-project-buffers
    "pf" #'project-find-file
    "pl" #'project-switch-project
    "pK" #'project-kill-buffers)

@@ -1652,11 +1652,14 @@ Like `treemacs-next-workspace' with a prefix arg."
 (use-package rustic
   :mode ("\\.rs\\'" . rustic-mode)
   :general
-  (:states 'normal
+  :config
+  (general-define-key
+   :states 'normal
    :prefix my-leader-key
    :keymaps 'rustic-mode-map
-   "mt" #'rustic-cargo-test)
-  :config
+   "mca" #'rustic-cargo-add
+   "mct" #'rustic-cargo-test)
+
   (setq
    lsp-rust-analyzer-cargo-watch-command "clippy"
    )

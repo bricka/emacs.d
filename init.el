@@ -162,7 +162,7 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
    "b" '(:ignore t :wk "Buffers")
    "bb" #'switch-to-buffer
-   "bd" #'kill-this-buffer
+   "bd" #'kill-current-buffer
    "bD" #'my/kill-other-buffers
    "bi" #'ibuffer
    "br" #'revert-buffer

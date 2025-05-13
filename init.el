@@ -84,6 +84,16 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
     )
   )
 
+;; PATH from Shell
+
+(when (memq system-type '(darwin gnu/linux))
+  (use-package exec-path-from-shell
+    :config
+    (setq exec-path-from-shell-arguments nil)
+    (add-to-list 'exec-path-from-shell-variables "EMACS_LOCAL_CONFIG_PATH")
+    (add-to-list 'exec-path-from-shell-variables "JAVA_HOME")
+    (exec-path-from-shell-initialize)))
+
 ;; Scratch
 (setq initial-scratch-message nil)
 (when (and (executable-find "cowsay")
@@ -238,17 +248,6 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
 
 (setq prettify-symbols-unprettify-at-point 'right-edge)
 
-;; PATH from Shell
-
-(when (memq system-type '(darwin gnu/linux))
-  (use-package exec-path-from-shell
-    :config
-    (setq exec-path-from-shell-arguments nil)
-    (add-to-list 'exec-path-from-shell-variables "EMACS_LOCAL_CONFIG_PATH")
-    (add-to-list 'exec-path-from-shell-variables "JAVA_HOME")
-    (exec-path-from-shell-initialize)
-    )
-  )
 
 (use-package nerd-icons
   :config

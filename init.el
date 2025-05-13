@@ -1692,7 +1692,7 @@ Like `treemacs-next-workspace' with a prefix arg."
 (add-to-list 'auto-mode-alist '("\\.npmrc\\'" . conf-mode))
 
 (use-package add-node-modules-path
-  :hook typescript-mode typescript-ts-mode js-mode js-ts-mode
+  :hook ((typescript-mode typescript-ts-mode js-mode js-ts-mode) . add-node-modules-path)
   :config
   (setq add-node-modules-path-command '("echo \"$(npm root)/.bin\""))
   )

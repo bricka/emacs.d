@@ -1043,6 +1043,7 @@ Like `treemacs-next-workspace' with a prefix arg."
    lsp-lens-enable t
    lsp-keep-workspace-alive nil
    )
+  (lsp-dired-mode)
 
   ;; Rust
   (setq lsp-rust-analyzer-display-parameter-hints t

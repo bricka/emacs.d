@@ -2019,6 +2019,3 @@ Value is taken from EMACS_LOCAL_CONFIG_PATH environment variable."
     (load-file local-config-location)))
 
 (server-start)
-
-(provide 'init)
-;;; init.el ends here

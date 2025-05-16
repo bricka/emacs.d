@@ -316,6 +316,17 @@ FACE, FRAME, and ARGS as in `set-face-attribute'."
      "\n\n"
      "declare(strict_types=1);"
      "\n\n"))
+
+  (add-to-list
+   'auto-insert-alist
+   '((LilyPond-mode . "Lilypond source file")
+     nil
+     "\\version \"2.24.2\""
+     "\n\n"
+     "\\layout {\n  indent = #0\n}"
+     "\n\n"
+     "\\header {\n  title = \"Title Here\"\n}"
+     ))
   )
 
 ;; Undo

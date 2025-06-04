@@ -1072,17 +1072,17 @@ Like `treemacs-next-workspace' with a prefix arg."
   )
 
 (use-package lsp-treemacs
-  :after treemacs
-  :general
-  (:states 'normal
+  :after lsp treemacs
+  :config
+  (defun my/lsp-treemacs-references-with-select ()
+    "Call `lsp-treemacs-references' with a prefix."
+    (interactive)
+    (lsp-treemacs-references 1))
+  (general-define-key
+   :states 'normal
    :keymaps 'lsp-mode-map
    :prefix my-leader-key
-   "mr" `(
-          ,(lambda () (interactive) (lsp-treemacs-references 1))
-          :wk "lsp-treemacs-references"
-          )
-   )
-  )
+   "mr" '(my/lsp-treemacs-references-with-select :wk "lsp-treemacs-references")))
 
 (use-package yasnippet
   :config

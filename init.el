@@ -1688,8 +1688,16 @@ Like `treemacs-next-workspace' with a prefix arg."
 
 ;; TaskJuggler
 (use-package taskjuggler-mode
-  :straight (:host gitlab :repo "bricka/emacs-taskjuggler-mode")
+  :straight (:host gitlab :repo "bricka/emacs-taskjuggler-mode" :branch "treesit")
   :mode "\\.tjp"
+  :config
+  (setq taskjuggler-mode-indent-offset 2)
+  (general-define-key
+   :states 'normal
+   :prefix my-leader-key
+   :keymaps 'taskjuggler-mode-map
+   "mtn" #'taskjuggler-next-task
+   )
   )
 
 (use-package flycheck-taskjuggler

@@ -1120,6 +1120,7 @@ Like `treemacs-next-workspace' with a prefix arg."
 
   (setq flycheck-global-modes '(not org-mode text-mode))
   (setq flycheck-emacs-lisp-load-path 'inherit)
+  (setq flycheck-checker-error-threshold 1000)
   (global-flycheck-mode)
 
   (flycheck-add-mode 'javascript-eslint #'web-mode)
